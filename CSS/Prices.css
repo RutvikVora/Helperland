@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif !important;
+}
+
+#nav {
+	min-height: 64px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background: #525252;
+}
+
+.section-heading{
+    font-size: 36px;
+    font-weight: 700;
+    color: #4f4f4f;
+}
+
+.line {
+    width: 62px;
+    height: 1px;
+    margin: 12.5px 8px;
+    background: #cccccc;
+}
+
+/* Prices section */
+#Prices{
+    padding: 31px 0px 0px 0px;
+}
+
+#Prices-banner img{
+    width: 100%;
+    height: auto;
+}
+
+
+#Prices .Prices-card{
+    max-width: 553px;
+    margin: 42px auto 0px auto;
+    border: 1px solid #b0c9ce;
+    transition: transform 0.35s;
+}
+
+#Prices .Prices-card .card-heading{
+    height: 59px;
+    background-color: #1D7A8C;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    padding: 12px 0 13px;
+}
+
+#Prices .Prices-card .card-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #646464;
+    line-height: 48px;
+    margin: 18px 0 30px;
+}
+
+#Prices .Prices-card .card-title::before {
+    content: "\20AC";
+    margin-right: 8px;
+}
+
+#Prices .Prices-card .card-title span{
+    font-size: 30px;
+    font-weight: normal;
+    line-height: 38px;
+}
+
+#Prices hr {
+    height: 3px;
+    color: #dcdcdc;
+    margin: 51px 176px 41px 176px;
+}
+
+.text-item{
+    font-size: 17px;
+    margin: 0 21% 24px 21%;
+    color: #646464;
+}
+
+
+
+/* end Prices section */
+
+/* Extra Services section */
+
+.col-img{
+    border: 1px solid #b0c9ce;
+    width: 108px;
+    height: 108px;
+    margin: auto;
+}
+.col-body{
+    margin: 0 54px 56px 54px;
+}
+.col-title {
+    font-size: 16px;
+    margin: 17px 0 9px;
+    color: #646464;
+}
+
+.col-text {
+    font-size: 18px;
+    color: #1d7a8c;
+    font-weight: bold;
+}
+
+/* End extra services section */
+
+/* cleaning section */
+
+#cleaning{
+    background-color: #f6f6f6;
+    padding:73px 0px 81px 0px;
+}
+
+.single-card{
+    width: 360px;
+    border: none;
+    margin-right: 30px;
+}
+
+.container{
+    margin-top: 42px;
+}
+
+.card-body{
+    background-color: #f6f6f6;
+    padding: 1rem 0rem;
+}
+
+#cleaning .container .card-body .card-title{
+    font-size: 20px;
+    font-weight: bold;
+    color: #4f4f4f;
+}
+
+#cleaning .container .card-body .card-text img{
+    margin-right: 9px;
+}
+
+#cleaning .container .card-body .card-text{
+    font-size: 16px;
+    color: #4f4f4f;
+    margin-bottom: 10px;
+}
+
+/* End cleaning section */
+
+/* why helperland section */
+#WhyHelperland-section{
+    padding: 71px 0px 61px 0px;
+}
+
+.div-title{
+    font-size: 20px;
+    color: #646464;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.div-text{
+    font-size: 14px;
+    color: #646464;
+    width: 286px;
+    height: 85px;
+}
+
+#WhyHelperland-section .container img{
+    width: 375px;
+    height: 241px;
+    margin: 0px 22px;
+    min-width: 360px;
+}
+/* End helperland section */
+
+ /* footer */
+#footer hr {
+    display: block;
+    background: #424242;
+    margin: 19px 0 25px 0;
+}
+
+#homepage-footer {
+    background-color: #111111;
+    padding: 25px 0 5px;
+}
+
+#footer-list {
+    flex-wrap: wrap;
+    list-style-type: none;
+    font-family: "Roboto", sans-serif;
+    color: #f1f1f1;
+    font-size: 14px;
+    padding: 0px 40px;
+}
+
+#footer-list li {
+    padding: 0 10px;
+}
+
+#footerSocialMediaSymbol div {
+    padding: 0 10px;
+}
+
+@media screen and (max-width: 575px)
+{#WhyHelperland-section .container img {
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+}
