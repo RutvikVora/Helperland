@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif !important;
+}
+
+#nav {
+	min-height: 64px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100%;
+    background: #525252;
+}
+
+.bell-icon{
+    width: 72px;
+    border-left: 2px solid #E1E1E1;
+    border-right: 2px solid #E1E1E1;
+}
+
+.welcoming{
+    padding: 43px 0px;
+    background-color: #F9F9F9;
+}
+
+#admin-panel{
+    padding: 30px 0px;
+}
+
+#admin-panel .container-fluid{
+  margin: auto;
+  overflow: hidden;
+}
+
+
+
+/* Style the tab */
+.tab {
+    max-width: 262px;
+    min-width: 212px;
+    min-height: 760px;
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #1D7A8C;
+    width: 30%;
+    height: 300px;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: #FFFFFF;
+    padding: 17px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+  }
+
+  .tab .tablinks{
+      height: 55px;
+  }
+
+  .tab hr{
+    margin: 0px;
+    color: #FFFFFF;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #146371;
+  }
+  
+  /* Create an active/current "tab button" class */
+  .tab button.active {
+    background-color: #146371;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    float: left;
+    padding: 0px 0px 0px 31px;
+    width: 70%;
+    min-height: 300px;
+    /*overflow-x: auto;
+    overflow-y: auto;*/
+  }
+
+  .table{
+      border: 1px solid #E1E1E1;
+      min-width: 700px;
+  }
+
+  .table thead {
+      background-color: #F9F9F9;
+      height: 49px;
+  }
+
+  .table thead tr th p{
+    margin: 5px 0px;
+    font-weight: bold;
+  }
+  .table tbody tr th p{
+    margin: 0px;
+  }
+  .table tbody tr td p{
+    margin: 0px;
+    line-height: 1.5;
+  }
+
+ .table>:not(:last-child)>:last-child>* {
+      border-bottom-color: #E1E1E1;
+  }
+
+  .cap {
+    width: 45px!important;
+    height: 45px!important;
+    border: 1px solid #b0c9ce;
+    opacity: 1;
+    border-radius: 50%;
+    padding-left: 7px!important;
+    padding-top: 10px!important;
+}
+
+.page-btn{
+    width: 38px!important;
+    height: 38px!important;
+    color: #777777;
+    background-color: white;
+    font-size: 14px;
+    border: 1px solid #E1E1E1;
+    opacity: 1;
+    border-radius: 50%;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.active, .page-btn:hover {
+  background-color: #1D7A8C;
+  color: white;
+}
+
+.rotate-img{
+  -ms-transform: rotate(180deg); 
+  transform: rotate(180deg);
+}
+
+/* footer */
+#footer hr {
+  display: block;
+  background: #424242;
+  margin: 19px 0 25px 0;
+}
+
+#homepage-footer {
+  background-color: #111111;
+  padding: 25px 0 5px;
+}
+
+#footer-list {
+  flex-wrap: wrap;
+  list-style-type: none;
+  font-family: "Roboto", sans-serif;
+  color: #f1f1f1;
+  font-size: 14px;
+  padding: 0px 40px;
+}
+
+#footer-list li {
+  padding: 0 10px;
+}
+
+#footerSocialMediaSymbol div {
+  padding: 0 10px;
+}

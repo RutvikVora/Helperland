@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <!-- favicon -->
+     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+     <link rel="manifest" href="images/favicon/site.webmanifest">
+     <link rel="mask-icon" href="images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+     <meta name="msapplication-TileColor" content="#da532c">
+     <meta name="theme-color" content="#ffffff">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- style -->
+    <link rel="stylesheet" href="CSS/Home.css">
+    <link rel="stylesheet" href="CSS/ServiceHistory.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Admin | Service History</title>
+  </head>
+  <body>
+      <!-- header -->
+      <nav class="navbar navbar-dark fixed-top navbar-expand-lg" id="nav">
+        <div class="container-fluid">
+            <a class="navbar-brand me-auto" href="#">
+                <img id="navlogo" src="./images/logo-small.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class=" navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav d-flex align-items-lg-center justify-content-lg-end justify-content-sm--t" id="navw">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Prices & Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Warranty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">
+                            <div class="bell-icon d-flex justify-content-center">
+                                <img src="images/icon-notification.png" alt="notifications">
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">
+                            <div class="admin-icon d-flex justify-content-center align-items-center">
+                                <img src="images/admin-user.png" alt="admin-user">
+                                <img src="images/sp-arrow-down.png" style="width: 11px; height: 6px; margin-left: 7px" alt="">
+                                
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="welcoming text-center">
+        <h3><span style="font-weight: normal">Welcome,</span> Gaurang!</h3>
+    </div>
+
+    <section id="admin-panel">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Dashboard')">Dashboard</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Service History')" id="defaultOpen">Service History</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Dashboard')">Service Schedule</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Dashboard')">Favourite Pros</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Dashboard')">Invoices</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Dashboard')">Notifications</button><hr>
+            </div>
+            
+            <div id="Dashboard" class="tabcontent">
+                <h3>Dashboard</h3>
+                <p>This is admin dashboard</p>
+            </div>
+            
+            <div id="Service History" class="tabcontent">
+                <div class=" table-responsive">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                            <p>Service Details <img src="images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Service Provider <img src="images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Payment <img src="images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Status <img src="images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Rate SP</p>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>31/03/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>15/03/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>10/03/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>28/02/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #FF6B6B; line-height: 1;">Cancelled</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>15/02/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>11/02/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #FF6B6B; line-height: 1;">Cancelled</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>31/01/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>19/01/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>05/01/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #FF6B6B; line-height: 1;">Cancelled</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="align-middle">
+                            <p><img src="images/calendar.png" style="margin:0px 5px 7px 0px"><b>01/01/2018</b><br>
+                                12:00 - 18:00</p>
+                        </th>
+                        <td class="d-flex align-middle">
+                            <div class="cap">
+                                <img src="images/cap.png">
+                            </div>
+                                <div class="d-flex">
+                                    <p style="margin-left: 10px">Lyum Watson<br>
+                                    <img src="images/star1.png"> 
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star1.png">
+                                    <img src="images/star2.png">
+                                    4</p>
+                                </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
+                                <p style="font-size: 24px; color: #1D7A8C; font-weight: bold">63</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #FF6B6B; line-height: 1;">Cancelled</button>
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px">Rate SP</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                  <div class="row mt-2 sh_last_row">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <label for="no_rows" style="margin-right: 10px"><p style="margin: 0px; font-size: 14px">Show</p> </label>
+                        <select name="rows" id="rows" style="margin-right: 10px">
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                        <p style="margin: 0px; font-size: 14px">entries Total Record: 55</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-end" id="page-nav">
+                            <button class="page-btn">
+                                <img src="images/first-page.png" >
+                            </button>
+                            <button class="page-btn">
+                                <img src="images/keyboard-right-arrow-button-copy.png">
+                            </button>
+                            <button class="page-btn active">1</li>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">
+                                <img src="images/keyboard-right-arrow-button-copy.png" class="rotate-img">
+                            </button>
+                            <button class="page-btn">
+                                <img src="images/first-page.png"  class="rotate-img">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!--footer -->
+    <footer id="homepage-footer">
+        <div class="d-flex flex-column flex-md-row justify-content-around align-items-center">
+            <img src="images/footer-logo.png" alt="" width="120" height="92">
+            <ul class="d-flex text-uppercase" id="footer-list">
+                <li>home</li>
+                <li>about</li>
+                <li>testimonials</li>
+                <li>faqs</li>
+                <li>insurance policy</li>
+                <li>impressum</li>
+            </ul>
+            <div class="px-4 d-flex" id="footerSocialMediaSymbol">
+                <div>
+                    <img src="images/ic-facebook.png" width="9" height="18" alt="">
+                </div>
+                <div>
+                    <img src="images/ic-instagram.png" width="20" height="20" alt="">
+                </div>
+            </div>
+
+        </div>
+        <hr class="mx-5" style="background-color: white;">
+        <p class="text-center" style="font-size: 14px; color: #9BA0A3">©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(tabName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+        // Add active class to the current button (highlight it)
+        /*var header = document.getElementById("page-nav");
+        var btns = header.getElementsByClassName("page-btn");
+        for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace("active", "");
+        this.className += " active";
+        });
+        }*/
+        $(document).on('click','.page-btn',function(){
+            $(this).addClass('active').siblings().removeClass('active')
+        })
+        </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
