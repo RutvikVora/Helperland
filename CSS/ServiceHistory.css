@@ -51,7 +51,7 @@
   
   /* Style the buttons inside the tab */
   .tab button {
-    display: block;
+    /*display: block;*/
     background-color: inherit;
     color: #FFFFFF;
     padding: 17px 16px;
@@ -83,14 +83,28 @@
     background-color: #146371;
   }
   
+  .Service-History{
+    margin-bottom: 10px;
+  }
+
+  .Service-History h3{
+    font-size: 22px;
+    margin-bottom: 0px;
+  }
+
+  .Service-History button{
+    background-color: #146371;  
+    width: 70px;
+    height: 34px;
+    border-radius: 17px;
+  }
+
   /* Style the tab content */
   .tabcontent {
     float: left;
     padding: 0px 0px 0px 31px;
     width: 70%;
     min-height: 300px;
-    /*overflow-x: auto;
-    overflow-y: auto;*/
   }
 
   .table{
