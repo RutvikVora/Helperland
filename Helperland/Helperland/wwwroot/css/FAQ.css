@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif !important;
+}
+
+#nav {
+	min-height: 64px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100%;
+    background: #525252;
+}
+
+#faq-banner img{
+    width: 100%;
+    height: auto;
+}
+
+#faqs{
+    padding: 32px;
+}
+
+.faq-heading{
+    font-size: 36px;
+    margin: 32px 0px 9px 0px;
+    font-weight: 700;
+    color: #4f4f4f;
+}
+
+#faqs img{
+    width: 24px;
+    height: 25px;
+    margin-bottom: 34px;
+}
+
+#faqs .line {
+    width: 62px;
+    height: 1px;
+    margin: 12.5px 8px;
+    background: #cccccc;
+}
+
+#faqs .container{
+    max-width: 960px;
+}
+
+.faqs-text {
+    font-size: 18px;
+    color: #646464;
+    margin: 34px 35px 36px 35px;
+    max-width: 500px;
+}
+
+.For-Customer-ServiceProvider {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background: #f6f6f6;
+    color: #646464;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    box-shadow: inset 0 -4px 0 #1d7a8c;
+}
+
+.For-Customer-ServiceProvider.active {
+    box-shadow: inset 0 -100px 0 0 #1d7a8c;
+    color: #fff !important;
+}
+
+.accordion-Item{
+    border: none;
+}
+.accordion-part {
+    font-size: 16px;
+    font-weight: bold;
+    color: #646464;    
+    background: white;
+    border: none;
+}
+
+.accordion-part.collapsed img {
+    transform: rotate(0);
+}
+.accordion-part img {
+    transform: rotate(90deg);
+    transition: transform 0.4s;
+    margin-top: 30px;
+}
+
+.question{
+    display: inline;
+    margin-left: 15px;
+}
+
+.accordion-body {
+    padding: 0px;
+    margin-left: 37px;
+    font-size: 16px;
+    color: #646464;
+}
+
+ /* footer */
+ #footer hr {
+    display: block;
+    background: #424242;
+    margin: 19px 0 25px 0;
+}
+
+#homepage-footer {
+    background-color: #111111;
+    padding: 25px 0 5px;
+}
+
+#footer-list {
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0px 40px;
+}
+
+#footer-list li {
+    padding: 0 10px;
+}
+
+    #footer-list li a {
+        text-decoration: none;
+        font-family: "Roboto", sans-serif;
+        color: #f1f1f1;
+        font-size: 14px;
+    }
+
+#footerSocialMediaSymbol div {
+    padding: 0 10px;
+}
