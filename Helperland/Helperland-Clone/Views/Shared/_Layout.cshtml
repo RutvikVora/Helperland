@@ -1,0 +1,215 @@
+﻿@using Helperland_Clone.ViewModels
+@model UserLoginViewModel
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor _httpHttpContextAccessor;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="~/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- style -->
+    @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+*@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/Home.css">
+    <link rel="stylesheet" href="~/css/Modals.css">
+    @RenderSection("Style", required: false)
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
+   
+
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+*@
+    <title>@ViewData["Title"] - Helperland</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark fixed-top navbar-expand-lg" id="nav">
+        <div class="container-fluid">
+            <a class="navbar-brand me-auto" href="#">
+                <img id="navlogo" src="~/images/logo-small.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class=" navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav d-flex align-items-lg-center justify-content-lg-end justify-content-sm--t" id="navw">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">
+                            <button type="button" class="btn btn-outline-light" style="background-color: #29626D">Book now</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Prices">
+                            <button type="button" class="btn btn-outline-light">Prices & Services</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Warranty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:white" asp-controller="Home" asp-action="Contact">Contact</a>
+                    </li>
+                    @if (_httpHttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" asp-action="Logout" asp-controller="Account">
+                                    <button type="button" class="btn btn-outline-light">LogOut</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#">
+                                    <div class="admin-icon d-flex justify-content-center align-items-center">
+                                        <img src="~/images/admin-user.png" alt="admin-user">
+                                        <img src="~/images/sp-arrow-down.png" style="width: 11px; height: 6px; margin-left: 7px" alt="">
+                                
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#">
+                                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#login-modal">Login</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" asp-controller="Account" asp-action="BecomeSP">
+                                    <button type="button" class="btn btn-outline-light">Become a Helper</button>
+                                </a>
+                            </li>
+                        }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--  Start LOGIN MODAL -->
+<div class="modal fade" id="login-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Login to your account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <div class="data">
+                        <input asp-for="Email" type="text" placeholder="Email" required>
+                        <i class="fa fa-user fa-lg"></i>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                     </div>
+                     <div class="data">
+                        <input asp-for="Password" type="password" placeholder="Password" required>
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                         <span asp-validation-for="Password" class="text-danger"></span>
+                     </div>
+                    <div class="psw-rem">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="psw-rem-label" for="LoginPasswordRemember-chkbox">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="login rounded-pill border-0 outline-0 ">
+                        <p class="login-btn-text">Login</p>
+                    </button>
+                </form>
+
+                <p class="text-center">
+                    <span><a data-bs-toggle="modal" data-bs-target="#ForgotPassword-modal" data-bs-dismiss="modal">Forgot Password?</a></span>
+                    <br>
+                    Don't have an account yet?
+                    <br>
+                    <span><a asp-controller="Account" asp-action="Register">create Account</a></span>
+                </p>
+            </div> <!-- modal-body ended -->
+
+        </div><!--  modal content ended -->
+    </div>
+</div>
+<!--  End LOGIN MODAL -->
+
+<!--  Start ForgotPassword MODAL -->
+ 
+ <div class="modal fade" id="ForgotPassword-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Forgot password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="data">
+                        <input type="email" class="form-control" placeholder="Email Address" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <button type="submit" class="btn rounded-pill border-0 outline-0 ForgotPassword-submit">Send</button>
+                </form>
+                <div class="text-center">
+                    <a class="ForgotPassword-loginLink" data-bs-toggle="modal" data-bs-target="#LoginModal">Login now</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--  End ForgotPassword MODAL -->
+
+
+    @RenderBody()
+
+<!--footer -->
+    <footer id="homepage-footer">
+        <div class="d-flex flex-column flex-md-row justify-content-around align-items-center">
+            <img src="~/images/footer-logo.png" alt="" width="120" height="92">
+            <ul class="d-flex text-uppercase" id="footer-list">
+            <li><a asp-controller="Home" asp-action="Index">home</a></li>
+            <li><a asp-controller="Home" asp-action="About">About</a></li>
+            <li><a>testimonials</a></li>
+            <li><a asp-controller="Home" asp-action="FAQ">faqs</a></li>
+            <li><a>insurance policy</a></li>
+            <li><a>impressum</a></li>
+            </ul>
+            <div class="px-4 d-flex" id="footerSocialMediaSymbol">
+                <div>
+                    <img src="~/images/ic-facebook.png" width="9" height="18" alt="">
+                </div>
+                <div>
+                    <img src="~/images/ic-instagram.png" width="20" height="20" alt="">
+                </div>
+            </div>
+
+        </div>
+        <hr class="mx-5" style="background-color: white;">
+        <p class="text-center" style="font-size: 14px; color: #9BA0A3">©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
+    </footer>
+
+
+</body>
+</html>

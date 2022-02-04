@@ -1,0 +1,146 @@
+﻿@using Helperland.ViewModels
+@model UserRegistrationViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Service Provider Page";
+    Layout = "_HomeLayoutpage";
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section Style{
+    <link rel="stylesheet" href="~/css/ServiceProvider.css">
+}
+
+<!-- banner Section  -->
+    <section id="banner">
+        <div class="container">
+            <div class="register-form">
+                <h3 class="text-center">Register Now!</h3>
+                <form asp-controller="Account" asp-action="ServiceProviderRegistration" method="post">
+                    <div class="row g-3 align-item-center justify-content-center">
+                        <div class="form-input col-12 col-sm-12">
+                            <input asp-for="FirstName" type="text"  class="form-control" placeholder="First name" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-input col-12 col-sm-12">
+                            <input asp-for="LastName" type="text" class="form-control" placeholder="Last name" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-input col-12 col-sm-12">
+                            <input asp-for="Email" type="email" class="form-control" placeholder="E-mail Address" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-input col-12 col-sm-12">
+                            <div class="input-group mx-0 row">
+                                <input type="text" class="input-group-text col-2 px-0" id="countryCode" placeholder="+91" />
+                                <input
+                                    type="text"
+                                    asp-for="Mobile"
+                                    class="form-control col-10"
+                                    placeholder="Phone number"
+                                    aria-label="Phone number"
+                                    aria-describedby="basic-addon1"
+                                />
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-input col-12 col-sm-12">
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-input col-12 col-sm-12">
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-input col-12">
+                            <input type="checkbox" id="news-letter" name="news-letter" value="news-letter">
+                            <label for="news-letter"><p>Send me newsletters from Helperland</p></label><br>
+                        </div>
+                        <div class="col-12" style="margin: 0px">
+                            <input type="checkbox" id="condition" name="condition" value="condition">
+                            <label for="condition"><p>I accept <a href="#" style="text-decoration: none">terms and conditions</a> & <a href="#" style="text-decoration: none">privacy policy</a></p></label><br>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6Ld9TrYdAAAAALFAIWaxwyCv6F83Fr6iEXi1f7re"></div>
+                        <button type="submit" class="submit rounded-pill border-0 outline-0">
+                            <p style="color: #ffffff">Get Started  <span style="font-size: 20px">&#8594;</span></p>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="scroll-link-wrapper">
+            <a href="#" title="Scroll Down" class="scroll-link">
+                <img src="~/images/white-down-arrow.png" alt="Scroll-down">
+            </a>
+        </div>
+    </section>
+
+    <section id="how-it-works">
+        <div class="section-heading text-center">How it works</div>
+        <div class="container">
+            <div class="row g-4 row-content">
+                <div class="col-12 col-lg-6 col-md-12 order-2 order-lg-1 col-info">
+                    <h3 class="col-heading text-center text-lg-start">Register yourself</h3>
+                    <p class="col-text text-center text-lg-start">
+                        Provide your basic information to register yourself as a service provider.
+                    </p>
+                    <a href="#" class="read-more d-flex align-items-center justify-content-center justify-content-lg-start">
+                        Read more
+                        <img src="~/images/shape-2.png">
+                    </a>
+                </div>
+                <div class="col-12 col-lg-6 col-md-12 order-1 order-lg-2 d-flex justify-content-lg-end justify-content-center">
+                    <img src="~/images/group-25.png" alt="">
+                </div>
+                <div class="col-12 col-lg-6 col-md-12 order-3 order-lg-3 d-flex justify-content-lg-start justify-content-center">
+                    <img src="~/images/group-26.png" alt="">
+                </div>
+                <div class="col-12 col-lg-6 col-md-12 order-4 order-lg-4 col-info">
+                    <h3 class="col-heading text-center text-lg-start">Get service requests</h3>
+                    <p class="col-text text-center text-lg-start">
+						You will get service requests from customes depend on service area and profile.
+                    </p>
+                    <a href="#" class="read-more d-flex align-items-center justify-content-center justify-content-lg-start">
+                        Read more
+                        <img src="~/images/shape-2.png">
+                    </a></div>
+                <div class="col-12 col-lg-6 col-md-12 order-last order-lg-5 col-info">
+                    <h3 class="col-heading text-center text-lg-start">Complete Service</h3>
+                    <p class="col-text text-center text-lg-start">                       
+						Accept service requests from your customers and complete your work.
+                    </p>
+                    <a href="#" class="read-more d-flex align-items-center justify-content-center justify-content-lg-start">
+                        Read more
+                        <img src="~/images/shape-2.png">
+                    </a></div>
+                <div class="col-12 col-lg-6 col-md-12 order-5 order-lg-6 d-flex justify-content-lg-end justify-content-center"> 
+                    <img src="~/images/group-27.png" alt="">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--Get Our NewsLetter -->
+    <section class="our-news-letter" style="background-color: white">
+        <div class="newsletter-container container text-center">
+            <a href="#" class="scroll-top"><img src="~/images/forma-1.png" alt="up-arrow"></a>
+            <a href="#" class="message-boat"><img src="~/images/layer-598.png" alt="message-boat"></a>
+            <h2>GET OUR NEWSLETTER</h2>
+            <div class="form-row d-flex justify-content-center align-items-center">
+                <div class="form-group">
+                    <label for="email" style="display: none;">YOUR EMAIL</label>
+                    <input type="text" placeholder="YOUR EMAIL" id="email" class="form-control">
+                </div>
+                <div class="btn-wrapper">
+                    <button class="red-btn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </section>

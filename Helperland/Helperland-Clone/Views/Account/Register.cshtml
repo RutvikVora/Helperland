@@ -1,0 +1,85 @@
+﻿@using Helperland.ViewModels
+@model UserRegistrationViewModel
+
+@{
+    ViewData["Title"] = "Register Page";
+}
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/css/register.css">
+}
+
+
+
+<div class="contact-form container">
+    <div class="form-title text-center">Create an account</div>
+    <div class="d-flex align-item-center justify-content-center">
+        <span class="line"></span>
+                  <img src="~/images/forma-1-copy-5.png" alt="">
+                  <span class="line"></span>
+    </div>
+        <form asp-controller="Account" asp-action="Register" method="post">
+            <div class="row g-3 align-item-center justify-content-center">
+                <div class="form-input col-12 col-sm-6">
+                    <input asp-for="FirstName" type="text" class="form-control" placeholder="First name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-input col-12 col-sm-6">
+                    <input  asp-for="LastName" type="text" class="form-control" placeholder="Last name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-input col-12 col-sm-6">
+                    <input asp-for="Email" type="email" class="form-control" placeholder="E-mail address" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-input col-12 col-sm-6">
+                    <div class="input-group mx-0 row">
+                        <div class="col-2 input-div">
+                            <input type="text" class="input-group-text px-0" id="countryCode" placeholder="+49" />
+                        </div>
+                        <div class="col-10 input-div">
+                            <input
+                            asp-for="Mobile"
+                            type="text"
+                            class="form-control"
+                            placeholder="Mobile number"
+                            aria-label="Mobile number"
+                            aria-describedby="basic-addon1"
+                            />
+                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-input col-12 col-sm-6">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-input col-12 col-sm-6">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" required />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="policy-checkbox">
+                    <input type="checkbox" class="form-check-input">
+                    <label class="psw-rem-label" for="LoginPasswordRemember-chkbox"><p>I have read the <a href="#">privacy policy</a></p></label>
+                </div>
+                
+                <button type="submit" value="Register" class="register rounded-pill border-0 outline-0">Register</button>
+
+                <p class="text-center">
+                    Already registered?
+                    <span><a href="#">Login now</a></span>
+                    
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
