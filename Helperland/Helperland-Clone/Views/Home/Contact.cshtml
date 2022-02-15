@@ -1,7 +1,13 @@
-﻿@{
+﻿@model Helperland_Clone.ViewModels.ContactUsViewModel;
+
+@{
     ViewData["Title"] = "Contact Page";
+    ViewBag.transparentNavbar = false;
 }
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -42,13 +48,15 @@
         <hr>
         <div class="contact-form container">
             <div class="form-title text-center">Get in touch with us</div>
-                <form action="#">
+                <form asp-controller="Home" asp-action="Contactus" method="post" id="message" enctype="multipart/form-data">
                     <div class="row g-3 align-item-center justify-content-center">
                         <div class="form-input col-12 col-sm-6">
-                            <input type="text" class="form-control" name="fname" id="fname" placeholder="First name" />
+                            <input type="text" class="form-control" asp-for="firstname" placeholder="First name" />
+                            <span asp-validation-for="firstname" class="text-danger"></span>
                         </div>
                         <div class="form-input col-12 col-sm-6">
-                            <input type="text" class="form-control" name="fname" id="fname" placeholder="Last name" />
+                            <input type="text" class="form-control" asp-for="lastname" placeholder="Last name" />
+                            <span asp-validation-for="lastname" class="text-danger"></span>
                         </div>
                         <div class="form-input col-12 col-sm-6">
                             <div class="input-group mx-0 row">
@@ -59,11 +67,13 @@
                                     placeholder="Mobile number"
                                     aria-label="Mobile number"
                                     aria-describedby="basic-addon1"
+                                    asp-for="mono"
                                 />
                             </div>
                         </div>
                         <div class="form-input col-12 col-sm-6">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email address" />
+                            <input type="email" class="form-control" asp-for="email" placeholder="Email address" />
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                         <div class="form-input col-12">
                             <select class="form-select" aria-label="Subject">
@@ -74,9 +84,9 @@
                             </select>
                         </div>
                         <div class="form-input col-12">
-                            <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                            <textarea class="form-control" form="message" cols="30" rows="10" placeholder="Message" asp-for="msg">Message</textarea>
                         </div>
-                        <button class="submit rounded-pill border-0 outline-0">Submit</button>
+                        <button class="submit rounded-pill border-0 outline-0" type="submit">Submit</button>
                     </div>
                 </form>
             </div>

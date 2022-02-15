@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = "_HomeLayoutpage";
+    ViewBag.transparentNavbar = true;
+    Layout = "_Layout";
 }
 @Html.Raw(TempData["msg"])
 <!-- banner Section  -->

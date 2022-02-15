@@ -1,4 +1,4 @@
-﻿@using Helperland.ViewModels
+﻿@using Helperland_Clone.ViewModels
 @model UserRegistrationViewModel
 
 @*
@@ -8,7 +8,8 @@
 }
 @{
     ViewData["Title"] = "Service Provider Page";
-    Layout = "_HomeLayoutpage";
+   ViewBag.transparentNavbar = true;
+   @Html.Raw(TempData["ErrorMessage"])
 }
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

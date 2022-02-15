@@ -16,7 +16,6 @@ C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcore
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Home\Prices.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_HomeLayoutpage.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
@@ -61,3 +60,5 @@ C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcore
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Account\BecomeSP.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NewsLetterPartial.cshtml.g.cs
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Account\ResetPassword.cshtml.g.cs
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll

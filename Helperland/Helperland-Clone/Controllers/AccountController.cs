@@ -1,5 +1,6 @@
 ﻿using Helperland_Clone.Data;
 using Helperland_Clone.Models;
+using Helperland_Clone.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.EntityFrameworkCore;
@@ -8,22 +9,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Helperland.Enums;
 using Helperland_Clone.ViewModels;
-using Helperland.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Helperland_Clone.Controllers
 {
     public class AccountController : Controller
     {
         private readonly HelperlandContext _helperlandContext;
+        private readonly EmailService sendEmail;
+        public readonly IDataProtector protector;
+        public readonly string Key = "Rutvik@2000@Vora";
 
-        public AccountController(HelperlandContext helperlandContext)
+        public AccountController(HelperlandContext helperlandContext, IDataProtectionProvider protector, EmailService sendEmail)
         {
             this._helperlandContext = helperlandContext;
+            this.sendEmail = sendEmail;
+            this.protector = protector.CreateProtector(Key);
         }
 
         public IActionResult Register()
@@ -42,16 +49,16 @@ namespace Helperland_Clone.Controllers
                 Models.User user = _helperlandContext.User.Where(_ => _.Email.ToLower() == viewModel.Email.ToLower() && _.Password == viewModel.Password).FirstOrDefault();
                 if (user != null)
                 {
-                    _helperlandContext.SaveChanges();
-                    var claims = new List<Claim>
-                    {
-                     new Claim(ClaimTypes.Name, user.Email),
-                     new Claim("FirstName",user.FirstName)
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties() { IsPersistent = viewModel.IsPersistant };
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("Index", "Home");
+                        _helperlandContext.SaveChanges();
+                        var claims = new List<Claim>
+                        {
+                         new Claim(ClaimTypes.Name, user.Email),
+                         new Claim("FirstName",user.FirstName)
+                        };
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties() { IsPersistent = viewModel.IsPersistant };
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                        return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -73,57 +80,79 @@ namespace Helperland_Clone.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        public bool isEmailExit(String email)
+        {
+            var IsCheck = _helperlandContext.User.Where(_ => _.Email == email).FirstOrDefault();
+            return IsCheck != null;
+
+        }
+
         [HttpPost]
         public IActionResult Register(UserRegistrationViewModel userModel)
         {
             if (ModelState.IsValid)
             {
-                User user = new User
+                if (isEmailExit(userModel.Email))
                 {
-                    FirstName = userModel.FirstName,
-                    LastName = userModel.LastName,
-                    Email = userModel.Email,
-                    Password = userModel.Password,
-                    Mobile = userModel.Mobile,
-                    UserTypeId = (int)UserTypeEnum.Customer,
-                    CreatedDate = DateTime.Now,
-                    IsApproved = true,
-                    ModifiedDate = DateTime.Now
-                };
+                    TempData["ErrorMessage"] = "Email already exists,please choose another email!!";
+                }
+                else
+                {
+                    User user = new User
+                    {
+                        FirstName = userModel.FirstName,
+                        LastName = userModel.LastName,
+                        Email = userModel.Email,
+                        Password = userModel.Password,
+                        Mobile = userModel.Mobile,
+                        UserTypeId = (int)UserTypeEnum.Customer,
+                        CreatedDate = DateTime.Now,
+                        IsApproved = true,
+                        ModifiedDate = DateTime.Now
+                    };
 
-                _helperlandContext.User.Add(user);
-                _helperlandContext.SaveChanges();
+                    _helperlandContext.User.Add(user);
+                    _helperlandContext.SaveChanges();
 
-                TempData["SuccessMessage"] = "Register Successfully.";
+                    TempData["SuccessMessage"] = "Register Successfully.";
 
-                return RedirectToAction();
+                    return RedirectToAction();
+                }
             }
-            return View(userModel);
+            return View("Register");
         }
 
         public IActionResult ServiceProviderRegistration(UserRegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user1 = new User
+                if (isEmailExit(model.Email))
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    Password = model.Password,
-                    Mobile = model.Mobile,
-                    UserTypeId = (int)UserTypeEnum.ServiceProvider,
-                    CreatedDate = DateTime.Now,
-                    IsApproved = false,
-                    ModifiedDate = DateTime.Now
-                };
+                    TempData["ErrorMessage"] = "<script>alert('Email already exists!!')</script>";
+                }
+                else
+                {
+                    User user1 = new User
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        Password = model.Password,
+                        Mobile = model.Mobile,
+                        UserTypeId = (int)UserTypeEnum.ServiceProvider,
+                        CreatedDate = DateTime.Now,
+                        IsApproved = false,
+                        ModifiedDate = DateTime.Now
+                    };
 
-                _helperlandContext.User.Add(user1);
-                _helperlandContext.SaveChanges();
+                    _helperlandContext.User.Add(user1);
+                    _helperlandContext.SaveChanges();
 
-                TempData["SuccessMessage"] = "Register Successfully. You can login after admin can approved your request.";
+                    TempData["SuccessMessage"] = "Register Successfully. You can login after admin can approved your request.";
 
-                return RedirectToAction();
+                    return RedirectToAction();
+                }
             }
 
             return View("BecomeSP");
@@ -133,5 +162,78 @@ namespace Helperland_Clone.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token)
+        {
+            try
+            {
+                var decryptId = protector.Unprotect(token);
+                DateTime expiryDate = DateTime.Parse(decryptId.Split("%")[2]).AddHours(1);
+                DateTime current = DateTime.UtcNow;
+                int isvalid = current.CompareTo(expiryDate);
+
+                if (isvalid > 0)
+                {
+                    throw new Exception();
+                }
+                return View("~/Views/Account/ResetPassword.cshtml");
+
+            }
+            catch
+            {
+                return BadRequest(error: "Invalid Link");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(UserRegistrationViewModel model, string token)
+        {
+            string decryptId = protector.Unprotect(token);
+            if (decryptId != null)
+            {
+                int userId = Convert.ToInt32(decryptId.Split("%")[1]);
+                var user = _helperlandContext.User.Where(e => e.UserId == userId).FirstOrDefault();
+                //user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+                user.Password = model.Password;
+                _helperlandContext.User.Attach(user);
+                _helperlandContext.SaveChanges();
+                return RedirectToAction("index", "Home");
+            }
+            return BadRequest(error: "Invalid Link");
+        }
+
+        [HttpPost]
+        public IActionResult ResetLink(UserLoginViewModel model)
+        {
+            var user = _helperlandContext.User.Where(x => x.Email.Equals(model.Email)).FirstOrDefault();
+
+            if (user != null)
+            {
+                
+                string Tokenstr = model.Email + "%" + user.UserId + "%" + DateTime.UtcNow;
+                string Token = protector.Protect(Tokenstr);
+
+                string ResetURL = Url.Action("ResetPassword", "Account", new { token = Token }, Request.Scheme);
+                var email = new ResetPswViewModel()
+                {
+                    To = model.Email,
+                    Subject = "Reset password of your account in helperland",
+                    IsHTML = true,
+                    Body = $"To reset your password of Helperland.<p><a href='{ResetURL}'>Click Here</a></p>",
+                };
+                bool result = EmailService.SendMail(email);
+                if (result)
+                {
+                    return RedirectToAction("index", "Home");
+                }
+                else
+                {
+                    return BadRequest(error: "Internal Server Error");
+                }
+            }
+            return BadRequest(error: "Email is not registered");
+        }
+
     }
 }

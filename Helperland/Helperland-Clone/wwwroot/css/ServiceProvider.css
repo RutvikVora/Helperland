@@ -76,31 +76,4 @@
     color: #4f4f4f;
 }
 
- /* footer */
- #footer hr {
-    display: block;
-    background: #424242;
-    margin: 19px 0 25px 0;
-}
-
-#homepage-footer {
-    background-color: #111111;
-    padding: 25px 0 5px;
-}
-
-#footer-list {
-    flex-wrap: wrap;
-    list-style-type: none;
-    font-family: "Roboto", sans-serif;
-    color: #f1f1f1;
-    font-size: 14px;
-    padding: 0px 40px;
-}
-
-#footer-list li {
-    padding: 0 10px;
-}
-
-#footerSocialMediaSymbol div {
-    padding: 0 10px;
-}
+ 

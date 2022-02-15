@@ -1,12 +1,12 @@
 $(document).ready(function () {
     var scroll_start = 0;
-    var startchange = $('#header');
+    var startchange = $('.header');
     var offset = startchange.offset();
     $(document).scroll(function () {
         scroll_start = $(this).scrollTop();
         if (scroll_start > offset.top) {
-            $('#nav').css({ "background-color": "#73706C" });
-            $('#navlogo').css({ "height": "96px", "width": "130px" })
+            $('#nav').css({ "background-color": "#525252" });
+            $('#navlogo').css({ "height": "54px", "width": "73px" })
         } else {
             $('#nav').css('background-color', 'transparent');
             $('#navlogo').css({ "height": "130px", "width": "175px" });
@@ -42,4 +42,10 @@ $(document).ready(function () {
 
     })*/
 });
+
+/* When the user clicks on the button, 
+     toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show-menu");
+}
 

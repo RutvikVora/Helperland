@@ -1,5 +1,6 @@
 
 using Helperland_Clone.Data;
+using Helperland_Clone.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,12 @@ namespace Helperland
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             services.AddHttpContextAccessor();
+
+            services.AddScoped<EmailService>();
+
+            services.AddScoped<Contact_Us>();
+
+            services.AddDataProtection();
 
         }
 

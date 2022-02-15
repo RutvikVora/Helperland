@@ -1,14 +1,5 @@
 a { text-decoration: none; }
 
-#nav {
-    min-height: 64px;
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 2000;
-    width: 100%;
-    background: #525252;
-}
 
 .form-title {
     font-size: 28px;
@@ -43,38 +34,7 @@ form{
     width: 163px;
 }
 
-/* footer */
-#footer hr {
-    display: block;
-    background: #424242;
-    margin: 19px 0 25px 0;
-}
 
-#homepage-footer {
-    background-color: #111111;
-    padding: 25px 0 5px;
-}
-
-#footer-list {
-    flex-wrap: wrap;
-    list-style-type: none;
-    padding: 0px 40px;
-}
-
-    #footer-list li {
-        padding: 0 10px;
-    }
-
-        #footer-list li a {
-            text-decoration: none;
-            font-family: "Roboto", sans-serif;
-            color: #f1f1f1;
-            font-size: 14px;
-        }
-
-#footerSocialMediaSymbol div {
-    padding: 0 10px;
-}
 
 
 

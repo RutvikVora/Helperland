@@ -1,8 +1,9 @@
-﻿@using Helperland.ViewModels
+﻿@using Helperland_Clone.ViewModels
 @model UserRegistrationViewModel
 
 @{
     ViewData["Title"] = "Register Page";
+    ViewBag.transparentNavbar = false;
 }
 
 
@@ -24,6 +25,18 @@
                   <img src="~/images/forma-1-copy-5.png" alt="">
                   <span class="line"></span>
     </div>
+    <div class="col-md-12 m-0 @( TempData["SuccessMessage"] == null ? "d-none" : "")">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      <p class="text-center mt-3">@TempData["SuccessMessage"]</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+              </div>
+              <div class="col-md-12 m-0 @( TempData["ErrorMessage"] == null ? "d-none" : "")">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                     <p class="text-center mt-3">@TempData["ErrorMessage"]</p> 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+              </div>
         <form asp-controller="Account" asp-action="Register" method="post">
             <div class="row g-3 align-item-center justify-content-center">
                 <div class="form-input col-12 col-sm-6">
@@ -39,21 +52,17 @@
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-input col-12 col-sm-6">
-                    <div class="input-group mx-0 row">
-                        <div class="col-2 input-div">
-                            <input type="text" class="input-group-text px-0" id="countryCode" placeholder="+49" />
-                        </div>
-                        <div class="col-10 input-div">
+                    <div class="input-group mx-0 row">                       
+                            <input type="text" class="input-group-text col-2 px-0" id="countryCode" placeholder="+49" />
                             <input
                             asp-for="Mobile"
                             type="text"
-                            class="form-control"
+                            class="form-control col-10"
                             placeholder="Mobile number"
                             aria-label="Mobile number"
                             aria-describedby="basic-addon1"
                             />
                             <span asp-validation-for="Mobile" class="text-danger"></span>
-                        </div>
                     </div>
                 </div>
                 <div class="form-input col-12 col-sm-6">
@@ -73,7 +82,7 @@
 
                 <p class="text-center">
                     Already registered?
-                    <span><a href="#">Login now</a></span>
+                    <span><a data-bs-toggle="modal" data-bs-target="#login-modal">Login now</a></span>
                     
                 </p>
             </div>

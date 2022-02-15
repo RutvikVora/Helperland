@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Helperland.ViewModels
+namespace Helperland_Clone.ViewModels
 {
     public class UserRegistrationViewModel
     {
