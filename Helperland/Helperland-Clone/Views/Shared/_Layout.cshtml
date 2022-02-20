@@ -33,6 +33,7 @@
     <script src="~/js/script.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js/jquery.min.js"></script>
+    <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     @RenderSection("Scripts", required: false)
    
 
@@ -276,6 +277,8 @@
         <p class="text-center" style="font-size: 14px; color: #9BA0A3">©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
     </footer>
 
+
+    @RenderSection("ScriptsAJAX", required: false)
 
 </body>
 </html>

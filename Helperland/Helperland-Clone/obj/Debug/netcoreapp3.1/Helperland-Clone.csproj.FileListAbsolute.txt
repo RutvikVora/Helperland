@@ -62,3 +62,5 @@ C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcore
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NewsLetterPartial.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Account\ResetPassword.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\BookService\ServiceBooking.cshtml.g.cs
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\bin\Debug\netcoreapp3.1\libman.json

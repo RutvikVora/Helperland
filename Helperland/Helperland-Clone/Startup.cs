@@ -1,9 +1,9 @@
-
 using Helperland_Clone.Data;
 using Helperland_Clone.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,11 +29,27 @@ namespace Helperland
         {
             services.AddControllersWithViews();
 
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                //options.Cookie.MaxAge = TimeSpan.FromSeconds(10);
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                options.LoginPath = new PathString("/Home/Index");
+                options.LogoutPath = new PathString("/Account/Logout");
+            });
+
             var connection = "server=LAPTOP-J8T7UO1H; database=Helperland; trusted_connection=true;";
             services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(connection));
             //services.AddDbContext<HelperlandContext>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             services.AddHttpContextAccessor();
 
@@ -42,6 +58,10 @@ namespace Helperland
             services.AddScoped<Contact_Us>();
 
             services.AddDataProtection();
+
+            services.AddMvc();
+
+            services.AddSession();
 
         }
 
@@ -63,6 +83,12 @@ namespace Helperland
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseAuthorization();
+
+            app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
