@@ -1,8 +1,10 @@
-﻿@using Helperland_Clone.ViewModels
-@model UserLoginViewModel
-
+﻿
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor _httpHttpContextAccessor;
+
+@*@{  
+   var UserName = ViewData["UserName"];   
+} *@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +33,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/js/script.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js/jquery.min.js"></script>
     <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/popper.js/umd/popper.js/popper.min.js"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     @RenderSection("Scripts", required: false)
    
 
@@ -68,12 +72,10 @@
                         @if (ViewBag.transparentNavbar)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">
-                                <button type="button" class="btn btn-outline-light">Book a Cleaner</button>
-                                </a>
+                                <a class="nav-link rounded-link" aria-current="page" href="#">Book a Cleaner</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Prices">Prices</a>
+                                <a class="nav-link" style="color:white" aria-current="page" asp-controller="Home" asp-action="Prices">Prices</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="color:white" href="#">Our Guarantee</a>
@@ -82,14 +84,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">
-                                <button type="button" class="btn btn-outline-light" style="background-color: #29626D">Book now</button>
-                                </a>
+                                <a class="nav-link rounded-link" aria-current="page" href="#">Book Now</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Prices">
-                                    <button type="button" class="btn btn-outline-light">Prices & Services</button>
-                                </a>
+                                <a class="nav-link rounded-link" aria-current="page" asp-controller="Home" asp-action="Prices">Prices & Services</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="color:white" href="#">Warranty</a>
@@ -111,29 +109,29 @@
                                 </a>
                             </li>
                             <li class="nav-item positon-relative">
-                                <a data-toggle="dropdown" href="#" title="Profil" aria-expanded="false" onclick="myFunction()">                         
+                                <a class="nav-link" href="#" title="Profil" role="button" id="myDropdown" data-bs-toggle="dropdown" aria-expanded="false">                         
                                     <div class="admin-icon d-flex justify-content-center align-items-center">
                                         <img src="~/images/admin-user.png" alt="admin-user">
                                         <img src="~/images/sp-arrow-down.png" style="width: 11px; height: 6px; margin-left: 7px" alt="">                                
                                     </div>
                                 </a>
-                                <ul class="dropdown-menu" id="myDropdown">
+                                <ul class="dropdown-menu" aria-labelledby="myDropdown">
                                     <li class="username">
                                         <p><span>Warm welcome,</span></p>
-                                        <p><b>First Customer</b></p>
+                                        <p><b>@ViewData["UserName"]</b></p>
                                     </li>
                                     <li>
-                                        <a title="To overview" href="#">
+                                        <a class="dropdown-item" title="To overview" href="#">
                                           <p><span>To overview</span></p>
                                         </a>
                                     </li>                            
                                     <li>
-                                        <a title="My settings" href="#">
+                                        <a class="dropdown-item" title="My settings" href="#" onclick="openTab(event, 'mySettings')">
                                             <p><span>My settings</span></p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a style="cursor: pointer;" title="log out" asp-action="Logout" asp-controller="Account">
+                                        <a class="dropdown-item" style="cursor: pointer;" title="log out" asp-action="Logout" asp-controller="Account">
                                             <p><span>log out</span></p>
                                         </a>
                                     </li>
@@ -143,13 +141,13 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">
-                                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#login-modal">Login</button>
+                                <a class="nav-link rounded-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#login-modal">
+                                    Login
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" asp-controller="Account" asp-action="BecomeSP">
-                                    <button type="button" class="btn btn-outline-light">Become a Helper</button>
+                                <a class="nav-link rounded-link" aria-current="page" asp-controller="Account" asp-action="BecomeSP">
+                                    Become a Helper
                                 </a>
                             </li>
 
@@ -174,81 +172,11 @@
             </div>
         </div>
     </nav>
-
-    <!--  Start LOGIN MODAL -->
-<div class="modal fade" id="login-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Login to your account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <form asp-controller="Account" asp-action="Login" method="post">
-                    <div class="data form-input">
-                        <input class="form-control" asp-for="Email" type="text" placeholder="Email" required>
-                        <i class="fa fa-user fa-lg"></i>
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                     </div>
-                     <div class="data form-input">
-                        <input class="form-control" asp-for="Password" type="password" placeholder="Password" required>
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                         <span asp-validation-for="Password" class="text-danger"></span>
-                     </div>
-                    <div class="psw-rem">
-                        <input type="checkbox" class="form-check-input">
-                        <label class="psw-rem-label" for="LoginPasswordRemember-chkbox">Remember me</label>
-                    </div>
-
-                    <button type="submit" class="login rounded-pill border-0 outline-0 ">
-                        <p class="login-btn-text">Login</p>
-                    </button>
-                </form>
-
-                <p class="text-center">
-                    <span><a data-bs-toggle="modal" data-bs-target="#ForgotPassword-modal" data-bs-dismiss="modal">Forgot Password?</a></span>
-                    <br>
-                    Don't have an account yet?
-                    <br>
-                    <span><a asp-controller="Account" asp-action="Register">Create Account</a></span>
-                </p>
-            </div> <!-- modal-body ended -->
-
-        </div><!--  modal content ended -->
-    </div>
-</div>
-<!--  End LOGIN MODAL -->
-
-<!--  Start ForgotPassword MODAL -->
- 
- <div class="modal fade" id="ForgotPassword-modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Forgot password</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="Account" asp-action="ResetLink" method="post">
-                    <div class="data">
-                        <input type="email" class="form-control" placeholder="Email Address" asp-for="Email" aria-describedby="emailHelp">
-                        <span asp-validation-for="Email"></span>
-                    </div>
-                    <button type="submit" class="btn rounded-pill border-0 outline-0 ForgotPassword-submit">Send</button>
-                </form>
-                <div class="text-center">
-                    <a class="ForgotPassword-loginLink" data-bs-toggle="modal" data-bs-target="#LoginModal">Login now</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!--  End ForgotPassword MODAL -->
-
-
+    @if (!_httpHttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+    {
+        <partial name="_LoginModalPartial" />
+    }
+    
     @RenderBody()
 
 <!--footer -->
@@ -275,10 +203,15 @@
         </div>
         <hr class="mx-5" style="background-color: white;">
         <p class="text-center" style="font-size: 14px; color: #9BA0A3">©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
+
+        <div class="privacy-policy d-flex align-items-center" id="privacy-policy">
+            <p class="mb-0 ms-auto">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi ipsa laborum excepturi maiores.
+            </p>
+            <span class="me-auto">Privacy Policy</span>
+            <button id="btn-privacy-policy" class="me-2">OK</button>
+        </div>
     </footer>
-
-
-    @RenderSection("ScriptsAJAX", required: false)
 
 </body>
 </html>

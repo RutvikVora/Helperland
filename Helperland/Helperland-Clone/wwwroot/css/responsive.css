@@ -1,0 +1,112 @@
+@media (max-width: 992px) {
+    .navbar-collapse .navbar-nav {
+        align-items: center;
+    }
+
+    .navbar-collapse ul li {
+        margin: 7px;
+    }
+
+    .navbar-collapse ul li a {
+        display: inline-block;
+    }
+
+    .scroll-up-btn.top-arrow {
+        left: 10px;
+    }
+
+    .scroll-up-btn.message-box {
+        right: 10px;
+    }
+
+    .navbar .navbar-collapse {
+        position: fixed;
+        right: -250px;
+        height: 100%;
+        width: 250px;
+        top: 0;
+        background: #fff;
+        box-shadow: none;
+        z-index: 10;
+        transition: all 0.3s ease;
+        overflow: auto;
+        padding-top: 10px;
+    }
+
+    .navbar .backblack.open {
+        visibility: visible;
+        opacity: 0.5;
+        display: block;
+    }
+
+    .show {
+        right: 0px !important;
+    }
+
+    .show .navbar-nav {
+        align-items: flex-start !important;
+        border-bottom: 1px solid #e1e1e1;
+        transition: all 1s ease;
+    }
+
+    .show .nav-item .nav-link {
+        font-size: 16px;
+        line-height: 24px;
+        border: none;
+        background-color: white;
+        padding: 0px;
+        margin: 0px;
+        color: #646464 !important;
+        padding: 0px 20px !important;
+    }
+
+    .navbar .navbar-nav .user-name {
+        padding: 10px 20px 5px;
+        font-size: 18px;
+        font-weight: 400;
+        width: 100%;
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    .navbar .navbar-nav .user-name span {
+        font-weight: 500;
+    }
+
+    .navbar .navbar-toggler {
+        margin-left: 15px;
+    }
+
+    .tabcontent{
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 768px) {
+    /* Convert Datatable into Card view start */
+
+    .table-responsive-to-card table {
+        border: 0px !important;
+    }
+
+    .table-responsive-to-card table thead {
+        display: none;
+    }
+
+    .table-responsive-to-card table tbody tr {
+        display: flex;
+        flex-direction: column;
+        min-width: 270px;
+        max-width: 460px;
+        align-items: center;
+        margin: 10px auto;
+        padding: 10px 0px;
+        border: 1px solid #e1e1e1 !important;
+    }
+
+    .table-responsive-to-card table tbody tr td {
+        border-bottom: 0px !important;
+    }
+
+    /* Convert Datatable into Card view end */
+}

@@ -1,0 +1,287 @@
+﻿@using Helperland_Clone.ViewModels
+@model CombinedAllViewModels
+@{
+    ViewData["Title"] = "Service History";
+    ViewBag.transparentNavbar = false;
+    Layout = "_Layout";
+}   
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Customer.js"></script>
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/css/Modals.css">
+    <link rel="stylesheet" href="~/css/ServiceHistory.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
+}
+ 
+<div class="welcoming text-center">
+        <h3><span style="font-weight: normal">Welcome,</span> @ViewData["UserName"] !</h3>
+    </div>
+
+    <section id="admin-panel">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="tab flex-sm-row flex-md-column d-none d-lg-block">
+                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Dashboard</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'Service History')" id="defaultOpen">Service History</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'mySettings')">Service Schedule</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Favourite Pros</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Invoices</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Notifications</button><hr></div>
+            </div>
+            
+
+        @await Html.PartialAsync("_CustomerDashboardPartial")
+        @await Html.PartialAsync("_MySettingsPartial")
+       
+
+        
+    </section>
+
+    <!-- Service Details Modal -->
+  <div class="modal fade" id="serviceDetails" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">
+            Service Details
+            <p>
+                <b><span>31/03/2018</span>&nbsp;<span>12:00-18:00</span></b>
+            </p>
+            <p><b>Duration:</b>&nbsp;<span>3.5 Hrs</span></p>
+        </h2>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Service Id:</b>&nbsp;<span>3.5 Hrs</span></p>
+            <p><b>Extra:</b>&nbsp;<span>Inside Cabinates</span></p>
+            <p><b>Net Amount:</b>&nbsp;<span id="netAmt">87.50&euro;</span></p>
+            <hr>
+            <p><b>Service Address:</b>&nbsp;<span>abcd 123,</span></p>
+            <p><b>Billing Address:</b>&nbsp;<span>same as above</span></p>
+            <p><b>Phone:</b>&nbsp;<span>9856321478</span></p>
+            <p><b>Email</b>&nbsp;<span>cust001@gmail.com</span></p>
+            <hr>
+            <p><b>Comments</b></p>
+            <p>I don't have pets at home</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-light" id="RescheduleBtn" data-bs-toggle="modal" data-bs-target="#exampleModal1">Reschedule</button>
+            <button type="button" class="btn btn-outline-light" id="CancelServiceBtn">Cancel</button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Service Details Modal -->
+
+<!-- Reschedule Service Modal -->
+<div class="modal fade" id="reScheduleModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reschedule Service Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Select New Date&Time</p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-wrapper">
+                        <input type="date" class="form-control" id="rescheduleDate" placeholder="24/02/2022" />
+                    </div>   
+                </div>
+                <div class="col-sm-6">  
+                    <div class="input-wrapper">
+                        <input type="hidden" id="updateRequestId" name="updateRequestId" />
+                        <input type="time" class="form-control" id="rescheduleTime" placeholder="2:03" />
+                    </div>   
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="rounded-pill border-0 outline-0 " data-bs-dismiss="modal" id="rescheduleServiceRequest">
+                Update
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Reschedule Service Modal -->
+
+<!-- Cancel Service Modal -->
+<div class="modal fade" id="cancelServiceModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <input type="hidden" id="cancelRequestId" name="CancelRequestId" />
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cancel Service Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label class="control-label">Why do you want to cancel the service request?</label>
+            <textarea class="form-control ng-untouched ng-pristine ng-invalid" formcontrolname="CancelReason" maxlength="500" rows="3" id="cancelReason"></textarea>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="rounded-pill border-0 outline-0" data-bs-dismiss="modal" id="cancelServiceRequest">
+                Cancel Now
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Cancel Service Modal -->
+
+<!-- Rate SP Modal -->
+<div class="modal fade" id="rateSpModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            <div class="d-flex">
+                <div class="cap">
+                    <img src="~/images/cap.png">
+                </div>
+                    <div class="d-flex">
+                        <p style="margin-left: 10px">Lyum Watson<br>
+                        <img src="~/images/star1.png"> 
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star2.png">
+                        4</p>
+                    </div>
+            </div>
+            Cancel Service Request
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>On time arrival</p>
+                        </td>
+                        <td>
+                            <div class="starImg-wrapper">
+                                <img src="~/images/star1.png"> 
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star2.png">
+                                    4
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Friendly</p>
+                        </td>
+                        <td>
+                            <div class="starImg-wrapper">
+                                <img src="~/images/star1.png"> 
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star2.png">
+                                    4
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Quality of service</p>
+                        </td>
+                        <td>
+                            <div class="starImg-wrapper">
+                                <img src="~/images/star1.png"> 
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star2.png">
+                                    4
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>            
+            <p>Feedback on service provider<p>
+            <textarea class="form-control ng-untouched ng-pristine ng-invalid" formcontrolname="CancelReason" maxlength="500" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="rounded-pill border-0 outline-0 ">
+                <b>Submit</b>
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Rate SP Modal -->
+
+<!-- Edit Address Modal-->
+<div class="modal fade" id="editAddress" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Address</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <!---->
+          <div class="modal-body">
+            <form id="editAddForm">
+              <input id="addressID" type="hidden" asp-for="editAdd.AddressId">
+              <input id="IsDefault" type="hidden" asp-for="editAdd.isDefault" />
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Street</label>
+                    <input class="form-control" id="streetName" type="text" placeholder="Street" asp-for="editAdd.AddressLine1">
+                    <!---->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">House number</label>
+                    <input class="form-control" id="houseNum" type="text" placeholder="House number" asp-for="editAdd.AddressLine2">
+                    <!---->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">Postcode</label>
+                    <input class="form-control" id="postCode" type="text" placeholder="Postcode" asp-for="editAdd.PostalCode">
+                    <!---->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">City</label>
+                    <input class="form-control" id="myCity" type="text" placeholder="City Name" asp-for="editAdd.City">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">phone number</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">+49</span>
+                      <input class="form-control" id="PhoneNum" type="text" placeholder="phone number" asp-for="editAdd.Mobile">
+                    </div>
+                    <!---->
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <button class="rounded-pill border-0 outline-0" data-dismiss="msg" type="button" title="To edit" onclick="editAddress()">To edit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+<!-- End Edit Address Modal-->   
+ 

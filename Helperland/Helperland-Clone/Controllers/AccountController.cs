@@ -52,13 +52,22 @@ namespace Helperland_Clone.Controllers
                         _helperlandContext.SaveChanges();
                         var claims = new List<Claim>
                         {
-                         new Claim(ClaimTypes.Name, user.Email),
-                         new Claim("FirstName",user.FirstName)
+                             new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.UserId)),
+                             new Claim(ClaimTypes.Email, user.Email),
+                             new Claim(ClaimTypes.Name, Convert.ToString(user.FirstName)),
+                             new Claim(ClaimTypes.GivenName, Convert.ToString(user.UserTypeId))
                         };
+                       
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var authProperties = new AuthenticationProperties() { IsPersistent = viewModel.IsPersistant };
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                        return RedirectToAction("Index", "Home");
+
+
+                    if (user.UserTypeId == 3)
+                    {
+                        return RedirectToAction("CustomerDashboard", "Customer");
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

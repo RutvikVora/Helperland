@@ -2,8 +2,56 @@
 
 a { text-decoration: none; }
 
+.navbar .navbar-nav .rounded-link {
+    border: 1px solid white;
+    border-radius: 30px;
+    padding: 7px 25px;
+    margin: 0px 5px;
+    transition: all 0.3s ease;
+    height: 40px;
+    color: #ffffff;
+    background-color: #29626D;
+}
+
+
+    .navbar .navbar-nav .rounded-link:hover {
+        color: #29626D !important;
+        background-color: #fff !important;
+    }
+
+
+.navbar .backblack {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: #000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 9;
+    display: none;
+}
+
+.navbar .notification-profile-menu ul {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+.navbar .notification-profile-menu > ul > li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .notification-profile-menu .nav-link {
+    padding: 0.5rem 0.5rem;
+}
+
+
 .modal-content{
-  width: 320px !important;
+  width: 320px;
 }
 .modal-title{
   font-size: 24px;
@@ -171,4 +219,41 @@ input[type=password] {
 
 #footerSocialMediaSymbol div {
     padding: 0 10px;
+}
+
+footer .privacy-policy {
+    position: fixed;
+    text-align: center;
+    background-color: #292929;
+    color: #f1f1f1;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+}
+
+    footer .privacy-policy p{
+        color: #ffffff;
+    }
+
+    footer .privacy-policy span {
+        color: #6eabef;
+    }
+
+    footer .privacy-policy button {
+        background: #eed507;
+        border-radius: 20px;
+        padding: 5px 30px;
+    }
+
+.table>:not(caption)>*>* {
+    padding: 0.5rem 0.5rem;
+     border-bottom: none;
+}
+
+.table tr{
+    border-bottom: solid 1px #e1e1e1;
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: auto;
 }

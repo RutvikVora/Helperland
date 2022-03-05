@@ -6,17 +6,21 @@ using Helperland_Clone.ViewModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System;
+using Helperland_Clone.Services;
+using Helperland_Clone.Enums;
 
 namespace Helperland_Clone.Controllers
 {
     public class BookServiceController : Controller
     {
         private readonly HelperlandContext _db;
+        private readonly IUserService _userService;
         private User loggedUser;
 
-        public BookServiceController(HelperlandContext db)
+        public BookServiceController(HelperlandContext db, IUserService userService)
         {
             this._db = db;
+            _userService = userService;
         }
         public IActionResult ServiceBooking()
         {
@@ -63,21 +67,23 @@ namespace Helperland_Clone.Controllers
         [HttpGet]
         public IActionResult CustomerDetails(ServiceBookingCombinedViewModel model)
         {
-            int Id = -1;
+            //int Id = -1;
 
             List<AddressViewModel> Addresses = new List<AddressViewModel>();
 
-            var logedin = HttpContext.Session.GetInt32("userId");
-            if (HttpContext.Session.GetInt32("userId") != null)
-            {
-                Id = (int)HttpContext.Session.GetInt32("userId");
-            }
-            else if (Request.Cookies["userId"] != null)
-            {
-                Id = int.Parse(Request.Cookies["userId"]);
-            }
+            //var logedin = HttpContext.Session.GetInt32("userId");
+            //if (HttpContext.Session.GetInt32("userId") != null)
+            //{
+            //    //Id = (int)HttpContext.Session.GetInt32("userId");
+                
+            //}
+            //else if (Request.Cookies["userId"] != null)
+            //{
+            //    //Id = int.Parse(Request.Cookies["userId"]);
+            //}
 
-            
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
 
             string postalcode = model.postalCode.zipCode;
             Console.WriteLine(model.postalCode.zipCode);
@@ -106,59 +112,68 @@ namespace Helperland_Clone.Controllers
         [HttpPost]
         public ActionResult AddNewAddress(UserAddress useradd)
         {
-            Console.WriteLine("Inside Addnew address 1");
-            int Id = -1;
-
-
-            if (HttpContext.Session.GetInt32("userId") != null)
+            if (ModelState.IsValid)
             {
-                Id = (int)HttpContext.Session.GetInt32("userId");
+                Console.WriteLine("Inside Addnew address 1");
+                //int Id = -1;
+
+
+                //if (HttpContext.Session.GetInt32("userId") != null)
+                //{
+                //    Id = (int)HttpContext.Session.GetInt32("userId");
+                //}
+                //else if (Request.Cookies["userId"] != null)
+                //{
+                //    Id = int.Parse(Request.Cookies["userId"]);
+
+                //}
+                var userId = _userService.GetUserId();
+                int Id = Convert.ToInt32(userId);
+
+                Console.WriteLine("Inside Addnew address 2");
+                Console.WriteLine(Id);
+
+                useradd.UserId = Id;
+                useradd.IsDefault = false;
+                useradd.IsDeleted = false;
+                User user = _db.User.Where(x => x.UserId == Id).FirstOrDefault();
+                useradd.Email = user.Email;
+                var result = _db.UserAddress.Add(useradd);
+                Console.WriteLine("Inside Addnew address 3");
+                _db.SaveChanges();
+
+                Console.WriteLine("Inside Addnew address 4");
+                if (result != null)
+                {
+                    return Ok(Json("true"));
+                }
+
+                return Ok(Json("false"));
             }
-            else if (Request.Cookies["userId"] != null)
-            {
-                Id = int.Parse(Request.Cookies["userId"]);
-
-            }
-            Console.WriteLine("Inside Addnew address 2");
-            Console.WriteLine(Id);
-
-            useradd.UserId = Id;
-            useradd.IsDefault = false;
-            useradd.IsDeleted = false;
-            User user = _db.User.Where(x => x.UserId == Id).FirstOrDefault();
-            useradd.Email = user.Email;
-            var result = _db.UserAddress.Add(useradd);
-            Console.WriteLine("Inside Addnew address 3");
-            _db.SaveChanges();
-
-            Console.WriteLine("Inside Addnew address 4");
-            if (result != null)
-            {
-                return Ok(Json("true"));
-            }
-
-            return Ok(Json("false"));
+            return View();
         }
+
 
         public ActionResult GenerateServiceRequest(ServiceRequestViewModel complete)
         {
-            int Id = -1;
+            //int Id = -1;
 
 
-            if (HttpContext.Session.GetInt32("userId") != null)
-            {
-                Id = (int)HttpContext.Session.GetInt32("userId");
-            }
-            else if (Request.Cookies["userId"] != null)
-            {
-                Id = int.Parse(Request.Cookies["userId"]);
+            //if (HttpContext.Session.GetInt32("userId") != null)
+            //{
+            //    Id = (int)HttpContext.Session.GetInt32("userId");
+            //}
+            //else if (Request.Cookies["userId"] != null)
+            //{
+            //    Id = int.Parse(Request.Cookies["userId"]);
 
-            }
+            //}
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
 
 
             ServiceRequest add = new ServiceRequest();
             add.UserId = Id;
-            add.ServiceId = Id;
             add.ServiceStartDate = complete.ServiceStartDate;
             add.ServiceHours = (double)complete.ServiceHours;
             add.ZipCode = complete.PostalCode;
@@ -170,9 +185,24 @@ namespace Helperland_Clone.Controllers
             add.PaymentDue = false;
             add.PaymentDone = true;
             add.HasPets = complete.HasPets;
+            add.Status = (int)ServiceRequestStatusEnum.Open;
+            add.ModifiedBy = Id;
             add.CreatedDate = DateTime.Now;
             add.ModifiedDate = DateTime.Now;
             add.HasIssue = false;
+
+            int newServiceId = 999;
+            try
+            {
+                newServiceId = _db.ServiceRequest.Max(x => x.ServiceId);
+            }
+            catch (Exception)
+            {
+                newServiceId = 999;
+            }
+
+            newServiceId++;
+            add.ServiceId = newServiceId;
 
             var result = _db.ServiceRequest.Add(add);
             _db.SaveChanges();

@@ -57,6 +57,8 @@ namespace Helperland
 
             services.AddScoped<Contact_Us>();
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddDataProtection();
 
             services.AddMvc();

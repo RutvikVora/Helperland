@@ -1,0 +1,76 @@
+﻿@using Helperland_Clone.ViewModels
+@model UserLoginViewModel 
+
+<!--  Start LOGIN MODAL -->
+<div class="modal fade" id="login-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Login to your account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <div class="data form-input">
+                        <input class="form-control" asp-for="Email" type="text" placeholder="Email" required>
+                        <i class="fa fa-user fa-lg"></i>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                     </div>
+                     <div class="data form-input">
+                        <input class="form-control" asp-for="Password" type="password" placeholder="Password" required>
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                         <span asp-validation-for="Password" class="text-danger"></span>
+                     </div>
+                    <div class="psw-rem">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="psw-rem-label" for="LoginPasswordRemember-chkbox">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="login rounded-pill border-0 outline-0 ">
+                        <p class="login-btn-text">Login</p>
+                    </button>
+                </form>
+
+                <p class="text-center">
+                    <span><a data-bs-toggle="modal" data-bs-target="#ForgotPassword-modal" data-bs-dismiss="modal" href="">Forgot Password?</a></span>
+                    <br>
+                    Don't have an account yet?
+                    <br>
+                    <span><a asp-controller="Account" asp-action="Register">Create Account</a></span>
+                </p>
+            </div> <!-- modal-body ended -->
+
+        </div><!--  modal content ended -->
+    </div>
+</div>
+<!--  End LOGIN MODAL -->
+
+
+<!--  Start ForgotPassword MODAL -->
+ 
+ <div class="modal fade" id="ForgotPassword-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Forgot password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="ResetLink" method="post">
+                    <div class="data">
+                        <input type="email" class="form-control" placeholder="Email Address" asp-for="Email" aria-describedby="emailHelp">
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <button type="submit" class="btn rounded-pill border-0 outline-0 ForgotPassword-submit">Send</button>
+                </form>
+                <div class="text-center">
+                    <a class="ForgotPassword-loginLink" data-bs-toggle="modal" data-bs-target="#LoginModal">Login now</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--  End ForgotPassword MODAL -->

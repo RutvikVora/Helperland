@@ -1,0 +1,268 @@
+﻿@using Helperland_Clone.ViewModels
+@model CombinedAllViewModels
+
+<div id="mySettings" class="tabcontent">
+                <ul class="nav nav-tabs d-flex justify-content-around" id="myTab">
+                    <li class="text-center nav-item">
+                      <a href="#myDetails" class="nav-link" data-bs-toggle="tab">
+                        <span class="icon details"></span>
+                        <span class="hidden-xs">My Details</span>
+                      </a>
+                    </li>
+                    <li class="text-center nav-item">
+                      <a href="#myAddresses" class="nav-link" data-bs-toggle="tab">
+                        <span class="icon address"></span>
+                        <span class="hidden-xs">My Addresses</span>
+                      </a>
+                    </li>
+                    <li class="text-center nav-item">
+                      <a href="#changePassword" class="nav-link" data-bs-toggle="tab">
+                        <span class="icon password"></span>
+                        <span class="hidden-xs">Change Password</span>
+                      </a>
+                    </li>
+                  </ul> 
+                  <!-- Tabs content -->
+                  <div class="tab-content">
+                    <div class="tab-pane fade" id="myDetails">
+                      <form id="myDetailsForm">
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">First name</label>
+                              <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="100" type="text" placeholder="First name" value=@ViewBag.firstName asp-for="details.Fname">
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">last name</label>
+                              <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="100" type="text" placeholder="last name" value=@ViewBag.lastName asp-for="details.Lname">
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">E-Mail-Address</label>
+                              <input class="form-control ng-untouched ng-pristine ng-valid" type="text" placeholder="E-Mail-Address" value=@ViewBag.email asp-for="details.email">
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">Mobile number</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">+49</span>
+                                <input class="form-control ng-untouched ng-pristine ng-valid" maxlength="20" type="text" placeholder="Mobile number" value=@ViewBag.mobile asp-for="details.mobileNumber">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="form-group date-group">
+                              <label class="control-label">birth date</label>
+                              <div class="inner-wrapper">
+                                <div class="inner">
+                                  <select class="form-control ng-untouched ng-pristine ng-valid" asp-for="details.DayOfBirth">
+                                    <option value="0" selected>Tag</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                  </select>
+                                </div>
+                                <div class="inner">
+                                  <select class="form-control ng-untouched ng-pristine ng-valid" asp-for="details.MonthOfBirth">
+                                    <option value="0" selected>month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                  </select>
+                                </div>
+                                <div class="inner">
+                                  <select class="form-control ng-untouched ng-pristine ng-valid" asp-for="details.YearOfBirth">
+                                    <option value="0" selected>year</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2000">2000</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr class="small">
+                        <div class="form-group">
+                          <label class="control-label">My preferred language</label>
+                          <select class="form-control inline ng-untouched ng-pristine ng-valid" asp-for="details.language">
+                            <option value="Deutsche">Deutsche</option>
+                            <option value="English">English</option>
+                            
+                          </select>
+                        </div>
+                        <button class="btn btn btn-primary" type="button" onclick="DetailsSubmit()">Save</button>
+                      </form>
+                      
+                    </div>
+                    <div class="tab-pane fade" id="myAddresses">
+                      <div class="table-responsive mb-15">
+                        <table id="MyAddressTable">
+                          <thead>
+                            <tr>
+                              <th class="text-center">Billing address</th>
+                              <th>Addresses</th>
+                              <th class="text-center">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!----><!---->
+                            @foreach (AddressViewModel item in Model.address )
+                            {
+                                <tr data-value=@item.AddressId id="@item.AddressId">
+                                    <td class="text-center">
+                                      <div class="radio">
+                                        <label>
+                                            @if (item.isDefault == true)
+                                            {
+                                                <input name="address-name" type="radio" value="true" checked>
+                                            }
+                                            else
+                                            {
+                                                <input name="address-name" type="radio" value="false">
+                                            }
+                                            <span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td class="contact">
+                                      <span>
+                                        <b>Address:</b>
+                                        <span class="AddressLine1">@item.AddressLine1</span>&nbsp; 
+                                        <span class="AddressLine2">@item.AddressLine2</span>,&nbsp;
+                                        <span class="PostalCode">@item.PostalCode</span>
+                                        <span class="City">@item.City</span>
+                                      </span>
+                                      <span>
+                                        <b>Phone number:</b>
+                                        <span class="PhoneNumber">@item.Mobile</span>
+                                        </span>
+                                    </td>
+                                    <td class="text-center action-buttons">
+                                      <a class="editAddBtn" data-bs-toggle="modal" data-bs-target="#editAddress">
+                                        <img src="~/images/edit-icon.png" alt="edit-icon">
+                                      </a>
+                                      <a>
+                                        <img src="~/images/delete-icon.png" alt="delete-icon">
+                                      </a>
+                                    </td>
+                                  </tr>
+                            }
+                        
+                            <!---->
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary add-button" title="Neue Address hinzufügen">Add New Address</a>
+                        <div class="show-more-block">
+                          <div class="text-right">
+                            <span class="show-more">
+                              5 out of 23
+                            </span>
+                            <a class="btn btn-default" style="cursor: pointer" title="Zeig mehr">
+                              show more</a>
+                          </div>
+                        </div>            
+                      </div>      
+                    </div>
+                    <div class="tab-pane fade" id="changePassword">
+                     <div class="col-md-12 m-0 d-none" id="changePswSuccess">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                              <p class="text-center mt-3" id="successMsg"></p>
+                                <button type="button" class="btn-close" onclick="CloseMsg()"></button>
+                             </div>
+                    </div>
+                      <div class="col-md-12 m-0 d-none" id="oldPswIncorrect">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                             <p class="text-center mt-3" id="errorMsg"></p> 
+                                <button type="button" class="btn-close" onclick="CloseMsg()"></button>
+                             </div>
+                      </div>
+                      <form id="changePswForm">
+                        <div class="row">
+                          <div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="control-label">Old Password</label>
+                                <input class="form-control" type="password" placeholder="Current Password" asp-for="changePsw.OldPassword">
+                                <span asp-validation-for="changePsw.OldPassword" class="text-danger"></span>
+                                <!---->
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="col-sm-4 col-sm-offset-8 col-sm-pull-8">
+                              <div class="form-group">
+                                <label class="control-label">New Password</label>
+                                <input class="form-control" type="password" placeholder="Password" asp-for="changePsw.Password">
+                                <span asp-validation-for="changePsw.Password" class="text-danger"></span>
+                                <!---->
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="control-label">Confirm Password</label>
+                                <input class="form-control" type="password" placeholder="Confirm Password" asp-for="changePsw.ConfirmPassword">
+                                <span asp-validation-for="changePsw.ConfirmPassword" class="text-danger"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="btn btn btn-primary" type="button" onclick="changePsw()">Save</button>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- Tabs content -->
+              </div>

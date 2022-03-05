@@ -227,32 +227,33 @@
 
             <div class="card card-body" id="address_form">
 
-              <form action="" class="row">
+              <form class="row"  asp-action="" asp-controller="BookService">
                 <div class="col-md-6">
                   <label for="inputstreet" class="labels">Street name</label>
-                  <input type="text" class="form-control" id="inputstreet">
+                  <input type="text" class="form-control" id="inputstreet" asp-for="address.AddressLine1">
                 </div>
                 <div class="col-md-6">
                   <label for="inputhouse" class="labels">House number</label>
-                  <input type="text" class="form-control" id="inputhouse">
+                  <input type="text" class="form-control" id="inputhouse" asp-for="address.AddressLine2">
                 </div>
                 <div class="col-md-6">
                   <label for="inputpostal" class="labels">Postal code</label>
-                  <input type="text" class="form-control" id="inputpostal">
+                  <input type="text" class="form-control" id="inputpostal" asp-for="address.PostalCode">
                 </div>
                 <div class="col-md-6">
                   <label for="inputcity" class="labels">City</label>
-                  <input type="text" class="form-control" id="inputcity">
+                  <input type="text" class="form-control" id="inputcity" asp-for="address.City" >
+                  <span asp-validation-for="address.City" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
                   <label for="inputphone" class="labels">Phone number</label>
-                  <input type="text" class="form-control" id="inputphone">
+                  <input type="text" class="form-control" id="inputphone" asp-for="address.Mobile">
                 </div>
                 <div class="btn-2">
-                  <button type="submit" id="save" onclick='saveAddressForm()'>
+                  <button type="button" id="save" onclick='saveAddressForm()'>
                     Save
                   </button>
-                  <button id="cancel" onclick="cancelAddressForm()">
+                  <button type="reset" id="cancel" onclick="cancelAddressForm()">
                     Cancel
                   </button>
                 </div>
@@ -291,8 +292,8 @@
               </div>
             </form>
             <hr>
-            <div class="continue-btn">
-              <button>Continue</button>
+            <div class="continue-btn" type="button" onclick="completeBookService()">
+              <button>Complete Booking</button>
             </div>
           </div>         
         </div>
@@ -441,7 +442,7 @@
               <h2 class="accordion-header" id="headingOne">
                 <button class="accordionbutton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                   aria-expanded="false" aria-controls="collapseOne" style="font-size: 13px;">
-                  <span><img src="images/keyboard-right-arrow-button.png" alt=""></span>
+                  <span><img src="~/images/keyboard-right-arrow-button.png" alt=""></span>
                   <span id="question"> Which Helperland professional will come to my place?</span>
 
                 </button>
@@ -460,7 +461,7 @@
               <h2 class="accordion-header" id="headingTwo">
                 <button class="accordionbutton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                   aria-expanded="false" aria-controls="collapseTwo" style="font-size: 13px;">
-                  <span><img src="images/keyboard-right-arrow-button.png" alt=""></span>
+                  <span><img src="~/images/keyboard-right-arrow-button.png" alt=""></span>
                   <span id="question"> Which Helperland professional will come to my place?</span>
 
                 </button>
@@ -479,7 +480,7 @@
               <h2 class="accordion-header" id="headingThree">
                 <button class="accordionbutton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
                   aria-expanded="false" aria-controls="collapseThree" style="font-size: 13px;">
-                  <span><img src="images/keyboard-right-arrow-button.png" alt=""></span>
+                  <span><img src="~/images/keyboard-right-arrow-button.png" alt=""></span>
                   <span id="question"> Which Helperland professional will come to my place?</span>
 
                 </button>
@@ -498,7 +499,7 @@
               <h2 class="accordion-header" id="headingFour">
                 <button class="accordionbutton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
                   aria-expanded="false" aria-controls="collapseFour" style="font-size: 13px;">
-                  <span><img src="images/keyboard-right-arrow-button.png" alt=""></span>
+                  <span><img src="~/images/keyboard-right-arrow-button.png" alt=""></span>
                   <span id="question"> Which Helperland professional will come to my place?</span>
 
                 </button>
@@ -522,230 +523,3 @@
 
     <partial name="_NewsLetterPartial" />
 
-@section ScriptsAJAX{
-    <script>
-        document.getElementById("defaultOpen").click();
-
-        function ClickFunction(id){
-			document.getElementById(id).click();
-		}
-		
-        function Disable(id){
-            document.getElementById(id).disabled= true;
-        }
-        function Clickable(id){
-            document.getElementById(id).disabled= false;
-        }
-
-         function postalSubmit() {
-			
-            var data = $("#form-1").serialize();
-            
-            $.ajax({
-                type: 'POST',
-                url: '/BookService/CheckPostalCode',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
-                        Clickable("tab2btn");
-						ClickFunction("tab2btn");
-                        alert("zipcode is recieved");
-						
-                    }
-                    else if(result.value=="false") {
-                        $("#CheckMsg").text("We are not providing service in this area. We’ll notify you if any helper would start working near your area.");
-                    }
-					else{
-						 alert("zipcode is not valid");
-					}
-                },
-                error: function () {
-                    alert('Failed to receive the Data');
-					
-                    console.log('Failed ');
-                }
-            });
-         }
-
-        function scheduleSubmit() {
-            var data = $("#form-2").serialize();
-            console.log(data);
-			
-			alert(data.toString());
-			      
-            $.ajax({
-                type: 'POST',
-                url: '/BookService/ScheduleService',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
-						Clickable("tab3btn");
-                        ClickFunction("tab3btn");
-						loadAddress();
-                    }
-                    else {
-                        alert("schedule is not valid");
-                    }
-                },
-                error: function () {
-                    alert('Failed to receive the Data');
-                    console.log('Failed ');
-                }
-            });
-         }
-
-         function loadAddress() {
-			    var data = $("#form-1").serialize();
-				 alert("Inside load address")
-						$.ajax({
-							type: 'get',
-							url: '/BookService/CustomerDetails',
-							contenttype: 'application/x-www-form-urlencoded; charset=utf-8',
-							data: data,
-							success: function (result) {
-								var address = $("#address");
-								address.empty();
-								address.append('<p>Please select your address:</p>');
-								if(result.length==0)
-								{
-									ClickFunction("addAddressBtn");
-								}
-								for (let i = 0; i < result.length; i++) {
-									var checked = "";
-									if (result[i].isDefault == true) {
-										checked = "checked";
-									}
-									
-								
-									address.append(' <div class="row radiobutton">'+
-											 '<div style="max-width: 10px" class="col-1"><input type="radio" id=" '+ i +' " ' + checked +' name="address" value="'+ result[i].addressId + '" /></div>'+
-											' <div class="col-11"><label for="'+ i +'"><span>Address:</span><br><span>'+ result[i].addressLine1 +'</span>,&nbsp;<span>'+ result[i].addressLine2 +'</span><br><span>'+ result[i].city +'</span>&nbsp;<span>'+ result[i].postalCode +'</span>'+
-											'<br><span>PHONE NUMBER:</span> ' + result[i].mobile + ' <span></span></label></div> </div>');
-								
-									checked = "";
-								}
-								console.log(result);
-							},
-							error: function () {
-								alert('failed to receive the data');
-								console.log('failed ');
-							}
-						});
-				}
-
-                function saveAddressForm() {
-					alert("in save address 1")
-					var data = {};
-					data.AddressLine1 = document.getElementById("AddressLine1").value;
-					data.AddressLine2 = document.getElementById("AddressLine2").value;
-					data.PostalCode = document.getElementById("addAddressPostalCode").value;
-					data.City = document.getElementById("City").value;
-					data.Mobile = document.getElementById("Mobile").value;
-					alert("in save address 2")
-					
-				
-						$.ajax({
-							type: 'POST',
-							url: '/BookService/AddNewAddress',
-							contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-							data: data,
-							success: function (result) {
-								if (result.value == "true") {
-							
-									 ClickFunction("addressCancelBtn");
-									 loadAddress();
-									
-								}
-								else {
-									$("#detailServiceAlert").removeClass("d-none").text("Sorry! Something went wrong please try again later.");
-								}
-							},
-							error: function () {
-								alert('Failed to receive the Data');
-								console.log('Failed ');
-							}
-						});
-					}
-
-                    function cancelAddress() {
-                        document.getElementById("address_form").style.display = "none";
-	                    document.getElementById('newAddressBtn').style.display = "block";
-                    }
-
-
-                    function completeBookService() {
-                            var data = {};
-                            var extrahour = 0;
-                            var cabinet = document.getElementById("InsideCabinat");
-                            var window = document.getElementById("InsideWindow");
-                            var fridge = document.getElementById("InsideFridge");
-                            var oven = document.getElementById("InsideOven");
-                            var laundry = document.getElementById("InsideLaundry");
-                            if (cabinet.checked == true) {
-                                extrahour += 0.5;
-                                data.cabinet = true;
-                            }
-                            if (window.checked == true) {
-                                extrahour += 0.5;
-                                data.window = true;
-                            }
-                            if (fridge.checked == true) {
-                                extrahour += 0.5;
-                                data.fridge = true;
-                            }
-                            if (oven.checked == true) {
-                                extrahour += 0.5;
-                                data.oven = true;
-                            }
-                            if (laundry.checked == true) {
-                                extrahour += 0.5;
-                                data.laundry = true;
-                            }
-                            data.postalCode = document.getElementById("postalcode").value;
-	
-                           var temp=document.getElementById("DateSelect").value;
-                            data.serviceStartDate =temp+" "+document.getElementById("TimeSelect").value;
-	
-   
-    
-	                        data.serviceHours=document.getElementById("hourSelect").value;
-                            data.extraHours = extrahour;
-	                        var duration= parseFloat(document.getElementById("hourSelect").value);
-	                        var extra= parseFloat( extrahour);
-                           
-                           data.subTotal= (extra + duration)*25;
-                            data.totalCost =  data.subTotal; //Discount 0(out of scope)
-                            data.comments = document.getElementById("comments").value;
-   
-                            data.HasPets = document.getElementById("flexCheckDefault").checked;
-	                        alert(document.getElementById("flexCheckDefault").checked);
-	
-                            
-	                        data.addressId=document.querySelector('input[name="address"]:checked').value;
-	                        alert(data.addressId);
-    
-                            $.ajax({
-                                type: 'post',
-                                url: '/BookService/GenerateServiceRequest',
-                                contenttype: 'application/x-www-form-urlencoded; charset=utf-8',
-                                data: data,
-                                success: function (result) {
-                                    if (result.value == "false") {
-                
-                                        alert("schedule is not valid");
-                                    }
-                                    else {                                      
-			                           alert("done")
-                                    }
-                                },
-                                error: function () {
-                                    alert('failed to receive the data');
-                                    console.log('failed ');
-                                }
-                            });
-}  
-
-    </script>
-}
