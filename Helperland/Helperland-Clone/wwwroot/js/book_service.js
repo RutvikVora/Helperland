@@ -172,7 +172,12 @@ function scheduleSubmit() {
                 ClickFunction("tab3btn");
                 loadAddress();
             }
-            else {
+            else if (result.value == "ClicklogInBtn") {
+                Clickable("loginBtn");
+                ClickFunction("loginBtn");
+                alert("login");
+            }
+            else if(result.value == "false"){
                 alert("schedule is not valid");
             }
         },

@@ -62,6 +62,34 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $("#Dashboard tr").click(function () {
+        console.log("in fun");
+        var data1 = $(this).find(".serviceId");
+        var serviceId = $(data1).text();
+        $("#sId").text(serviceId);
+
+        var data2 = $(this).find(".serviceDate");
+        var serviceDate = $(data2).text();
+        $("#sDate").text(serviceDate);
+
+        var data3 = $(this).find(".serviceTime");
+        var serviceTime = $(data3).text();
+        $("#sTime").text(serviceTime);
+
+        var data4 = $(this).find(".netAmt");
+        var netAmt = $(data4).text();
+        //console.log(netAmt);
+        $("#netAmount").text(netAmt);
+
+        //var data5 = $(this).closest("tr").find(".PhoneNumber");
+        //var phone = $(data5).text();
+        //$("#PhoneNum").val(phone);
+        //var addressLine2 = arr[]
+        
+    });
+});
+
+$(document).ready(function () {
     $("#rescheduleServiceRequest").on("click", function () {
         var serviceStartDate = document.getElementById("rescheduleDate").value;
         var serviceTime = document.getElementById("rescheduleTime").value;
@@ -78,7 +106,30 @@ $(document).ready(function () {
             data: data,
             success: function (result) {
                 if (result.length != 0) {
-                    window.location.reload();
+                    //window.location.reload();
+                    //rowId = result.serviceId.toString();
+                    rowId = serviceRequestId.toString();
+                    alert(rowId);
+                    serviceDate = result.date;
+                    StartTime = result.startTime;
+                    EndTime = result.endTime;
+                    //alert(result.addressId);
+                    //alert(addressLine1);
+
+                    data1 = $('#' + rowId).find(".serviceDate");
+                    $(data1).text(serviceDate);
+
+                    data2 = $('#' + rowId).find(".serviceTime");
+                    $(data2).text(StartTime + "-" + EndTime);
+
+                    //data3 = $('#' + rowId).find(".PostalCode");
+                    //$(data3).text(postal);
+
+                    //data4 = $('#' + rowId).find(".City");
+                    //$(data4).text(city);
+
+                    //data5 = $('#' + rowId).find(".PhoneNumber");
+                    //$(data5).text(phone);
                 }
                 else {
                     alert("fail");

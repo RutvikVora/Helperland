@@ -1,0 +1,684 @@
+﻿@using System.Security.Claims
+@using Helperland_Clone.Enums
+@model IEnumerable<Helperland_Clone.ViewModels.SPdashboardViewModel>;
+
+@{
+    ViewData["Title"] = "Upcoming Service";
+    ViewBag.transparentNavbar = false;
+    Layout = "_Layout";
+
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+}   
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/ServiceProvider.js"></script>
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/css/UpcomingService.css">
+    <link rel="stylesheet" href="~/css/Modals.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
+    <link rel="stylesheet" href="~/css/DataTable.css">
+}
+
+
+<div class="welcoming text-center">
+        <h3><span style="font-weight: normal">Welcome,</span>@User.FindFirst(ClaimTypes.Name).Value!</h3>
+    </div>
+
+    <section id="admin-panel">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'mySettings')">Dashboard</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'newServiceRequests')">New Service Requests</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Upcoming Services')" id="defaultOpen">Upcoming Services</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Upcoming Services')">Service Schedule</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'serviceHistory')">Service History</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'Upcoming Services')">My Ratings</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'BlockCustomer')">Block Customer</button><hr>
+            </div>
+            
+            <div id="mySettings" class="tabcontent">
+                <!-- nav nav-tabs nav-justified -->
+                      <ul class="nav nav-tabs d-flex justify-content-start" id="myTab">
+                          <li class="text-center nav-item">
+                            <a href="#myDetails" class="nav-link" data-bs-toggle="tab">
+                              <span class="icon details"></span>
+                              <span class="hidden-xs">My Details</span>
+                            </a>
+                        </li>
+                          <li class="text-center nav-item">
+                            <a href="#changePassword" class="nav-link" data-bs-toggle="tab">
+                              <span class="icon password"></span>
+                              <span class="hidden-xs">Change Password</span>
+                            </a>
+                          </li>
+                        </ul> 
+                        <!-- Tabs content -->
+                        <div class="tab-content">
+                          <div class="tab-pane fade" id="myDetails">
+                            <h3 class="account-status">Account Status:
+                               <span>Active</span>
+                               <img alt="avatar" style="float: right;" src="~/images/avatar-car.png" id="currentAvatar">
+                            </h3>
+                            <div class="form-section">
+                                <h5 class="title">My details</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">First name</label>
+                                                <input class="form-control" id="FirstName" type="text" placeholder="First name">
+                                                <span id="ErrorMessageFirstName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">last name</label>
+                                                <input class="form-control" id="LastName" type="text" placeholder="last name">
+                                                <span id="ErrorMessageLastName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">E-Mail-Address</label>
+                                                <input class="form-control" type="text" id="Email" placeholder="E-Mail-Address" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Mobile number</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">+49</span>
+                                                    <input class="form-control" type="text" id="MobileNumber" placeholder="Mobile number">
+                                                    <span id="ErrorMessageMobileNumber" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group date-group">
+                                                <label class="control-label">birth date</label>
+                                                <div class="inner-wrapper">
+                                                    <div class="inner">
+                                                        <select class="form-control " id="DayDOB">
+                                                            <option value="">Day</option>
+                                                           @for (int i = 1; i <= 31; i++)
+                                                            {
+                                                                <option value=@i>@i</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="inner">
+                                                        <select class="form-control" id="MonthDOB">
+                                                            <option value="">month</option>
+                                                            <option value="1">January</option>
+                                                            <option value="2">February</option>
+                                                            <option value="3">March</option>
+                                                            <option value="4">April</option>
+                                                            <option value="5">May</option>
+                                                            <option value="6">June</option>
+                                                            <option value="7">July</option>
+                                                            <option value="8">August</option>
+                                                            <option value="9">September</option>
+                                                            <option value="10">October</option>
+                                                            <option value="11">November</option>
+                                                            <option value="12">December</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="inner">
+                                                        <select class="form-control ng-untouched ng-pristine ng-valid" id="YearDOB">
+                                                            <option value="">year</option>
+                                                             @for (int i = (DateTime.Now.Year - 10); i > (DateTime.Now.Year - 117); i--)
+                                                            {
+                                                                <option value=@i>@i</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <span id="ErrorMessageDateOfBirth" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Nationality</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="Nationality">
+                                                        <option value="German">German</option>
+                                                        <option value="Indian">Indian</option>
+                                                        <option value="American">American</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     <!--</div>-->
+                                        <div class="col-sm-5 me-5">
+                                            <div class="form-group">
+                                                <label class="control-label normal">gender</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="radio inline">
+                                                        <label>
+                                                        <input  name="Gender" type="radio">
+                                                        <span class="pointer"></span>
+                                                        Male
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio inline">
+                                                        <label>
+                                                        <input name="Gender" type="radio">
+                                                        <span class="pointer"></span>
+                                                        Female
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio inline">
+                                                        <label>
+                                                        <input name="Gender" type="radio">
+                                                        <span class="pointer"></span>
+                                                        Rather not to say
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                <label class="control-label normal">Choose an avatar</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar active" src="~/images/avatar-car.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar" src="~/images/avatar-female.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar" src="~/images/avatar-hat.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar" src="~/images/avatar-iron.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar" src="~/images/avatar-male.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                    <div class="columnAvatar">
+                                                        <img class="avatar" src="~/images/avatar-ship.png" onclick="selectAvatar(event)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                <div class="form-section">
+                                    <h5 class="title">My address</h5>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label normal">Street name</label>
+                                                <input class="form-control" type="text" id="streetName" placeholder="Street">
+                                                <span id="ErrorMessageStreetName" class="text-danger"></span>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label normal">House number</label>
+                                                <input class="form-control" type="text" id="houseNumber" placeholder="House number">
+                                                <span id="ErrorMessageHouseNumber" class="text-danger"></span>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label normal">Postal code</label>
+                                                <input class="form-control" type="text" id="postalCode" placeholder="Postal code">
+                                                <span id="ErrorMessagePostalCode" class="text-danger"></span>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label normal">City</label>
+                                                <select class="form-control" id="cityName" formcontrolname="ResidentialCity">
+                                                    <!----><option value="Ahemdabad">Ahemdabad</option>
+                                                           <option value="Anand">Anand</option>
+                                                           <option value="Gondal">Gondal</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn btn-primary" type="button" id="UpdateSpProfile">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                            
+                          <div class="tab-pane fade" id="changePassword">
+                            <form>
+                                <div id="divChangePasswordTabBootstrapAlert">
+                                </div>
+                              <div class="row">
+                                <div>
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                      <label class="control-label">Old Password</label>
+                                      <input class="form-control" type="password" id="SpCurrentPassword" placeholder="Current Password">
+                                      <span id="ErrorMessageSpCurrentPassword" class="text-danger"></span>
+                                      <!---->
+                                    </div>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="col-sm-4 col-sm-offset-8 col-sm-pull-8">
+                                    <div class="form-group">
+                                      <label class="control-label">New Password</label>
+                                      <input class="form-control" type="password" id="SpNewPassword" placeholder="Password">
+                                      <span id="ErrorMessageSpNewPassword" class="text-danger"></span>
+                                      <!---->
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                      <label class="control-label">Confirm Password</label>
+                                      <input class="form-control" type="password" id="SpConfirmPassword" placeholder="Confirm Password">
+                                      <span id="ErrorMessageSpConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <button class="btn btn btn-primary" type="button" id="UpdateSpPassword">Save</button>
+                            </form>
+                          </div>
+                        </div>
+                        <!-- Tabs content -->
+                    </div>
+
+
+            <div id="newServiceRequests" class="tabcontent table-responsive">
+                <table class="table" id="newServiceRequestTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                            <p>Service ID <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Service Date</p>
+                        </th>
+                        <th scope="col">
+                            <p>Customer details </p>
+                        </th>
+                        <th scope="col">
+                            <p>Payment </p>
+                        </th>
+                         <th scope="col">
+                            <p>Time conflict</p>
+                        </th>
+                        <th scope="col">
+                            <p>Actions</p>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            @if (item.Status == 1)
+                            {
+                                <tr data-value=@item.ServiceId>
+                                    <th scope="row" class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p>
+                                            <span class="serviceId">@item.ServiceId</span>
+                                        </p>
+                                    </th>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p>
+                                            <img src="~/images/calendar2.png" style="margin-bottom: 7px"> 
+                                            <b><span class="serviceDate">@item.Date</span></b><br>
+                                            <img src="~/images/layer-14.png"> <span class="serviceTime">@item.StartTime - @item.EndTime</span>
+                                        </p>
+                                    </td>
+                                    <td class="align-middle" data-lable="Customer Details" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="custName">@item.CustomerName</span><br>
+                                            <img src="~/images/layer-15.png" style="vertical-align: text-bottom;">
+                                            <span class="serviceAddress">@item.Address</span></p>
+                                    </td>
+                                    <td class="align-middle" data-lable="Payment" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="netAmt">@item.TotalCost</span> &euro;</p>
+                                    </td>
+                                    <td class="align-middle" data-lable="Time Conflict" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        @{
+                                            string conflictIdtemp = "Conflict" + @item.ServiceId;
+                                        }
+                                        <a class="newReqConflictBtn d-none" id=@conflictIdtemp >Conflict</a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <button type="button" id="newServiceReqAccept" class="btn btn-outline-light" style="background-color: #1D7A8C; border-radius: 17px">Accept</button>
+                                    </td>
+                                    <td class="totleTime d-none">@item.Duration</td>
+                                    <td class="extraCabinet d-none">@item.Cabinet</td>
+                                    <td class="extraOven d-none">@item.Oven</td>
+                                    <td class="extraWindow d-none">@item.Window</td>
+                                    <td class="extraFridge d-none">@item.Fridge</td>
+                                    <td class="extraLaundry d-none">@item.Laundry</td>
+                                    <td class="serviceZip d-none">@item.ZipCode</td>
+                                </tr>
+                            }
+                        }
+
+                    }
+
+                    </tbody>
+                  </table>
+            </div>
+            
+            <div id="Upcoming Services" class="tabcontent table-responsive">
+                <div id="divStatusFailedBootstrapAlert">
+                </div>
+                <table class="table" id="upcomingServicesTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                            <p>Service ID <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Service Date <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Customer details <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Payment </p>
+                        </th>
+                        <th scope="col">
+                            <p>Distance <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Actions <img src="~/images/sort.png"></p>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            @if (item.Status == (int)ServiceRequestStatusEnum.IsComplete || item.Status == (int)ServiceRequestStatusEnum.Accepted)
+                            {
+                                <tr data-value=@item.ServiceId id=@item.ServiceId>
+                                    <th scope="row" class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="serviceId">@item.ServiceId</span></p>
+                                    </th>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><img src="~/images/calendar2.png" style="margin-bottom: 7px"> 
+                                            <b><span class="serviceDate">@item.Date</span></b><br>
+                                            <img src="~/images/layer-14.png"> <span class="serviceTime">@item.StartTime - @item.EndTime</span></p>
+                                    </td>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="custName">@item.CustomerName</span><br>
+                                            <img src="~/images/layer-15.png" style="vertical-align: text-bottom;"> 
+                                            <span class="serviceAddress">@item.Address</span></p>
+                                    </td>
+                                     <td class="align-middle" data-lable="Payment" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="netAmt">@item.TotalCost</span> &euro;</p>
+                                    </td>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p>15 km</p>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        @if (item.Status == (int)ServiceRequestStatusEnum.IsComplete)
+                                        {
+                                            <button type="button" class="btn btn-outline-light completeService" style="background-color: #67B644; line-height: 1;" id="IsCompleteBtn" data-bs-toggle="modal" data-bs-target="#IsCompleteServiceModal">IsComplete?</button>
+                                        }
+                                        
+                                        <button type="button" class="btn btn-outline-light cancelService" style="background-color: #FF6B6B; border-radius: 17px" id="CancelServiceBtn" data-bs-toggle="modal" data-bs-target="#cancelServiceModal">Cancel</button>
+                                    </td>
+                                    <td class="totleTime d-none">@item.Duration</td>
+                                    <td class="extraCabinet d-none">@item.Cabinet</td>
+                                    <td class="extraOven d-none">@item.Oven</td>
+                                    <td class="extraWindow d-none">@item.Window</td>
+                                    <td class="extraFridge d-none">@item.Fridge</td>
+                                    <td class="extraLaundry d-none">@item.Laundry</td>
+                                    <td class="serviceZip d-none">@item.ZipCode</td>
+                                </tr>
+                            }
+                        }
+                    }
+                 
+                    </tbody>
+                  </table>
+            </div>
+
+            <div id="serviceHistory" class="tabcontent table-responsive">
+                <div id="divStatusFailedBootstrapAlert">
+                </div>
+                <div class="Service-History d-flex align-items-center justify-content-between">
+                    <div><h3>Service History</h3></div>
+                    <div><button type="button" class="btn btn-outline-light">Export</button></div>
+                </div>
+                <table class="table" id="serviceHistoryTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                            <p>Service ID <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Service Date <img src="~/images/sort.png"></p>
+                        </th>
+                        <th scope="col">
+                            <p>Customer details <img src="~/images/sort.png"></p>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            @if (item.Status == (int)ServiceRequestStatusEnum.Completed && item.SpId == userId)
+                            {
+                                <tr data-value=@item.ServiceId id=@item.ServiceId>
+                                    <th scope="row" class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="serviceId">@item.ServiceId</span></p>
+                                    </th>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><img src="~/images/calendar2.png" style="margin-bottom: 7px"> 
+                                            <b><span class="serviceDate">@item.Date</span></b><br>
+                                            <img src="~/images/layer-14.png"> <span class="serviceTime">@item.StartTime - @item.EndTime</span></p>
+                                    </td>
+                                    <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                        <p><span class="custName">@item.CustomerName</span><br>
+                                            <img src="~/images/layer-15.png" style="vertical-align: text-bottom;"> 
+                                            <span class="serviceAddress">@item.Address</span></p>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                 
+                    </tbody>
+                  </table>
+            </div>
+
+
+            <div id="BlockCustomer" class="tabcontent">
+                <div class="row favourite-pro-wrapper block-customer" style="overflow: hidden;">
+                    <!----><div class="col-sm-4">
+                      <div class="favourite-pro">
+                        <img src="~/images/default-sp-xlarge.png">
+                        <div class="sp-details">
+                          <span class="name">cust1 cust1</span>
+                        </div>
+                        <!----><a class="btn btn-danger" title="Block">Block</a>
+                        <!---->
+                      </div>
+                    </div><div class="col-sm-4">
+                      <div class="favourite-pro">
+                        <img src="~/images/default-sp-xlarge.png">
+                        <div class="sp-details">
+                          <span class="name">Gaurang Patel</span>
+                        </div>
+                        <!----><a class="btn btn-danger" title="Block">Block</a>
+                        <!---->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-footer">
+                    <div class="page-length">
+                      show
+                       <select class="form-control ng-valid ng-dirty ng-touched">
+                        <!----><option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        </select>
+                  
+                     
+                      <span>Entries </span>
+                      <span>total : 0</span>
+                    </div>
+                  
+                  
+                  
+                    <!----><ul class="pagination">
+                      <li style="cursor: pointer" class="disabled">
+                        <a style="pointer-events: none;"><i class="datatable-icon-prev"></i></a>
+                      </li>
+                      <li style="cursor: pointer" class="disabled">
+                        <a style="pointer-events: none;"><i class="datatable-icon-left"></i></a>
+                      </li>
+                      <!----><li style="cursor: pointer" class="active">
+                        <a>1</a>
+                      </li>
+                      <li style="cursor: pointer" class="disabled">
+                        <a style="pointer-events: none;"><i class="datatable-icon-right"></i></a>
+                      </li>
+                      <li style="cursor: pointer" class="disabled">
+                        <a style="pointer-events: none;"><i class="datatable-icon-skip"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Service Details Modal -->
+  <div class="modal fade" id="spServiceDetails" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">
+            Service Details
+            
+        </h2>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body row">
+            <div class="col">
+                <p>
+                    <b><span id="sDate">31/03/2018</span>&nbsp;
+                        <span id="sTime">12:00-18:00</span></b>
+                </p>
+                <p><b>Duration:</b>&nbsp;<span id="sDuration"></span>&nbsp;Hrs</p>
+                <hr />
+                <p><b>Service Id:</b>&nbsp;<span id="sId">3.5 Hrs</span></p>
+                <p><b>Extra:</b>&nbsp;<span id="sExtra"></span></p>
+                <p><b>Total Payment:</b>&nbsp;<span id="netAmount">87.50</span>&euro;</p>
+                <hr>
+                <p><b>Customer Name:</b>&nbsp;<span id="cName"></span></p>
+                <p><b>Service Address:</b>&nbsp;<span id="sAddress"></span></p>
+                <hr>
+                <p><b>Comments</b></p>
+                <p>I don't have pets at home</p>
+                <div class="modal-footer">
+                    <div id="detailPopUpNew">
+                        <button type="button" class="btn btn-outline-light" id="RescheduleBtn" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                            Reschedule
+                        </button>
+                    </div>
+                    <div id="detailPopUpUpComing">
+                        <button id="CompleteBtn" class="btn btn-outline-light" type="button">Complete</button>
+                        <button type="button" class="btn btn-outline-light" id="CancelServiceBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="newServiceReqMap">
+
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Service Details Modal -->
+
+@* alert popup*@
+
+ <button type="button" class="btn btn-primary d-none" id="acceptAlert" data-bs-toggle="modal" data-bs-target="#alertPopup">
+  alert popup 
+</button>
+
+<div class="modal fade" id="alertPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:500px">
+	<div class="modal-content">
+	  <div class="modal-header">
+
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	  </div>
+	  <div class="modal-body">
+
+			  <h4 class="modal-title" id="NewServiceAcceptStatus">  </h4>
+			  <h5 id="Model_SID"></h5>
+	 
+		  
+		  </div>
+	  
+	</div>
+  </div>
+</div>
+
+
+<!-- Cancel Service Modal -->
+<div class="modal fade" id="cancelServiceModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <input type="hidden" id="cancelRequestId" name="CancelRequestId" />
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cancel Service Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label class="control-label">Why do you want to cancel the service request?</label>
+            <textarea class="form-control ng-untouched ng-pristine ng-invalid" formcontrolname="CancelReason" maxlength="500" rows="3" id="cancelReason"></textarea>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="rounded-pill border-0 outline-0" data-bs-dismiss="modal" id="cancelServiceRequest">
+                Cancel Now
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Cancel Service Modal -->
+
+<!-- IsComplete Service Modal -->
+<div class="modal fade" id="IsCompleteServiceModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <input type="hidden" id="completedRequestId" name="completedRequestId" />
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label class="control-label">Have you completed service?</label>            
+            
+        </div>
+        <div class="modal-footer">
+            <button class="rounded-pill border-0 outline-0" data-bs-dismiss="modal" id="completeServiceRequest">
+                Yeah!
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End IsComplete Service Modal -->

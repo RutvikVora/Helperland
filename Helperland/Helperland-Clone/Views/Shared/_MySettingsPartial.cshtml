@@ -158,49 +158,51 @@
                           </thead>
                           <tbody>
                             <!----><!---->
-                            @foreach (AddressViewModel item in Model.address )
+                            @if ((Model.DashboardViewModel != null) && (Model.DashboardViewModel.Count() > 0))
+                        {
+                            @foreach (AddressViewModel item in Model.address)
                             {
                                 <tr data-value=@item.AddressId id="@item.AddressId">
                                     <td class="text-center">
-                                      <div class="radio">
-                                        <label>
-                                            @if (item.isDefault == true)
-                                            {
-                                                <input name="address-name" type="radio" value="true" checked>
-                                            }
-                                            else
-                                            {
-                                                <input name="address-name" type="radio" value="false">
-                                            }
-                                            <span></span>
-                                        </label>
-                                      </div>
+                                        <div class="radio">
+                                            <label>
+                                                @if (item.isDefault == true)
+                                                {
+                                                    <input name="address-name" type="radio" value="true" checked>
+                                                }
+                                                else
+                                                {
+                                                    <input name="address-name" type="radio" value="false">
+                                                }
+                                                <span></span>
+                                            </label>
+                                        </div>
                                     </td>
                                     <td class="contact">
-                                      <span>
-                                        <b>Address:</b>
-                                        <span class="AddressLine1">@item.AddressLine1</span>&nbsp; 
-                                        <span class="AddressLine2">@item.AddressLine2</span>,&nbsp;
-                                        <span class="PostalCode">@item.PostalCode</span>
-                                        <span class="City">@item.City</span>
-                                      </span>
-                                      <span>
-                                        <b>Phone number:</b>
-                                        <span class="PhoneNumber">@item.Mobile</span>
+                                        <span>
+                                            <b>Address:</b>
+                                            <span class="AddressLine1">@item.AddressLine1</span>&nbsp; 
+                                            <span class="AddressLine2">@item.AddressLine2</span>,&nbsp;
+                                            <span class="PostalCode">@item.PostalCode</span>
+                                            <span class="City">@item.City</span>
+                                        </span>
+                                        <span>
+                                            <b>Phone number:</b>
+                                            <span class="PhoneNumber">@item.Mobile</span>
                                         </span>
                                     </td>
                                     <td class="text-center action-buttons">
-                                      <a class="editAddBtn" data-bs-toggle="modal" data-bs-target="#editAddress">
-                                        <img src="~/images/edit-icon.png" alt="edit-icon">
-                                      </a>
-                                      <a>
-                                        <img src="~/images/delete-icon.png" alt="delete-icon">
-                                      </a>
+                                        <a class="editAddBtn" data-bs-toggle="modal" data-bs-target="#editAddress">
+                                            <img src="~/images/edit-icon.png" alt="edit-icon">
+                                        </a>
+                                        <a>
+                                            <img src="~/images/delete-icon.png" alt="delete-icon">
+                                        </a>
                                     </td>
-                                  </tr>
+                                </tr>
                             }
-                        
-                            <!---->
+                        }
+                        <!---->
                           </tbody>
                         </table>
                       </div>

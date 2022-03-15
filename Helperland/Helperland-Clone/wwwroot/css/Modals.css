@@ -7,8 +7,17 @@
   width: 100%;
 }
 
+#spServiceDetails .modal-dialog {
+    max-width: 750px;
+    width: 100%;
+}
+
 #serviceDetails .modal-content{
   width: 100%;
+}
+
+#spServiceDetails .modal-content {
+    width: 100% !important;
 }
 
 #serviceDetails .modal-title{
@@ -31,12 +40,24 @@
   font-size: 24px;
 }
 
+#RescheduleBtn {
+    background-color: #146371;
+    border-radius: 17px;
+}
+
+#CancelServiceBtn {
+    background-color: #FF6B6B;
+    border-radius: 17px;
+}
+
 /* Reschedule Service Modal */
 #reScheduleModal .modal-content{
   max-width: 400px;
 }
 
-#reScheduleModal .modal-footer button, #cancelServiceModal .modal-footer button {
+#reScheduleModal .modal-footer button,
+#cancelServiceModal .modal-footer button,
+#IsCompleteServiceModal .modal-footer button {
     width: 100%;
     background-color: #1D7A8C;
     padding: 11px 34px;
@@ -84,7 +105,6 @@
 
 #mySettings .tab-content #myDetails form{
   padding: 10px;
-  overflow-x: auto;
 }
 
 #mySettings .tab-content #myDetails .form-group .control-label{
@@ -162,6 +182,59 @@
   color: #fff!important;
   transition: all .3s ease;
   padding: 11px 25px;
+}
+
+#mySettings .form-section {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#mySettings .account-status {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    margin: 0 0 25px;
+}
+
+    #mySettings .account-status span {
+        color: #67b644;
+        font-weight: 400;
+    }
+
+/* SP settings */
+#mySettings .form-group .radio.inline label {
+    font-size: 16px;
+    color: #565656;
+    line-height: 46px;
+}
+
+
+#mySettings .radio input:checked ~ span {
+    background: #1d7a8c;
+    transition: all .2s ease;
+}
+
+#mySettings .columnAvatar .avatar {
+    height: 85px;
+    border-radius: 85px;
+}
+
+#mySettings .columnAvatar .active {
+    border: 3px solid #1D7A8c;
+}
+
+#mySettings .form-section .title {
+    font-size: 18px;
+    color: #565656;
+    line-height: 22px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #dcdcdc;
+    font-weight: 700;
+    margin: 0 0 15px;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* My Addresses */

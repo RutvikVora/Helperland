@@ -10,6 +10,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+     <script>
+        $(document).ready(function() {
+            $('#privacyCheck').click(function() {
+                var checkbox = document.getElementById("privacyCheck");
+                var submitBtn = document.getElementById("Register-Btn");
+                submitBtn.disabled = !(checkbox.checked);
+            });
+        });
+    </script>
 }
 
 @section Style{
@@ -74,11 +84,11 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="policy-checkbox">
-                    <input type="checkbox" class="form-check-input">
+                    <input type="checkbox" class="form-check-input" id="privacyCheck">
                     <label class="psw-rem-label" for="LoginPasswordRemember-chkbox"><p>I have read the <a href="#">privacy policy</a></p></label>
                 </div>
                 
-                <button type="submit" value="Register" class="register rounded-pill border-0 outline-0">Register</button>
+                <button type="submit" id="Register-Btn" value="Register" class="register rounded-pill border-0 outline-0" disabled>Register</button>
 
                 <p class="text-center">
                     Already registered?

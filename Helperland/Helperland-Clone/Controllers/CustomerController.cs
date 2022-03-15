@@ -23,6 +23,7 @@ namespace Helperland_Clone.Controllers
 
         public IActionResult CustomerDashboard()
         {
+            ViewBag.IsCustomerDash = "yes";
             CombinedAllViewModels combine = new CombinedAllViewModels();
             List<CustomerDashboardViewModel> dashboard = new List<CustomerDashboardViewModel>();
             List<AddressViewModel> addresses = new List<AddressViewModel>();
@@ -33,8 +34,9 @@ namespace Helperland_Clone.Controllers
             int Id = Convert.ToInt32(userId);
             int TypeId = Convert.ToInt32(userTypeId);
 
-            string userName = _userService.GetUserName();
-            ViewData["UserName"] = userName;
+            //string userName = _userService.GetUserName();
+            //ViewData["UserName"] = userName;
+
 
             if (TypeId == 3)
             {
@@ -128,33 +130,33 @@ namespace Helperland_Clone.Controllers
             rescheduleService.ServiceStartDate = DateTime.Parse(date);
             rescheduleService.ModifiedDate = DateTime.Now;
 
-            int newServiceId = 999;
-            try
-            {
-                newServiceId = _db.ServiceRequest.Max(x => x.ServiceId);
-            }
-            catch (Exception)
-            {
-                newServiceId = 999;
-            }
+            //int newServiceId = 999;
+            //try
+            //{
+            //    newServiceId = _db.ServiceRequest.Max(x => x.ServiceId);
+            //}
+            //catch (Exception)
+            //{
+            //    newServiceId = 999;
+            //}
 
-            newServiceId++;
-            rescheduleService.ServiceId = newServiceId;
+            //newServiceId++;
+            //rescheduleService.ServiceId = newServiceId;
 
             var result = _db.ServiceRequest.Update(rescheduleService);
             _db.SaveChanges();
 
-            //CustomerDashboardViewModel updatedDetails = new CustomerDashboardViewModel();
-            //updatedDetails.Date = rescheduleService.ServiceStartDate.ToString("dd/MM/yyyy");
-            //updatedDetails.StartTime = rescheduleService.ServiceStartDate.ToString("HH:mm ");
-            //var totaltime = (double)(rescheduleService.ServiceHours + rescheduleService.ExtraHours);
-            //updatedDetails.EndTime = rescheduleService.ServiceStartDate.AddHours(totaltime).ToString("HH:mm ");
+            CustomerDashboardViewModel updatedDetails = new CustomerDashboardViewModel();
+            updatedDetails.Date = rescheduleService.ServiceStartDate.ToString("dd/MM/yyyy");
+            updatedDetails.StartTime = rescheduleService.ServiceStartDate.ToString("HH:mm ");
+            var totaltime = (double)(rescheduleService.ServiceHours + rescheduleService.ExtraHours);
+            updatedDetails.EndTime = rescheduleService.ServiceStartDate.AddHours(totaltime).ToString("HH:mm ");
 
 
             if (result != null)
             {
-                return Ok(Json("true"));
-                //return new JsonResult(updatedDetails);
+                //return Ok(Json("true"));
+                return new JsonResult(updatedDetails);
             }
 
             return Ok(Json("false"));

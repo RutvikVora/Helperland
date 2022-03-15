@@ -19,7 +19,7 @@ namespace Helperland_Clone.ViewModels
         public string email { get; set; }
 
         [Phone]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "*Please Enter valid Mobile number")]
         public string mono { get; set; }
         public string subject { get; set; }
 

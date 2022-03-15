@@ -1,4 +1,5 @@
 ﻿@using Helperland_Clone.ViewModels
+@using System.Security.Claims
 @model CombinedAllViewModels
 @{
     ViewData["Title"] = "Service History";
@@ -18,7 +19,7 @@
 }
  
 <div class="welcoming text-center">
-        <h3><span style="font-weight: normal">Welcome,</span> @ViewData["UserName"] !</h3>
+        <h3><span style="font-weight: normal">Welcome,</span> @User.FindFirst(ClaimTypes.Name).Value !</h3>
     </div>
 
     <section id="admin-panel">
@@ -48,7 +49,7 @@
         <h2 class="modal-title" id="exampleModalLabel">
             Service Details
             <p>
-                <b><span>31/03/2018</span>&nbsp;<span>12:00-18:00</span></b>
+                <b><span id="sDate">31/03/2018</span>&nbsp;<span id="sTime">12:00-18:00</span></b>
             </p>
             <p><b>Duration:</b>&nbsp;<span>3.5 Hrs</span></p>
         </h2>
@@ -56,9 +57,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p><b>Service Id:</b>&nbsp;<span>3.5 Hrs</span></p>
+            <p><b>Service Id:</b>&nbsp;<span id="sId">3.5 Hrs</span></p>
             <p><b>Extra:</b>&nbsp;<span>Inside Cabinates</span></p>
-            <p><b>Net Amount:</b>&nbsp;<span id="netAmt">87.50&euro;</span></p>
+            <p><b>Net Amount:</b>&nbsp;<span id="netAmount">87.50&euro;</span></p>
             <hr>
             <p><b>Service Address:</b>&nbsp;<span>abcd 123,</span></p>
             <p><b>Billing Address:</b>&nbsp;<span>same as above</span></p>
@@ -86,21 +87,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>Select New Date&Time</p>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="input-wrapper">
-                        <input type="date" class="form-control" id="rescheduleDate" placeholder="24/02/2022" />
-                    </div>   
+            <form>
+                <p>Select New Date&Time</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-wrapper">
+                            <input type="date" class="form-control" id="rescheduleDate" placeholder="24/02/2022" />
+                        </div>   
+                    </div>
+                    <div class="col-sm-6">  
+                        <div class="input-wrapper">
+                            <input type="hidden" id="updateRequestId" name="updateRequestId" />
+                            <input type="time" class="form-control" id="rescheduleTime" placeholder="2:03" />
+                        </div>   
+                    </div>
                 </div>
-                <div class="col-sm-6">  
-                    <div class="input-wrapper">
-                        <input type="hidden" id="updateRequestId" name="updateRequestId" />
-                        <input type="time" class="form-control" id="rescheduleTime" placeholder="2:03" />
-                    </div>   
-                </div>
-            </div>
-            
+            </form>
         </div>
         <div class="modal-footer">
             <button class="rounded-pill border-0 outline-0 " data-bs-dismiss="modal" id="rescheduleServiceRequest">
@@ -275,7 +277,7 @@
                   </div>
                 </div>
                 <div class="col-sm-12">
-                  <button class="rounded-pill border-0 outline-0" data-dismiss="msg" type="button" title="To edit" onclick="editAddress()">To edit</button>
+                  <button class="rounded-pill border-0 outline-0" data-dismiss="modal" type="button" title="To edit" onclick="editAddress()">To edit</button>
                 </div>
               </div>
             </form>

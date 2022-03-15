@@ -13,6 +13,16 @@
 }
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function() {
+            $('#privacyCheck').click(function() {
+                var checkbox = document.getElementById("privacyCheck");
+                var submitBtn = document.getElementById("Register-Btn");
+                submitBtn.disabled = !(checkbox.checked);
+            });
+        });
+    </script>
 }
 @section Style{
     <link rel="stylesheet" href="~/css/ServiceProvider.css">
@@ -64,11 +74,11 @@
                             <label for="news-letter"><p>Send me newsletters from Helperland</p></label><br>
                         </div>
                         <div class="col-12" style="margin: 0px">
-                            <input type="checkbox" id="condition" name="condition" value="condition">
+                            <input type="checkbox" id="privacyCheck" name="condition" value="condition">
                             <label for="condition"><p>I accept <a href="#" style="text-decoration: none">terms and conditions</a> & <a href="#" style="text-decoration: none">privacy policy</a></p></label><br>
                         </div>
                         <div class="g-recaptcha" data-sitekey="6Ld9TrYdAAAAALFAIWaxwyCv6F83Fr6iEXi1f7re"></div>
-                        <button type="submit" class="submit rounded-pill border-0 outline-0">
+                        <button type="submit" class="submit rounded-pill border-0 outline-0" id="Register-Btn" disabled>
                             <p style="color: #ffffff">Get Started  <span style="font-size: 20px">&#8594;</span></p>
                         </button>
                     </div>

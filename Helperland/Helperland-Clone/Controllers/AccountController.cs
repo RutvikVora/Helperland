@@ -59,7 +59,10 @@ namespace Helperland_Clone.Controllers
                         };
                        
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        var authProperties = new AuthenticationProperties() { IsPersistent = viewModel.IsPersistant };
+                        var authProperties = new AuthenticationProperties() {
+                            IsPersistent = viewModel.IsPersistant,
+                            ExpiresUtc = DateTime.UtcNow.AddMonths(1)
+                        };
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
 
@@ -67,14 +70,21 @@ namespace Helperland_Clone.Controllers
                     {
                         return RedirectToAction("CustomerDashboard", "Customer");
                     }
+                    else if (user.UserTypeId == 2)
+                    {
+                        return RedirectToAction("SPdashboard", "ServiceProvider");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("InvalidCredentials", "Either username or password is not correct");
+                    //ModelState.AddModelError("InvalidCredentials", "Either username or password is not correct");
+                    TempData["InvalidCreds"] = "Invalid Credentials";
+                    return RedirectToAction("Index", "Home");
                 }
             }
-            TempData["msg"] = "<script>alert('Either username or password is not correct')</script>";
+            TempData["InvalidCreds"] = "Invalid Credentials";
+            //TempData["msg"] = "<script>alert('Either username or password is not correct')</script>";
             return RedirectToAction("Index", "Home");
         }
 
@@ -84,7 +94,8 @@ namespace Helperland_Clone.Controllers
             var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (login != null)
             {
-                TempData["msg"] = "<script>alert('successfully logout')</script>";
+                //TempData["msg"] = "<script>alert('successfully logout')</script>";
+                TempData["SuccessPopUpStatus"] = "Logout";
             }
             return RedirectToAction("Index", "Home");
         }
@@ -158,9 +169,9 @@ namespace Helperland_Clone.Controllers
                     _helperlandContext.User.Add(user1);
                     _helperlandContext.SaveChanges();
 
-                    TempData["SuccessMessage"] = "Register Successfully. You can login after admin can approved your request.";
-
-                    return RedirectToAction();
+                    //TempData["SuccessMessage"] = "Register Successfully. You can login after admin can approved your request.";
+                    //TempData["PopUpStatus"] = "Registered";
+                    return RedirectToAction("BecomeSP", "Account");
                 }
             }
 
@@ -207,6 +218,7 @@ namespace Helperland_Clone.Controllers
                 user.Password = model.Password;
                 _helperlandContext.User.Attach(user);
                 _helperlandContext.SaveChanges();
+                TempData["SuccessPopUpStatus"] = "ChangePassword";
                 return RedirectToAction("index", "Home");
             }
             return BadRequest(error: "Invalid Link");
@@ -234,14 +246,18 @@ namespace Helperland_Clone.Controllers
                 bool result = EmailService.SendMail(email);
                 if (result)
                 {
+                    TempData["SuccessPopUpStatus"] = "PasswordResetLinkSent";
                     return RedirectToAction("index", "Home");
                 }
                 else
                 {
-                    return BadRequest(error: "Internal Server Error");
+                    TempData["Error"] = "Internal Server Error";
+                    return RedirectToAction("index", "Home");
                 }
             }
-            return BadRequest(error: "Email is not registered");
+            TempData["Error"] = "Email is not registered";
+            return RedirectToAction("index", "Home");
+            //return BadRequest(error: "Email is not registered");
         }
 
     }

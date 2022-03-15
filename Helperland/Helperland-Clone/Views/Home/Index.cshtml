@@ -3,6 +3,9 @@
     ViewBag.transparentNavbar = true;
     Layout = "_Layout";
 }
+
+
+
 @Html.Raw(TempData["msg"])
 <!-- banner Section  -->
  <section id="banner">
@@ -225,3 +228,46 @@
 <partial name="_NewsLetterPartial" />
 
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+     <script>
+        $(document).ready(function() {
+            var popupstatus = '@ViewBag.PopUpStatus';
+            if(popupstatus.length > 0) {
+                $('#SuccessModal').modal('show');
+                $('.success-modal span').css('background-color', '#67b644');
+                $('#success-msg-img').prop('src', '/images/correct-white-medium.png');
+                if(popupstatus === "Logout") {
+                    $('#success-msg').text("You have successfully logged out");
+                } else if(popupstatus === "ChangePassword") {
+                    $('#success-msg').text("Password changed successfully");
+                } else if(popupstatus === "PasswordResetLinkSent") {
+                    $('#success-msg').text("Password reset link has been sent");
+                }
+            }
+            var error = '@ViewBag.Error';
+            if(error.length > 0) {
+                $('#SuccessModal').modal('show');
+                $('.success-modal span').css('background-color', '#e82e2e');
+                $('#success-msg-img').prop('src', '/images/close-white.png');
+                $('#success-msg').text(error);
+            }
+            var invalidCredsStatus = '@ViewBag.InvalidCreds';
+            //alert(@ViewBag.InvalidCreds);
+            if(invalidCredsStatus.length > 0) {
+                if(invalidCredsStatus === "Invalid Credentials") {
+                    //$('#ForgotPassword-modal').modal('show');
+                    $('#SuccessModal').modal('show');
+                    $('#success-msg').text("Either username or password is not correct");
+                } 
+                invalidCredsStaus = null;
+            }
+            var loginRequired = '@ViewBag.LoginRequired';
+            if(loginRequired.length > 0) {
+                $('#loginmodal').modal('show');
+            }
+            
+        });
+    </script>
+}

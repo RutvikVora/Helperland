@@ -51,15 +51,24 @@ namespace Helperland_Clone.Controllers
         [HttpPost]
         public ActionResult ScheduleService(ServiceBookingCombinedViewModel model)
         {
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+            User user = _db.User.Where(x => x.UserId == Id).FirstOrDefault();
+
             var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (ModelState.IsValid)
             {
+                if (user != null)
+                {
+                    return Ok(Json("true"));
+                }
 
-                return Ok(Json("true"));
+                return Ok(Json("ClicklogInBtn"));
             }
             else
             {
-
                 return Ok(Json("false"));
             }
         }

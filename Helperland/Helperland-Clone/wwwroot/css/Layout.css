@@ -163,14 +163,22 @@ input[type=password] {
         margin-bottom: 0px;
     }
 
-    .dropdown-menu li > a {
-        font-size: 16px;
-        line-height: 20px;
-        color: #646464;
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-    }
+.positon-relative .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: rgb(249,249,249) !important;
+}
+
+.positon-relative .dropdown-menu > li > a.active {
+    background-color: #fff;
+}
+
+.dropdown-menu li > a {
+    font-size: 16px;
+    line-height: 20px;
+    color: #646464;
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+}
 
 .bell-icon {
     width: 72px;

@@ -26,6 +26,24 @@ namespace Helperland.Controllers
 
         public IActionResult Index()
         {
+            var popupstatus = TempData["SuccessPopUpStatus"];
+            var invalidcreds = TempData["InvalidCreds"];
+            var errormsg = TempData["Error"];
+            if (popupstatus != null)
+            {
+                ViewBag.PopUpStatus = popupstatus;
+                TempData["SuccessPopUpStatus"] = null;
+            }
+            if (invalidcreds != null)
+            {
+                ViewBag.InvalidCreds = invalidcreds;
+                TempData["InvalidCreds"] = null;
+            }
+            if (errormsg != null)
+            {
+                ViewBag.Error = errormsg;
+                TempData["Error"] = null;
+            }
             return View();
         }
 

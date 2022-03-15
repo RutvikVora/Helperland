@@ -68,3 +68,5 @@ C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcore
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginModalPartial.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_CustomerDashBoardPartial.cshtml.g.cs
 C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_MySettingsPartial.cshtml.g.cs
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\yellow\source\repos\Helperland-Clone\Helperland-Clone\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\SPdashboard.cshtml.g.cs

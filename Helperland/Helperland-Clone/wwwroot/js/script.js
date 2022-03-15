@@ -35,6 +35,26 @@ $(document).ready(function () {
         $(this).addClass('active').siblings().removeClass('active')
     });
 
+    //collapse(hide navbar) when scrolling
+    $(document).ready(function () {
+        $(window).scroll(function () {
+
+            $(".navbar .navbar-collapse").removeClass("show");
+            $('.backblack').removeClass("open");
+
+        });
+    });
+
+    //black backgroung on open side navbar
+    $('.navbar-toggler').click(function () {
+        $('.backblack').addClass("open");
+    });
+    $('.backblack').click(function () {
+        $(".navbar .navbar-collapse").removeClass("show");
+        $('.backblack').removeClass("open");
+    });
+
+
     
 });
 

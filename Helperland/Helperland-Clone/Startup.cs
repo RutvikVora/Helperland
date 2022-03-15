@@ -1,9 +1,11 @@
 using Helperland_Clone.Data;
+using Helperland_Clone.Models;
 using Helperland_Clone.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,14 @@ namespace Helperland
         {
             services.AddControllersWithViews();
 
+
+            var connection = "server=LAPTOP-J8T7UO1H; database=Helperland; trusted_connection=true;";
+            services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(connection));
+            //services.AddDbContext<HelperlandContext>();
+
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => false;
@@ -45,11 +55,6 @@ namespace Helperland
                 options.LogoutPath = new PathString("/Account/Logout");
             });
 
-            var connection = "server=LAPTOP-J8T7UO1H; database=Helperland; trusted_connection=true;";
-            services.AddDbContext<HelperlandContext>(options => options.UseSqlServer(connection));
-            //services.AddDbContext<HelperlandContext>();
-
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             services.AddHttpContextAccessor();
 
