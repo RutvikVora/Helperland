@@ -66,9 +66,12 @@ namespace Helperland_Clone.Controllers
 
                             dash.ServiceProvider = sp.FirstName + " " + sp.LastName;
 
-                            //decimal rating = _db.Ratings.Where(x => x.RatingTo == service.ServiceProviderId).Average(x => x.Ratings);
+                            if (_db.Rating.Where(x => x.ServiceRequestId == service.ServiceRequestId).Count() > 0)
+                            {
+                                decimal rating = _db.Rating.Where(x => x.ServiceRequestId == service.ServiceRequestId).Average(x => x.Ratings);
 
-                            //dash.SPRatings = rating;
+                                dash.SPRatings = rating;
+                            }
 
                         }
 
@@ -224,13 +227,14 @@ namespace Helperland_Clone.Controllers
 
                 if (user != null)
                 {
-                    if (user.Password != model.changePsw.OldPassword)
+                    if (!BCrypt.Net.BCrypt.Verify(model.changePsw.Password, user.Password))
                     {
                         return Ok(Json("Incorrect"));
                     }
                     else
                     {
-                        user.Password = model.changePsw.Password;
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(model.changePsw.Password);
+                        //user.Password = model.changePsw.Password;
                         var result = _db.User.Update(user);
                         _db.SaveChanges();
                         if (result != null)
@@ -274,6 +278,37 @@ namespace Helperland_Clone.Controllers
             }
             return Ok(Json("false"));
         }
+
+        public IActionResult RateServiceProvider(Rating rating)
+        {
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+                if (_db.Rating.Where(x => x.ServiceRequestId == rating.ServiceRequestId).Count() > 0)
+                {
+                    return Ok(Json("false"));
+                }
+
+
+                rating.RatingDate = DateTime.Now;
+                ServiceRequest sr = _db.ServiceRequest.FirstOrDefault(x => x.ServiceId == rating.ServiceRequestId);
+                rating.ServiceRequestId = sr.ServiceRequestId;
+                rating.RatingTo = (int)sr.ServiceProviderId;
+                rating.RatingFrom = (int)Id;
+                Console.WriteLine(rating.Ratings);
+
+                var result = _db.Rating.Add(rating);
+                _db.SaveChanges();
+
+                if (result != null)
+                {
+                    return Ok(Json("true"));
+                }
+
+            return Ok(Json("false"));
+        }
+
+
     }
 }
 

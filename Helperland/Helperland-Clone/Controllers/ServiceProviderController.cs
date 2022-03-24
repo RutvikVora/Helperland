@@ -340,7 +340,8 @@ namespace Helperland_Clone.Controllers
                     }
                     else
                     {
-                        user.Password = model.changePsw.Password;
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(model.changePsw.Password);
+                        //user.Password = model.changePsw.Password;
                         var result = _db.User.Update(user);
                         _db.SaveChanges();
                         if (result != null)
@@ -451,12 +452,13 @@ namespace Helperland_Clone.Controllers
 
             User sp = _db.User.Where(_ => _.UserId == Id).FirstOrDefault();
 
-            if (model.Password != sp.Password)
+            if (!BCrypt.Net.BCrypt.Verify(model.Password, sp.Password))
             {
                 return Json(new SingleEntity<UserViewModel> { Result = model, Status = "Error", ErrorMessage = "Your current password is wrong!" });
             }
 
-            sp.Password = model.NewPassword.ToString().Trim();
+            sp.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            //sp.Password = model.NewPassword.ToString().Trim();
 
             var result = _db.User.Update(sp);
             _db.SaveChanges();

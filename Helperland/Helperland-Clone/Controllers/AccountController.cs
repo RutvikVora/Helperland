@@ -46,10 +46,17 @@ namespace Helperland_Clone.Controllers
                 // note : real time we save password with encryption into the database
                 // so to check that viewModel.Password also need to encrypt with same algorithm 
                 // and then that encrypted password value need compare with database password value
-                Models.User user = _helperlandContext.User.Where(_ => _.Email.ToLower() == viewModel.Email.ToLower() && _.Password == viewModel.Password).FirstOrDefault();
-                if (user != null)
+                //Models.User user = _helperlandContext.User.Where(_ => _.Email.ToLower() == viewModel.Email.ToLower() && _.Password == viewModel.Password).FirstOrDefault();
+
+                string password = _helperlandContext.User.FirstOrDefault(x => x.Email.ToLower() == viewModel.Email.ToLower()).Password;
+
+                bool pass = BCrypt.Net.BCrypt.Verify(viewModel.Password, password);
+                if (_helperlandContext.User.Where(x => x.Email == viewModel.Email && pass).Count() > 0)
                 {
-                        _helperlandContext.SaveChanges();
+
+                    var user = _helperlandContext.User.FirstOrDefault(x => x.Email == viewModel.Email);
+
+                    _helperlandContext.SaveChanges();
                         var claims = new List<Claim>
                         {
                              new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.UserId)),
@@ -73,6 +80,10 @@ namespace Helperland_Clone.Controllers
                     else if (user.UserTypeId == 2)
                     {
                         return RedirectToAction("SPdashboard", "ServiceProvider");
+                    }
+                    else if (user.UserTypeId == 1)
+                    {
+                        return RedirectToAction("AdminPanel", "Admin");
                     }
                     return RedirectToAction("Index", "Home");
                 }
@@ -124,7 +135,8 @@ namespace Helperland_Clone.Controllers
                         FirstName = userModel.FirstName,
                         LastName = userModel.LastName,
                         Email = userModel.Email,
-                        Password = userModel.Password,
+                        Password = BCrypt.Net.BCrypt.HashPassword(userModel.Password),
+                        //Password = userModel.Password,
                         Mobile = userModel.Mobile,
                         UserTypeId = (int)UserTypeEnum.Customer,
                         CreatedDate = DateTime.Now,
@@ -158,7 +170,8 @@ namespace Helperland_Clone.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email,
-                        Password = model.Password,
+                        Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                        //Password = model.Password,
                         Mobile = model.Mobile,
                         UserTypeId = (int)UserTypeEnum.ServiceProvider,
                         CreatedDate = DateTime.Now,
@@ -214,8 +227,8 @@ namespace Helperland_Clone.Controllers
             {
                 int userId = Convert.ToInt32(decryptId.Split("%")[1]);
                 var user = _helperlandContext.User.Where(e => e.UserId == userId).FirstOrDefault();
-                //user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
-                user.Password = model.Password;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+                //user.Password = model.Password;
                 _helperlandContext.User.Attach(user);
                 _helperlandContext.SaveChanges();
                 TempData["SuccessPopUpStatus"] = "ChangePassword";

@@ -15,7 +15,6 @@ namespace Helperland_Clone.Controllers
     {
         private readonly HelperlandContext _db;
         private readonly IUserService _userService;
-        private User loggedUser;
 
         public BookServiceController(HelperlandContext db, IUserService userService)
         {

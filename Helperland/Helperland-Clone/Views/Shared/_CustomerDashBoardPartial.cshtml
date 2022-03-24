@@ -89,10 +89,10 @@
             <div id="Service History" class="tabcontent">
                 <div class="Service-History d-flex align-items-center justify-content-between">
                     <div><h3>Service History</h3></div>
-                    <div><button type="button" class="btn btn-outline-light">Export</button></div>
+                    <div><button type="button" id="exportBtn" class="btn btn-outline-light">Export</button></div>
                 </div>
                 <div class="table-responsive-to-card">
-                <table class="table">
+                <table class="table" id="serviceHistoryTable">
                     <thead>
                       <tr>
                         <th scope="col" class="align-middle">
@@ -137,13 +137,29 @@
                                             <img src="~/images/cap.png">
                                         </div>
                                         <div class="d-flex">
-                                            <p style="margin-left: 10px">Lyum Watson<br>
-                                                <img src="~/images/star1.png"> 
-                                                <img src="~/images/star1.png">
-                                                <img src="~/images/star1.png">
-                                                <img src="~/images/star1.png">
-                                                <img src="~/images/star2.png">
-                                                4</p>
+                                            <p style="margin-left: 10px">@request.ServiceProvider<br>
+                                                @if (request.SPRatings != 0)
+                                                {
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        @if (i <= request.SPRatings)
+                                                        {
+                                                            <img src="~/images/star1.png">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/images/star2.png">
+                                                        }
+                                                    }
+                                                     <span class="SPrating">@Math.Round(request.SPRatings, 1)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="SPrating">Ratings Not Given</span>
+                                                }
+                                               
+                                            </p>
+
                                         </div>
                                     }
                                 </td>
@@ -159,7 +175,7 @@
                                         <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
                                     </td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-outline-light" style="background-color: #6DA9B5; border-radius: 20px" data-bs-toggle="modal" data-bs-target="#rateSpModal">Rate SP</button>
+                                        <button type="button" class="btn btn-outline-light rateService" style="background-color: #6DA9B5; border-radius: 20px" data-bs-toggle="modal" data-bs-target="#rateSpModal">Rate SP</button>
                                     </td>
                                 }
                                 @if (request.Status == 3)

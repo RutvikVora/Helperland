@@ -109,6 +109,8 @@ var ServiceID = "";
 $(document).ready(function () {
     $("#newServiceRequests tr,#upcomingServicesTable tr").click(function () {
         //console.log("in fun");
+        $("#sExtra").html("");
+        //console.log($("#sExtra").text());
 
         var data1 = $(this).find(".serviceId");
         var serviceId = $(data1).text();
@@ -143,7 +145,7 @@ $(document).ready(function () {
 
         var data8 = $(this).find(".extraCabinet");
         var extraCabinet = $(data8).text();
-        console.log(extraCabinet);
+        //console.log(extraCabinet);
         if (extraCabinet == "True") {
             $("#sExtra").append("<p>Extra Cabinet</p>");
         }

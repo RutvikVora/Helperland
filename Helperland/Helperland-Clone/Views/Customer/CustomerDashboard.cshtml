@@ -10,12 +10,14 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/Customer.js"></script>
+    <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
 }
 
 @section Style{
     <link rel="stylesheet" href="~/css/Modals.css">
     <link rel="stylesheet" href="~/css/ServiceHistory.css">
     <link rel="stylesheet" href="~/css/responsive.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 }
  
 <div class="welcoming text-center">
@@ -142,22 +144,22 @@
 <div class="modal fade" id="rateSpModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+        <input type="hidden" id="rateRequestId" name="rateRequestId" />
         <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
             <div class="d-flex">
                 <div class="cap">
                     <img src="~/images/cap.png">
-                </div>
-                    <div class="d-flex">
-                        <p style="margin-left: 10px">Lyum Watson<br>
-                        <img src="~/images/star1.png"> 
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star2.png">
-                        4</p>
-                    </div>
+                </div>                    
+                    <p id="ratingDetails">Lyum Watson<br/>
+                    <span class="d-flex" id="spAvgrating">
+                                        
+                     </span>   
+                      </p>  
+                    
+                
             </div>
+            
             Cancel Service Request
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -169,14 +171,22 @@
                         <td>
                             <p>On time arrival</p>
                         </td>
-                        <td>
-                            <div class="starImg-wrapper">
-                                <img src="~/images/star1.png"> 
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star2.png">
-                                    4
+                        <td id="onTimeRate">
+                            <div class="starImg-wrapper d-flex">
+                                <form action="">
+                                      <input class="star star-5" id="onTimeStar-5" type="radio" name="star" value="5" />
+                                      <label class="star star-5" for="onTimeStar-5"></label>
+                                      <input class="star star-4" id="onTimeStar-4" type="radio" name="star" value="4"/>
+                                      <label class="star star-4" for="onTimeStar-4"></label>
+                                      <input class="star star-3" id="onTimeStar-3" type="radio" name="star" value="3"/>
+                                      <label class="star star-3" for="onTimeStar-3"></label> 
+                                      <input class="star star-2" id="onTimeStar-2" type="radio" name="star" value="2"/>
+                                      <label class="star star-2" for="onTimeStar-2"></label>
+                                      <input class="star star-1" id="onTimeStar-1" type="radio" name="star" value="1"/>
+                                      <label class="star star-1" for="onTimeStar-1"></label>
+                                      
+                                    </form>
+                                    <span id="onTimeArrival">0</span>
                             </div>
                         </td>
                     </tr>
@@ -184,14 +194,22 @@
                         <td>
                             <p>Friendly</p>
                         </td>
-                        <td>
-                            <div class="starImg-wrapper">
-                                <img src="~/images/star1.png"> 
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star2.png">
-                                    4
+                        <td id="friendlyRate">
+                            <div class="starImg-wrapper d-flex">
+                                <form action="">
+                                      <input class="star star-5" id="friendlyStar-5" type="radio" name="star" value="5" />
+                                      <label class="star star-5" for="friendlyStar-5"></label>
+                                      <input class="star star-4" id="friendlyStar-4" type="radio" name="star" value="4"/>
+                                      <label class="star star-4" for="friendlyStar-4"></label>
+                                      <input class="star star-3" id="friendlyStar-3" type="radio" name="star" value="3"/>
+                                      <label class="star star-3" for="friendlyStar-3"></label> 
+                                      <input class="star star-2" id="friendlyStar-2" type="radio" name="star" value="2"/>
+                                      <label class="star star-2" for="friendlyStar-2"></label>
+                                      <input class="star star-1" id="friendlyStar-1" type="radio" name="star" value="1"/>
+                                      <label class="star star-1" for="friendlyStar-1"></label>
+                                      
+                                    </form>
+                                    <span id="friendly">0</span>
                             </div>
                         </td>
                     </tr>
@@ -199,24 +217,32 @@
                         <td>
                             <p>Quality of service</p>
                         </td>
-                        <td>
-                            <div class="starImg-wrapper">
-                                <img src="~/images/star1.png"> 
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star2.png">
-                                    4
+                        <td id="qualityOfServiceRate">
+                            <div class="starImg-wrapper d-flex">
+                                <form action="">
+                                      <input class="star star-5" id="qualityStar-5" type="radio" name="star" value="5" />
+                                      <label class="star star-5" for="qualityStar-5"></label>
+                                      <input class="star star-4" id="qualityStar-4" type="radio" name="star" value="4"/>
+                                      <label class="star star-4" for="qualityStar-4"></label>
+                                      <input class="star star-3" id="qualityStar-3" type="radio" name="star" value="3"/>
+                                      <label class="star star-3" for="qualityStar-3"></label> 
+                                      <input class="star star-2" id="qualityStar-2" type="radio" name="star" value="2"/>
+                                      <label class="star star-2" for="qualityStar-2"></label>
+                                      <input class="star star-1" id="qualityStar-1" type="radio" name="star" value="1"/>
+                                      <label class="star star-1" for="qualityStar-1"></label>
+                                      
+                                    </form>
+                                    <span id="qualityOfService">0</span>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>            
             <p>Feedback on service provider<p>
-            <textarea class="form-control ng-untouched ng-pristine ng-invalid" formcontrolname="CancelReason" maxlength="500" rows="3"></textarea>
+            <textarea class="form-control ng-untouched ng-pristine ng-invalid" id="feedbackcomment" formcontrolname="CancelReason" maxlength="500" rows="3"></textarea>
         </div>
         <div class="modal-footer">
-            <button class="rounded-pill border-0 outline-0 ">
+            <button class="rounded-pill border-0 outline-0 " id="confirm_rating" type="button" data-bs-dismiss="modal">
                 <b>Submit</b>
             </button>
         </div>

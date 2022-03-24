@@ -31,8 +31,48 @@ $(document).ready(function () {
 
 });
 
+$(document).ready(function () {
+    $(document).on('click', '#onTimeRate', function () {
+        //console.log("in fun");
+        var rating = $("#onTimeRate input[type='radio'][name='star']:checked").val();
+        $("#onTimeArrival").html(rating);
+        SPRatingChange();
+    });
+
+    $(document).on('click', '#friendlyRate', function () {
+        //console.log("in fun");
+        var rating = $("#friendlyRate input[type='radio'][name='star']:checked").val();
+        $("#friendly").html(rating);
+        SPRatingChange();
+    });
+
+    $(document).on('click', '#qualityOfServiceRate', function () {
+        //console.log("in fun");
+        var rating = $("#qualityOfServiceRate input[type='radio'][name='star']:checked").val();
+        $("#qualityOfService").html(rating);
+        SPRatingChange();
+    });
+});
 
 
+function SPRatingChange() {
+    var onTimeArrival = $("#onTimeArrival").text();
+    var friendly = $("#friendly").text();
+    var qualityOfService = $("#qualityOfService").text();
+    var ratings = parseFloat((parseFloat(onTimeArrival) + parseFloat(friendly) + parseFloat(qualityOfService)) / 3);
+    
+    var AvgRating = ratings.toFixed(2);
+    $('#spAvgrating').text(AvgRating);
+    var finalRatingStars = "";
+    for (let i = 1; i <= Math.round(AvgRating); i++) {
+        finalRatingStars += '<img src="/images/star1.png" alt="Filled Rating">';
+    }
+    for (let i = Math.round(AvgRating) + 1; i <= 5; i++) {
+        finalRatingStars += '<img src="/images/star2.png" alt="Empty Rating">';
+    }
+    finalRatingStars += `<div id="finalRating">${AvgRating}</div>`;
+    $('#spAvgrating').html(finalRatingStars);
+}
 
 //var vTabId = "dashboardTabBtn";
 //var url1 = new URLSearchParams(window.location.search);
@@ -394,3 +434,130 @@ function editAddress() {
         }
     });
 }
+
+$(document).ready(function () {
+    $("#serviceHistoryTable").click(function (e) {
+        serviceRequestId = e.target.closest("tr").getAttribute("data-value");
+        //console.log(serviceRequestId);
+
+        if (e.target.classList.contains("rateService")) {
+            document.getElementById("rateRequestId").value = serviceRequestId;
+            //console.log(document.getElementById("rateRequestId").value);
+        }
+    });
+});
+
+/* rating */
+/*rate submit btn */
+$(document).ready(function () {
+    document.getElementById("confirm_rating").addEventListener("click", function () {
+        var serviceRequestId = document.getElementById("rateRequestId").value;
+        var data = {};
+        data.onTimeArrival = $("#onTimeArrival").text();
+        data.friendly = $("#friendly").text();
+        data.qualityOfService = $("#qualityOfService").text();
+        data.ratings = parseFloat((parseFloat(data.onTimeArrival) + parseFloat(data.friendly) + parseFloat(data.qualityOfService)) / 3);
+        data.comments = $("#feedbackcomment").val();
+        data.serviceRequestId = serviceRequestId;
+        alert(serviceRequestId);
+        $.ajax({
+            type: "POST",
+            url: "/Customer/RateServiceProvider",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: data,
+            success: function (result) {
+                if (result.value == "true") {
+                    $("#myRatingModal").modal("hide");
+                    console.log("submited");
+                }
+                else {
+                    alert("you have alredy given rating ");
+                }
+            },
+            error: function (error) {
+                alert("error");
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(".rateService").click(function () {
+        console.log("in fun");
+
+        var data1 = $(this).closest("tr").find(".SPrating");
+        var rating = $(data1).text();
+
+        if (rating != null && rating != "Ratings Not Given") {
+
+        }
+
+        var data2 = $(this).find(".serviceDate");
+        var serviceDate = $(data2).text();
+        $("#sDate").text(serviceDate);
+
+        var data3 = $(this).find(".serviceTime");
+        var serviceTime = $(data3).text();
+        $("#sTime").text(serviceTime);
+
+        var data4 = $(this).find(".netAmt");
+        var netAmt = $(data4).text();
+        //console.log(netAmt);
+        $("#netAmount").text(netAmt);
+
+        //var data5 = $(this).closest("tr").find(".PhoneNumber");
+        //var phone = $(data5).text();
+        //$("#PhoneNum").val(phone);
+        //var addressLine2 = arr[]
+
+    });
+});
+
+/*get rating from db */
+$(document).on('click', '.rateactive', function () {
+    var data = {};
+    data.ServiceRequestId = parseInt(serviceRequestId);
+    $.ajax({
+        type: 'GET',
+        url: '/customer/GetRating',
+        contenttype: 'application/x-www-form-urlencoded; charset=utf-8',
+        data: data,
+        success: function (result) {
+            if (result == null) {
+                document.getElementById("show_rating_model").className = "d-none";
+            }
+            else {
+                document.getElementById("show_rating_model").className = "show_rating_model";
+                var rating = parseInt(result.averageRating);
+                $('.star-ratingmodel').html("");
+                $('.service-provider-ratingmodel').html(result.serviceProvider);
+                $("#show_rating_model img.spavtar").attr("src", result.userProfilePicture);
+                for (var i = 0; i < 5; i++) {
+                    if (i < rating) {
+                        $('.star-ratingmodel').append('<i class="fa fa-star " style="color:#ECB91C;" ></i>');
+                    }
+                    else {
+                        $('.star-ratingmodel').append('<i class="fa fa-star " style="color:silver;"></i>');
+                    }
+                }
+                $('.star-ratingmodel').append(result.averageRating);
+            }
+        },
+        error: function () {
+            alert('failed to receive the data');
+            console.log('failed ');
+        }
+    });
+});
+
+/* export btn js*/
+$(document).ready(function () {
+    $("#exportBtn").click(function () {
+        console.log("in fun");
+        var type = 'xlsx';
+        var data = document.getElementById('serviceHistoryTable');
+        var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+        XLSX.write(file, { bookType: type, bookSST: true, type: 'base64' });
+        XLSX.writeFile(file, 'ServiceHistory.' + type);
+    });
+});
