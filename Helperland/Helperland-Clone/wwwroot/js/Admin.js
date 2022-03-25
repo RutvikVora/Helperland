@@ -44,7 +44,7 @@ function myFunction() {
 }*/
 
 function showDropdown(clicked_id) {
-    console.log("clicked");
+    //console.log("clicked");
     var id = clicked_id + "_popup";
 
     $("#" + id).toggleClass("show");
@@ -70,7 +70,7 @@ function showDropdown(clicked_id) {
 
 
 $(document).on("click", "#servicereqtab", function () {
-    console.log("45 get adminservicereq()");
+    //console.log("clicked servicereqtab");
     if ($.fn.DataTable.isDataTable("#adminservicereqtable")) {
         $('#adminservicereqtable').DataTable().clear().destroy();
     }
@@ -114,7 +114,7 @@ function getadminservicereq() {
     data.status = document.getElementById("filterStatus").value;
     data.fromDate = document.getElementById("filterFromdate").value;
     data.toDate = document.getElementById("filterTodate").value;
-    console.log(data.serviceId + data.zipCode + data.email + data.customerName + data.serviceProviderName + data.status + data.fromDate + data.toDate);
+    //console.log(data.serviceId + data.zipCode + data.email + data.customerName + data.serviceProviderName + data.status + data.fromDate + data.toDate);
     $.ajax({
         type: 'GET',
         url: '/Admin/GetServiceRequest',
@@ -130,7 +130,7 @@ function getadminservicereq() {
                 $("#adminServicereqTbody").empty();
 
 
-                console.log("in filtered");
+                //console.log("in filtered");
                 for (var i = 0; i < result.length; i++) {
 
                     var varStatus = "";
@@ -147,19 +147,25 @@ function getadminservicereq() {
                         result[i].serviceProvider = "";
                     }
 
-                    for (var j = 1; j < 6; j++) {
+                    if (result[i].averageRating > 0) {
+                        for (var j = 1; j < 6; j++) {
 
-                        if (j <= result[i].averageRating) {
+                            if (j <= result[i].averageRating) {
 
-                            star += '<img src="/images/star1.png"> ';
+                                star += '<img src="/images/star1.png"> ';
+
+                            }
+                            else {
+                                star += '<img src="/images/star2.png"> ';
+                            }
 
                         }
-                        else {
-                            star += '<img src="/images/star2.png"> ';
-                        }
-
+                        star += " " + result[i].averageRating;
                     }
-                    star += " " + result[i].averageRating;
+                    else {
+                        star += "Not Available";
+                    }
+                    
 
 
 
@@ -193,8 +199,8 @@ function getadminservicereq() {
                             //    '                        <p><span>Cancel</span></p>' +
                             //    '                    </a>' +
                             //    '                </li>';
-                            popupfield = ' <p class="AdminEdit" class="AdminEdit" data-value=' + result[i].serviceId + '>Edit & Reschedule </p>   '
-                                + '<p  class="AdminCancel" data-value=' + result[i].serviceId + '> Cancel </p>  ';
+                          
+                            popupfield = '    <p> Refund</p>  ';
                             BtnClass = 'completed-btn';
                             break;
                         case 3: /*completed */
@@ -214,7 +220,8 @@ function getadminservicereq() {
                             //    '                        <p><span>Refund</span></p>' +
                             //    '                    </a>' +
                             //    '                </li>  ';
-                            popupfield = '    <p> Refund</p>  ';
+                            popupfield = ' <p class="AdminEdit" data-value=' + result[i].serviceId + '>Edit & Reschedule </p>   '
+                                + '<p class="AdminCancel" data-value=' + result[i].serviceId + '> Cancel </p>  ';
                             BtnClass = 'pendding-btn';
                             break;
                         default: /*other status */
@@ -288,7 +295,7 @@ function getadminservicereq() {
 
 function adminserviceDatatable() {
 
-    console.log("in fun");
+    //console.log("in fun");
     $("#adminservicereqtable").DataTable({
 
         dom: 't<"admin-pagenumber"<"admin-pagenumber-left"li><"admin-pagenumber-right"p>>',
@@ -325,10 +332,10 @@ var serviceReqId;
 var state;
 $(document).on('click', '.AdminEdit', function () {
 
-    console.log("edit click 241");
+    //console.log("edit click");
     $("#AdminEditModelBtn").click();
     serviceReqId = this.getAttribute("data-value");
-    console.log(serviceReqId);
+    //console.log(serviceReqId);
     FillEditModal();
 });
 
@@ -350,20 +357,20 @@ function FillEditModal() {
 
 
 
-            console.log("suceess" + result.startTime);
-            console.log("suceess" + result.date);
-            console.log("suceess" + result.address.addressLine1);
+            //console.log("suceess" + result.startTime);
+            //console.log("suceess" + result.date);
+            //console.log("suceess" + result.address.addressLine1);
 
 
 
             document.querySelector('option[value="' + result.startTime + '"]').selected = true;
 
             var temp = new Date(result.date);
-            console.log("suceess" + temp);
+            //console.log("suceess" + temp);
 
 
             temp.setDate(temp.getDate() + 1);
-            console.log("suceessful" + temp);
+            //console.log("suceessful" + temp);
             document.getElementById('AdminEditPopupDate').valueAsDate = temp;
 
 
@@ -371,17 +378,17 @@ function FillEditModal() {
 
 
 
-            document.getElementById('AdminEditPopupStreet').value = result.address.addressLine2;
-            document.getElementById('AdminEditPopupHouse').value = result.address.addressLine1;
+            document.getElementById('AdminEditPopupStreet').value = result.address.addressLine1;
+            document.getElementById('AdminEditPopupHouse').value = result.address.addressLine2;
             document.getElementById('AdminEditPopupPostalCode').value = result.address.postalCode;
 
 
-            document.getElementById('AdminEditPopupInvoiceStreet').value = result.address.addressLine2;
-            document.getElementById('AdminEditPopupInvoiceHouse').value = result.address.addressLine1;
+            document.getElementById('AdminEditPopupInvoiceStreet').value = result.address.addressLine1;
+            document.getElementById('AdminEditPopupInvoiceHouse').value = result.address.addressLine2;
             document.getElementById('AdminEditPopupInvoicePostalCode').value = result.address.postalCode;
 
-            document.getElementById('AdminEditPopupCity').value = result.address.City;
-            document.getElementById('AdminEditPopupInvoiceCity').value = result.address.City;
+            document.getElementById('AdminEditPopupCity').value = result.address.city;
+            document.getElementById('AdminEditPopupInvoiceCity').value = result.address.city;
 
             
 
@@ -601,18 +608,20 @@ function getAdminUserData() {
                 var userTypeTemp = "Customer";
 
                 if (result[i].userTypeId == 1) {
-                    userTypeTemp = "ServiceProvider";
+                    userTypeTemp = "Admin";
                 }
                 else if (result[i].userTypeId == 2) {
-                    userTypeTemp = "Admin";
+                    userTypeTemp = "Service Provider";
                 }
 
                 //for active disactive
 
                 var statusTemp = "Active";
+                var BtnClass = "active-btn";
 
                 if (result[i].isActive == false) {
-                    statusTemp = "InActive";
+                    statusTemp = "Inactive";
+                    var BtnClass = "inactive-btn";
                 }
 
                 //popup
@@ -623,38 +632,38 @@ function getAdminUserData() {
 
                 if (result[i].userTypeId != 1) {
                     if (result[i].isActive == true) {
-                        popup = '<p>Deactive</p>';
+                        popupfield = '<p>Deactive</p>';
                     }
                     else {
 
-                        popup = '<p>Activate</p>';
+                        popupfield = '<p>Activate</p>';
 
                     }
                 }
                 else if (result[i].userTypeId == 1) {
                     if (result[i].isApproved == false) {
-                        popup = '<p>Approve</p>'
+                        popupfield = '<p>Approve</p>'
                     }
                     else {
                         if (result[i].isActive == true) {
-                            popup = '<p>Deactive</p>';
+                            popupfield = '<p>Deactive</p>';
                         }
                         else {
 
-                            popup = '<p>Activate</p>';
+                            popupfield = '<p>Activate</p>';
 
                         }
                     }
 
                 }
-
+                //console.log(result[i].firstName);
                 var html = ' <tr>' +
                     '                            <td data-label="User Name">' +
-                    '                                <p>' + result[i].firstName + '</p>' +
+                    '                                <p>' + result[i].firstName + " " + result[i].lastName + '</p>' +
                     '' +
                     '                            </td>' +
                     '                            <td data-label="Date of Registration">' +
-                    '                                <p> <img class="me-2" src="/image/calendar2.png" alt="calender">' + createdDateTemp + '</p>' +
+                    '                                <p> <img class="me-2" src="/images/calendar2.png" alt="calender">' + createdDateTemp + '</p>' +
                     '                            </td>' +
                     '                            <td data-label="User Type">' +
                     '                                <p>' + userTypeTemp + '</p>' +
@@ -667,13 +676,13 @@ function getAdminUserData() {
                     '                                <p>' + result[i].zipCode + '</p>' +
                     '                            </td>' +
                     '                            <td data-label="Status">' +
-                    '                                <button class="' + statusTemp + '">' + statusTemp + '</button>' +
+                    '                                <button class= "btn btn-outline-light ' + BtnClass + '">' + statusTemp + '</button>' +
                     '                                </td>' +
                     '                            <td data-label="Actions">' + '<div class="dropdown">' +
                     '                                <button class="btn dropbtn" onclick="showDropdown(this.id)"' +
                     '                                    id="' + result[i].userId + '">' +
                     '                                    <img src="/images/group-38.png" alt="...">' + '</button>' +
-                    '                                        <div class="dropdown-content" id="' + result[i].userId + '_popup">' + popupfield +
+                    '                                        <div class="dropdown-content popuptext userpopup" data-value="' + result[i].userId +'" id="' + result[i].userId + '_popup">' + popupfield +
                     '                                        </div>' + '</div>' +
                     '                                </td>' +
                     '                        </tr>';
@@ -681,14 +690,14 @@ function getAdminUserData() {
 
 
 
-
+                //console.log(html);
                 $("#AdminUserTbody").append(html);
             }
 
 
 
 
-            adminUserDatatable()
+            adminUserDatatable();
 
 
 
@@ -739,7 +748,7 @@ $(document).on("click", ".popuptext.userpopup", function () {
 
 
 function adminUserDatatable() {
-    console.log("in dataTable");
+    //console.log("in dataTable");
 
     $("#adminUserTable").DataTable({
 
@@ -771,5 +780,6 @@ function adminUserDatatable() {
     });
 
 }
+
 
 

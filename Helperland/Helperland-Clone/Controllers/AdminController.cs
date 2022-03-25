@@ -1,6 +1,7 @@
 ﻿using Helperland_Clone.Data;
 using Helperland_Clone.Enums;
 using Helperland_Clone.Models;
+using Helperland_Clone.Services;
 using Helperland_Clone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -185,6 +186,7 @@ namespace Helperland_Clone.Controllers
 
         }
 
+        [HttpGet]
         public JsonResult GetEditModalDetails(ServiceRequest Id)
         {
 
@@ -241,8 +243,7 @@ namespace Helperland_Clone.Controllers
 
             if (result1 != null && result2 != null)
             {
-
-                //sendMail(serviceRequest);
+                sendMail(serviceRequest, "reschedule");
                 return Json("true");
             }
             else
@@ -267,51 +268,7 @@ namespace Helperland_Clone.Controllers
             _db.SaveChanges();
             if (result != null)
             {
-
-                //await Task.Run(() =>
-                //{
-
-                //    if (cancelService.ServiceProviderId != null)
-                //    {
-
-                //        User temp = _db.Users.FirstOrDefault(x => x.UserId == cancelService.ServiceProviderId);
-
-
-                //        MimeMessage message = new MimeMessage();
-
-                //        MailboxAddress from = new MailboxAddress("Helperland",
-                //        "darshitkavathiya34@gmail.com");
-                //        message.From.Add(from);
-
-                //        MailboxAddress to = new MailboxAddress(temp.FirstName, temp.Email);
-                //        message.To.Add(to);
-
-                //        message.Subject = "Service Request cancelled ";
-
-                //        BodyBuilder bodyBuilder = new BodyBuilder();
-                //        bodyBuilder.HtmlBody = "<h1>Service request with Id=" + cancelService.ServiceRequestId + ", has been cancled </ h1 > ";
-
-
-
-                //        message.Body = bodyBuilder.ToMessageBody();
-
-                //        SmtpClient client = new SmtpClient();
-                //        client.Connect("smtp.gmail.com", 587, false);
-                //    mailto: client.Authenticate("darshitkavathiya34@gmail.com", "Dar@1234");
-                //        client.Send(message);
-                //        client.Disconnect(true);
-                //        client.Dispose();
-
-                //    }
-
-
-
-
-                //});
-
-
-
-
+                sendMail(cancelService, "cancel");
                 return Ok(Json("true"));
             }
 
@@ -469,7 +426,49 @@ namespace Helperland_Clone.Controllers
         }
 
 
-        
+        public async Task sendMail(ServiceRequest req, string purpose)
+        {
+            List<User> users = new List<User>();
+
+            users.Add(_db.User.FirstOrDefault(x => x.UserId == req.UserId));
+
+            if (req.Status != 1)
+            {
+                users.Add(_db.User.FirstOrDefault(x => x.UserId == req.ServiceProviderId));
+            }
+
+
+            await Task.Run(() =>
+            {
+                foreach (var temp in users)
+                {
+                    if (purpose == "reschedule")
+                    {
+                        var email = new ResetPswViewModel()
+                        {
+                            To = temp.Email,
+                            Subject = "Rescheduled Service",
+                            IsHTML = true,  
+                            Body = $"<h1>A service with ID number " + req.ServiceRequestId + " has been updated</h1><br>" + "<h2>With time : " + req.ServiceStartDate + "</h2>",
+                        };
+                        EmailService.SendMail(email);
+                    }
+                    else if(purpose == "cancel")
+                    {
+                        var email = new ResetPswViewModel()
+                        {
+                            To = temp.Email,
+                            Subject = "Service Canceled",
+                            IsHTML = true,
+                            Body = $"<h1>Service request with Id=" + req.ServiceRequestId + ", has been canceled </ h1 > ",
+                        };
+                        EmailService.SendMail(email);
+                    }
+                   
+                }
+            });
+            
+        }
 
 
 
