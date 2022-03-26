@@ -309,6 +309,117 @@ namespace Helperland_Clone.Controllers
         }
 
 
+        public JsonResult getSP()
+        {
+
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+            List<int?> SPID = _db.ServiceRequest.Where(x => x.UserId == Id && x.Status == (int)ServiceRequestStatusEnum.Completed).Select(u => u.ServiceProviderId).ToList();
+
+
+            var SPSetId = new HashSet<int?>(SPID);
+
+            List<FavoriteAndBlockedViewModel> blockData = new List<FavoriteAndBlockedViewModel>();
+
+            foreach (int temp in SPSetId)
+            {
+                User user = _db.User.FirstOrDefault(x => x.UserId == temp);
+                FavoriteAndBlocked FB = _db.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == Id && x.TargetUserId == temp);
+
+                FavoriteAndBlockedViewModel blockCustomerData = new FavoriteAndBlockedViewModel();
+                blockCustomerData.user = user;
+                blockCustomerData.favoriteAndBlocked = FB;
+
+                blockData.Add(blockCustomerData);
+
+
+
+            }
+
+
+
+            return Json(blockData);
+
+
+        }
+
+
+        public string BlockUnblockFavUnFavSp(FavoriteAndBlockedViewModel temp)
+        {
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+            FavoriteAndBlocked obj = _db.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == Id && x.TargetUserId == temp.Id);
+
+            if (temp.Req == "B")
+            {
+
+                if (obj == null)
+                {
+                    obj = new FavoriteAndBlocked();
+                    obj.UserId = (int)Id;
+                    obj.TargetUserId = temp.Id;
+                    obj.IsBlocked = true;
+
+                }
+                else
+                {
+                    obj.IsBlocked = true;
+                }
+
+            }
+            else if (temp.Req == "U")
+            {
+                obj.IsBlocked = false;
+
+            }
+
+
+
+            if (temp.Req == "F")
+            {
+
+                if (obj == null)
+                {
+                    obj = new FavoriteAndBlocked();
+                    obj.UserId = (int)Id;
+                    obj.TargetUserId = temp.Id;
+                    obj.IsFavorite = true;
+
+                }
+                else
+                {
+                    obj.IsFavorite = true;
+                }
+
+            }
+            else if (temp.Req == "N")
+            {
+                obj.IsFavorite = false;
+
+            }
+
+
+
+
+            var result = _db.FavoriteAndBlocked.Update(obj);
+            _db.SaveChanges();
+            if (result != null)
+            {
+                return "Suceess";
+            }
+            else
+            {
+                return "error";
+            }
+
+
+        }
+
+
+
+
     }
 }
 

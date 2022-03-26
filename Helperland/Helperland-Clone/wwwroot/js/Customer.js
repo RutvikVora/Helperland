@@ -561,3 +561,75 @@ $(document).ready(function () {
         XLSX.writeFile(file, 'ServiceHistory.' + type);
     });
 });
+
+
+/* Favourite Pros */
+
+$(document).on('click', '#favouriteProsTab', function () {
+    $.ajax({
+        type: "GET", url: '/Customer/getSP',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function (result) {
+            $('#favouriteProsGrid').empty();
+            for (var i = 0; i < result.length; i++) {
+                var unblock = "d-none";
+                var block = ""
+
+                if (result[i].favoriteAndBlocked != null) {
+                    var status = result[i].favoriteAndBlocked.isBlocked;
+                    if (status == true) {
+                        block = "d-none";
+                        unblock = "";
+                    }
+                }
+                var fav = "";
+                var unfav = "d-none"
+                if (result[i].favoriteAndBlocked != null) {
+                    var status = result[i].favoriteAndBlocked.isFavorite;
+                    if (status == true) {
+                        fav = "d-none";
+                        unfav = "";
+                    }
+                }
+                $('#favouriteProsGrid').append('<div  class="col-4 blockCard ">' + '<div>' +
+                    '<img class= "cap-icon" src = "/images/cap.png " alt = ".." >' + '</div >' + '<br/>' +
+                    '<h5> ' + result[i].user.firstName + ' ' + result[i].user.lastName + '</h5>' + '<br/>' +
+                    '<button id="' + result[i].user.userId + 'F" class="' + fav + ' spFBBtn fav-sp-btn">Favourite</button>' +
+                    '<button id="' + result[i].user.userId + 'N" class="' + unfav + ' spFBBtn fav-sp-btn">Unfavourite</button>' +
+                    '<button id="' + result[i].user.userId + 'B" class="' + block + ' spFBBtn block-sp-btn">Block</button>' +
+                    '<button id="' + result[i].user.userId + 'U" class="' + unblock + ' spFBBtn block-sp-btn">Un-Block</button>' +
+                    '</div >')
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
+
+$(document).on('click', '.spFBBtn', function () {
+    var combine = this.id;
+    var req = combine.substring(combine.length - 1, combine.length);
+    var Id = combine.substring(0, combine.length - 1);
+    var data = {};
+    data.Id = parseInt(Id);
+    data.Req = req;
+    $.ajax({
+        type: 'GET',
+        url: '/Customer/BlockUnblockFavUnFavSp',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        data: data, success: function (result) {
+            document.getElementById("favouriteProsTab").click();
+            document.getElementById("acceptAlert").click();
+            $('#NewServiceAcceptStatus').text(result).css("color", "Grey");
+            window.setTimeout(function () {
+                $("#alertPopup").modal("hide");
+            },
+                7000);
+        }, error: function () {
+            alert("error");
+        }
+    });
+});
+
+

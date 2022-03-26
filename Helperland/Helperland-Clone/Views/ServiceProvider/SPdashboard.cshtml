@@ -35,8 +35,8 @@
                 <button class="tablinks" onclick="openTab(event, 'Upcoming Services')" id="defaultOpen">Upcoming Services</button><hr>
                 <button class="tablinks" onclick="openTab(event, 'Upcoming Services')">Service Schedule</button><hr>
                 <button class="tablinks" onclick="openTab(event, 'serviceHistory')">Service History</button><hr>
-                <button class="tablinks" onclick="openTab(event, 'Upcoming Services')">My Ratings</button><hr>
-                <button class="tablinks" onclick="openTab(event, 'BlockCustomer')">Block Customer</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'MyRating')" id="MyRatingTab">My Ratings</button><hr>
+                <button class="tablinks" onclick="openTab(event, 'BlockCustomer')" id="BlockCustomerTab">Block Customer</button><hr>
             </div>
             
             <div id="mySettings" class="tabcontent">
@@ -499,8 +499,15 @@
             </div>
 
 
+            <div id="MyRating" class="tabcontent">
+                <div id="RatingList">
+       
+
+                </div>
+            </div>
+
             <div id="BlockCustomer" class="tabcontent">
-                <div class="row favourite-pro-wrapper block-customer" style="overflow: hidden;">
+                <div class="row favourite-pro-wrapper block-customer" id="customerGrid" style="overflow: hidden;">
                     <!----><div class="col-sm-4">
                       <div class="favourite-pro">
                         <img src="~/images/default-sp-xlarge.png">
@@ -521,41 +528,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="table-footer">
-                    <div class="page-length">
-                      show
-                       <select class="form-control ng-valid ng-dirty ng-touched">
-                        <!----><option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        </select>
                   
-                     
-                      <span>Entries </span>
-                      <span>total : 0</span>
-                    </div>
-                  
-                  
-                  
-                    <!----><ul class="pagination">
-                      <li style="cursor: pointer" class="disabled">
-                        <a style="pointer-events: none;"><i class="datatable-icon-prev"></i></a>
-                      </li>
-                      <li style="cursor: pointer" class="disabled">
-                        <a style="pointer-events: none;"><i class="datatable-icon-left"></i></a>
-                      </li>
-                      <!----><li style="cursor: pointer" class="active">
-                        <a>1</a>
-                      </li>
-                      <li style="cursor: pointer" class="disabled">
-                        <a style="pointer-events: none;"><i class="datatable-icon-right"></i></a>
-                      </li>
-                      <li style="cursor: pointer" class="disabled">
-                        <a style="pointer-events: none;"><i class="datatable-icon-skip"></i></a>
-                      </li>
-                    </ul>
-                  </div>
             </div>
         </div>
     </section>

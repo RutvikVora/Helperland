@@ -739,3 +739,106 @@ $(document).ready(function () {
         });
     });
 });
+
+
+
+/* rating */
+$(document).on('click', '#MyRatingTab', function () {
+    $.ajax({
+        type: 'GET',
+        url: '/ServiceProvider/getRatingData',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        success: function (result) {
+            $('#RatingList').empty();
+            for (var i = 0; i < result.length; i++) {
+                var star = "";
+                for (var j = 1; j < 6; j++) {
+                    if (j <= result[i].rating) {
+                        star += '<img src="/images/star1.png" alt="">';
+                    }
+                    else {
+                        star += '<img src="/images/star2.png" alt="">'
+                    }                                       
+                }
+                star += '<span> &nbsp;' + result[i].remarks + '</span>'
+                $('#RatingList').append('<div class="row  rating-row"><div class="row">' +
+                     '<div class= "col-3" > ' +
+                     '<p>' + result[i].serviceRequestId + '</p>' +
+                     '<p>' + result[i].customerName + '</p></div><div class="col-5">' +
+                     '<p> <span><img src="/images/calendar2.png" alt=""></span> <span class="upcoming-date"><b>' + result[i].serviceDate + '</b></span></p>' +
+                     ' <p><span><img src="/images/layer-14.png" alt=""></span><span>' + result[i].startTime + ' - ' + result[i].endTime + '</span></p></div>' +
+                     '<div class="col-4"><p>Rating</p>' +
+                     '<div class="star-ratingmodel text-start">' + star + '</div></div></div><hr />' +
+                     '<div class="row"><p><b>Customer Comments</b></p><p>' + result[i].comments + '</p></div></div>'
+                );
+
+
+                                        
+            }
+        },
+        error: function () {
+            alert("Error");
+        }
+    });
+});
+
+
+/* Block customer */
+$(document).on('click', '#BlockCustomerTab', function () {
+    $.ajax({
+        type: "GET",
+        url: '/ServiceProvider/getCustomer',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function (result) {
+            $('#customerGrid').empty();
+            for (var i = 0; i < result.length; i++) {
+                var unblock = "d-none";
+                var block = "";
+                if (result[i].favoriteAndBlocked != null) {
+
+                    var status = result[i].favoriteAndBlocked.isBlocked;
+                    if (status == true) {
+                        block = "d-none";
+                        unblock = "";
+
+                    }
+                }
+                $('#customerGrid').append('<div class="col-sm-4">' + '<div class="favourite-pro">' +
+                    '<img class= "cap-icon" src = "/images/cap.png " alt = ".." >' +
+                    '<div class="sp-details"> <span class="name"> ' + result[i].user.firstName +' ' + result[i].user.lastName + '  </span>' + '</div>' +
+                    '<button id="' + result[i].user.userId + 'B" class="' + block + ' btn btn-danger block-cust-btn">Block</button>' +
+                    '<button id="' + result[i].user.userId + 'U" class="' + unblock + ' btn btn-danger block-cust-btn block-cust-btn">Un-Block</button>' +
+                    '</div > </div>' );
+            }
+        }, error: function (error) {
+            console.log(error);
+        }
+    });
+});
+
+$(document).on('click', '.block-cust-btn', function () {
+    var combine = this.id;
+    var req = combine.substring(combine.length - 1, combine.length);
+    var Id = combine.substring(0, combine.length - 1);
+    var data = {};
+    data.Id = parseInt(Id);
+    data.Req = req;
+    $.ajax({
+        type: 'GET',
+        url: '/ServiceProvider/BlockUnblockCustomer',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        data: data,
+        success: function (result) {
+            document.getElementById("BlockCustomerTab").click();
+            document.getElementById("acceptAlert").click();
+            $('#NewServiceAcceptStatus').text(result).css("color", "Grey");
+            window.setTimeout(function () {
+                $("#alertPopup").modal("hide");
+            },
+                7000);
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+});

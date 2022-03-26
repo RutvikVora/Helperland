@@ -465,5 +465,158 @@ namespace Helperland_Clone.Controllers
 
             return Json(new SingleEntity<UserViewModel> { Result = model, Status = "ok", ErrorMessage = null });
         }
+
+
+        public JsonResult getRatingData()
+        {
+
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+            var ratingList = _db.Rating.Where(x => x.RatingTo == Id).ToList();
+
+            List<RatingViewModel> ratingsList = new List<RatingViewModel>();
+
+            foreach (var temp in ratingList)
+            {
+
+                RatingViewModel ratings = new RatingViewModel();
+
+                User customer = _db.User.FirstOrDefault(x => x.UserId == temp.RatingFrom);
+
+                string customerName = customer.FirstName + " " + customer.LastName;
+
+
+                ServiceRequest req = _db.ServiceRequest.FirstOrDefault(x => x.ServiceRequestId == temp.ServiceRequestId);
+
+
+                ratings.CustomerName = customerName;
+                ratings.ServiceRequestId = temp.ServiceRequestId;
+                ratings.ServiceDate = req.ServiceStartDate.ToString("dd/MM/yyyy");
+                ratings.StartTime = req.ServiceStartDate.AddHours(0).ToString("HH':'mm ");
+                var totaltime = (double)(req.ServiceHours + req.ExtraHours);
+                ratings.EndTime = req.ServiceStartDate.AddHours(totaltime).ToString("HH':'mm ");
+                ratings.Rating = (double)temp.Ratings;
+                ratings.Comments = temp.Comments;
+
+
+
+                if (ratings.Rating > 4)
+                {
+                    ratings.Remarks = "Excellent";
+                }
+                else if (ratings.Rating > 3)
+                {
+                    ratings.Remarks = "Very Good";
+                }
+                else if (ratings.Rating > 2)
+                {
+                    ratings.Remarks = "Good"; ;
+                }
+                else if (ratings.Rating > 1)
+                {
+                    ratings.Remarks = "Average";
+                }
+                else if (ratings.Rating >= 0)
+                {
+                    ratings.Remarks = "Poor";
+                }
+
+                ratingsList.Add(ratings);
+
+
+            }
+
+
+
+            return Json(ratingsList);
+
+        }
+
+        public JsonResult getCustomer()
+        {
+
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+
+            List<int> customerID = _db.ServiceRequest.Where(x => x.ServiceProviderId == Id && x.Status != 1).Select(u => u.UserId).ToList();
+
+
+            var CustomerSetId = new HashSet<int>(customerID);
+
+            List<FavoriteAndBlockedViewModel> blockData = new List<FavoriteAndBlockedViewModel>();
+
+            foreach (int temp in CustomerSetId)
+            {
+                User user = _db.User.FirstOrDefault(x => x.UserId == temp);
+                FavoriteAndBlocked FB = _db.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == Id && x.TargetUserId == temp);
+
+                FavoriteAndBlockedViewModel blockCustomerData = new FavoriteAndBlockedViewModel();
+                blockCustomerData.user = user;
+                blockCustomerData.favoriteAndBlocked = FB;
+
+                blockData.Add(blockCustomerData);
+
+
+
+            }
+
+
+
+            return Json(blockData);
+
+
+        }
+
+
+        public string BlockUnblockCustomer(FavoriteAndBlockedViewModel temp)
+        {
+            var userId = _userService.GetUserId();
+            int Id = Convert.ToInt32(userId);
+
+            FavoriteAndBlocked obj = _db.FavoriteAndBlocked.FirstOrDefault(x => x.UserId == Id && x.TargetUserId == temp.Id);
+
+            if (temp.Req == "B")
+            {
+
+                if (obj == null)
+                {
+                    obj = new FavoriteAndBlocked();
+                    obj.UserId = (int)Id;
+                    obj.TargetUserId = temp.Id;
+                    obj.IsBlocked = true;
+
+                }
+                else
+                {
+                    obj.IsBlocked = true;
+                }
+
+            }
+            else
+            {
+                obj.IsBlocked = false;
+
+            }
+
+
+
+
+
+            var result = _db.FavoriteAndBlocked.Update(obj);
+            _db.SaveChanges();
+            if (result != null)
+            {
+                return "Suceess";
+            }
+            else
+            {
+                return "error";
+            }
+
+
+        }
+
     }
 }

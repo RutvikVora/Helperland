@@ -173,6 +173,8 @@
 }
 
 #BlockCustomer .favourite-pro>img {
+    width: 50px;
+    height: 50px;
   border-radius: 500px;
   border: 1px solid #acacac;
   margin-bottom: 20px;
@@ -342,3 +344,14 @@
   background-image: none !important;
   background-size: 12px;
 }*/
+
+
+#BlockCustomer .cap-icon {
+    width: 50px;
+    height: 50px;
+    padding: 12px 7px;
+    border: solid 1px #aaa;
+    background-color: var(--white);
+    border-radius: 50%;
+    float: none;
+}
