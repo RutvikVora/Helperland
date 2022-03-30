@@ -208,21 +208,37 @@
                                                         <p><span>My settings</span></p>
                                                     </a>
                                                 </li>
-                                            }                                   
-                                    }
-                                    else if(User.FindFirst(ClaimTypes.GivenName).Value == "2")
-                                    {
-                                        <li>
-                                            <a class="dropdown-item" title="To overview" asp-controller="ServiceProvider" asp-action="SPdashboard">
-                                              <p><span>To overview</span></p>
-                                            </a>
-                                        </li>                            
-                                        <li>
-                                            <a class="dropdown-item" title="My settings" href="#" onclick="openTab(event, 'mySettings')">
-                                                <p><span>My settings</span></p>
-                                            </a>
-                                        </li>
-                                    }
+                                            }
+                                        }
+                                        else if(User.FindFirst(ClaimTypes.GivenName).Value == "2")
+                                        {
+                                            @if (ViewBag.IsSpDash == "yes")
+                                            {
+                                                <li>
+                                                    <a class="dropdown-item" title="To overview" onclick="openTab(event, 'newServiceRequests')">
+                                                        <p><span>To overview</span></p>
+                                                    </a>
+                                                </li> 
+                                                <li>
+                                                    <a class="dropdown-item" title="My settings" href="#" onclick="openTab(event, 'mySettings')">
+                                                        <p><span>My settings</span></p>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a class="dropdown-item" title="To overview" asp-controller="ServiceProvider" asp-action="SPdashboard">
+                                                        <p><span>To overview</span></p>
+                                                    </a>
+                                                </li>                            
+                                                <li>
+                                                    <a class="dropdown-item" title="My settings" asp-controller="ServiceProvider" asp-action="SPdashboard">
+                                                        <p><span>My settings</span></p>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
                                      <li>
                                          <a class="dropdown-item" style="cursor: pointer;" title="log out" asp-action="Logout" asp-controller="Account">
                                             <p><span>log out</span></p>
@@ -335,6 +351,6 @@
             <button id="btn-privacy-policy" class="me-2">OK</button>
         </div>
     </footer>
-
+    
 </body>
 </html>

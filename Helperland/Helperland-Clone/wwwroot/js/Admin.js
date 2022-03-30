@@ -81,7 +81,7 @@ $(document).on("click", "#servicereqtab", function () {
 
 
 $(document).on("click", "#filterSubmit", function () {
-    console.log("83 submit get adminservicereq()");
+    //console.log("84 submit get adminservicereq()");
     if ($.fn.DataTable.isDataTable("#adminservicereqtable")) {
         $('#adminservicereqtable').DataTable().clear().destroy();
     }
@@ -90,7 +90,8 @@ $(document).on("click", "#filterSubmit", function () {
 });
 
 $(document).on("click", "#filterclear", function () {
-    console.log("83 submit get adminservicereq()");
+    //console.log("93 submit get adminservicereq()");
+    $('#reqFilterForm').trigger("reset");
     if ($.fn.DataTable.isDataTable("#adminservicereqtable")) {
         $('#adminservicereqtable').DataTable().clear().destroy();
     }
@@ -453,19 +454,47 @@ $(document).on('click', '#AdminEditModalUpdateBtn', function () {
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             data: data,
             success: function (result) {
+                if (result == "true") {
 
-                $("#AdminEditPopupAlert").removeClass("alert-danger d-none").addClass("alert-success").text("Service Request Edit Suceessful.");
-
-
-
-                popup.scrollTop = 0;
+                    $("#AdminEditPopupAlert").removeClass("alert-danger d-none").addClass("alert-success").text("Service Request Edit Suceessful.");
 
 
-                window.setTimeout(function () {
-                    $("#AdminEditModalClose").click();
-                    $("#filterSubmit").click();
-                }, 3000);
 
+                    popup.scrollTop = 0;
+
+
+                    window.setTimeout(function () {
+                        $("#AdminEditModalClose").click();
+                        $("#filterSubmit").click();
+                    }, 3000);
+                }
+                else if (result == "false") {
+                    $("#AdminEditPopupAlert").removeClass("alert-success d-none").addClass("alert-danger").text("Service Request Edit Failed.");
+
+
+
+                    popup.scrollTop = 0;
+
+
+                    window.setTimeout(function () {
+                        $("#AdminEditModalClose").click();
+                        $("#filterSubmit").click();
+                    }, 3000);
+                }
+                else if (result == "Conflict") {
+                    $("#AdminEditPopupAlert").removeClass("alert-success d-none").addClass("alert-danger").text("Time is Conflicting With another Service request");
+
+
+
+                    popup.scrollTop = 0;
+
+
+                    window.setTimeout(function () {
+                        $("#AdminEditModalClose").click();
+                        $("#filterSubmit").click();
+                    }, 3000);
+
+                }
             },
             error: function () {
                 alert("error");
@@ -479,7 +508,7 @@ $(document).on('click', '#AdminEditModalUpdateBtn', function () {
 
 $(document).on('click', '.AdminCancel', function () {
 
-    console.log("cancel click 241");
+    //console.log("cancel click");
 
     serviceReqId = this.getAttribute("data-value");
 
@@ -521,7 +550,7 @@ $(document).on('click', '.AdminCancel', function () {
 /*User Management*/
 
 $(document).on("click", "#usermanagementtab", function () {
-    console.log("521 ");
+    //console.log("521 ");
     if ($.fn.DataTable.isDataTable("#adminUserTable")) {
         $('#adminUserTable').DataTable().clear().destroy();
     }
@@ -542,6 +571,7 @@ $(document).on("click", "#UserFilterSearch", function () {
 
 $(document).on("click", "#UserFilterClear", function () {
 
+    $('#userFilterForm').trigger("reset");
     if ($.fn.DataTable.isDataTable("#adminUserTable")) {
         $('#adminUserTable').DataTable().clear().destroy();
     }

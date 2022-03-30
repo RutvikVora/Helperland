@@ -5,7 +5,9 @@
       <div id="Dashboard" class="tabcontent">
                 <div class="Dashboard d-flex align-items-center justify-content-between">
                     <div><h3>Customer Service Requests</h3></div>
-                    <div><button type="button" class="btn btn-outline-light">Add New Service Request</button></div>
+                    <a asp-controller="BookService" asp-action="ServiceBooking">
+                        <button type="button" class="btn btn-outline-light">Add New Service Request</button>
+                    </a>
                 </div>
                 <div class="table-responsive-to-card">
                     <table class="table" id="dashbordTable">
@@ -55,12 +57,26 @@
                                                 </div>
                                                 <div class="d-flex">
                                                     <p style="margin-left: 10px">@request.ServiceProvider<br>
-                                                        <img src="~/images/star1.png"> 
-                                                        <img src="~/images/star1.png">
-                                                        <img src="~/images/star1.png">
-                                                        <img src="~/images/star1.png">
-                                                        <img src="~/images/star2.png">
-                                                        4</p>
+                                                        @if (request.SPRatings != 0)
+                                                        {
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                @if (i <= request.SPRatings)
+                                                                {
+                                                                    <img src="~/images/star1.png">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img src="~/images/star2.png">
+                                                                }
+                                                            }
+                                                             <span class="SPrating">@Math.Round(request.SPRatings, 1)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="SPrating">Ratings Not Given</span>
+                                                        }
+                                                     </p>
                                                 </div>
                                             }
                                         </td>
@@ -137,7 +153,7 @@
                                             <img src="~/images/cap.png">
                                         </div>
                                         <div class="d-flex">
-                                            <p style="margin-left: 10px">@request.ServiceProvider<br>
+                                            <p style="margin-left: 10px"><span class="SPName">@request.ServiceProvider</span><br>
                                                 @if (request.SPRatings != 0)
                                                 {
                                                     @for (int i = 1; i <= 5; i++)
@@ -163,6 +179,9 @@
                                         </div>
                                     }
                                 </td>
+                                <td class="onTimeArrival d-none">@request.OnTimeArrival</td>
+                                <td class="friendly d-none">@request.Friendly</td>
+                                <td class="qualityOfService d-none">@request.QualityOfService</td>
                                 <td class="align-middle">
                                     <div class="d-flex justify-content-center">
                                         <span style="font-size: 18px; color: #1D7A8C; margin-top: 6px">&euro;</span>
@@ -175,7 +194,7 @@
                                         <button type="button" class="btn btn-outline-light" style="background-color: #67B644; line-height: 1;">Completed</button>
                                     </td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-outline-light rateService" style="background-color: #6DA9B5; border-radius: 20px" data-bs-toggle="modal" data-bs-target="#rateSpModal">Rate SP</button>
+                                        <button type="button" class="btn btn-outline-light rateService" style="background-color: #6DA9B5; border-radius: 20px" id="rateSPBtn" data-bs-toggle="modal" data-bs-target="#rateSpModal">Rate SP</button>
                                     </td>
                                 }
                                 @if (request.Status == 3)

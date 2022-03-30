@@ -51,7 +51,7 @@ namespace Helperland_Clone.Controllers
                 string password = _helperlandContext.User.FirstOrDefault(x => x.Email.ToLower() == viewModel.Email.ToLower()).Password;
 
                 bool pass = BCrypt.Net.BCrypt.Verify(viewModel.Password, password);
-                if (_helperlandContext.User.Where(x => x.Email == viewModel.Email && pass).Count() > 0)
+                if (_helperlandContext.User.Where(x => x.Email == viewModel.Email && pass && x.IsActive).Count() > 0)
                 {
 
                     var user = _helperlandContext.User.FirstOrDefault(x => x.Email == viewModel.Email);
@@ -85,6 +85,11 @@ namespace Helperland_Clone.Controllers
                     {
                         return RedirectToAction("AdminPanel", "Admin");
                     }
+                    return RedirectToAction("Index", "Home");
+                }
+                else if(_helperlandContext.User.Where(x => x.Email == viewModel.Email && pass && x.IsActive == false).Count() > 0)
+                {
+                    TempData["InvalidCreds"] = "Inactive";
                     return RedirectToAction("Index", "Home");
                 }
                 else

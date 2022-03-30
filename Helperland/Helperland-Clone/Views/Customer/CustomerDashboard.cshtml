@@ -29,16 +29,21 @@
             <div class="tab flex-sm-row flex-md-column d-none d-lg-block">
                 <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Dashboard</button><hr></div>
                 <div><button class="tablinks" onclick="openTab(event, 'Service History')" id="defaultOpen">Service History</button><hr></div>
-                <div><button class="tablinks" onclick="openTab(event, 'mySettings')">Service Schedule</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'ServiceSchedule')">Service Schedule</button><hr></div>
                 <div><button class="tablinks" onclick="openTab(event, 'favouritePros')" id="favouriteProsTab">Favourite Pros</button><hr></div>
-                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Invoices</button><hr></div>
-                <div><button class="tablinks" onclick="openTab(event, 'Dashboard')">Notifications</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'ServiceSchedule')">Invoices</button><hr></div>
+                <div><button class="tablinks" onclick="openTab(event, 'ServiceSchedule')">Notifications</button><hr></div>
             </div>
             
 
         @await Html.PartialAsync("_CustomerDashboardPartial")
         @await Html.PartialAsync("_MySettingsPartial")
        
+        <div id="ServiceSchedule" class="tabcontent">
+            <h3>Not Added Yet</h3>
+            <p>Coming soon.....</p>
+          </div>
+
         <div class="div-table tabcontent" id="favouritePros">
             <div class="row" id="favouriteProsGrid">
 
@@ -180,7 +185,7 @@
                 <div class="cap">
                     <img src="~/images/cap.png">
                 </div>                    
-                    <p id="ratingDetails">Lyum Watson<br/>
+                    <p id="ratingDetails"><span id="spName"></span><br/>
                     <span class="d-flex" id="spAvgrating">
                                         
                      </span>   

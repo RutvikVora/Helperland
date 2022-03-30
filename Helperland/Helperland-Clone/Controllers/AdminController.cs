@@ -214,8 +214,20 @@ namespace Helperland_Clone.Controllers
 
         public JsonResult UpdateServiceReq(AdminModalViewModel model)
         {
+
             ServiceRequest serviceRequest = _db.ServiceRequest.FirstOrDefault(x => x.ServiceId == model.ServiceId);
 
+            if (serviceRequest.ServiceProviderId != null)
+            {
+                int conflict = CheckConflict(model.ServiceId, (int)serviceRequest.ServiceProviderId);
+
+                if (conflict != -1)
+                {
+
+                    return Json("Conflict");
+
+                }
+            }
             DateTime dateTime = Convert.ToDateTime(model.Date);
 
             serviceRequest.ServiceStartDate = dateTime;
@@ -251,6 +263,61 @@ namespace Helperland_Clone.Controllers
                 return Json("false");
             }
 
+        }
+
+        public int CheckConflict(int requestId, int spId)
+        {
+
+            ServiceRequest request = _db.ServiceRequest.FirstOrDefault(x => x.ServiceId == requestId);
+
+            String reqdate = request.ServiceStartDate.ToString("yyyy-MM-dd");
+            Console.WriteLine(reqdate);
+
+            String startDateStr = reqdate + " 00:00:00.000";
+            String endDateStr = reqdate + " 23:59:59.999";
+
+            Console.WriteLine(startDateStr);
+
+            DateTime startDate = DateTime.ParseExact(startDateStr, "yyyy-MM-dd HH:mm:ss.fff",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+
+            DateTime endDate = DateTime.ParseExact(endDateStr, "yyyy-MM-dd HH:mm:ss.fff",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+
+            List<ServiceRequest> list = _db.ServiceRequest.Where(x => (x.ServiceProviderId == spId) && (x.Status == 4) && (x.ServiceStartDate > startDate && x.ServiceStartDate < endDate)).ToList();
+
+            double mins = ((double)(request.ServiceHours + request.ExtraHours)) * 60;
+            DateTime endTimeRequest = request.ServiceStartDate.AddMinutes(mins + 60);
+
+            request.ServiceStartDate = request.ServiceStartDate.AddMinutes(-60);
+            //Console.WriteLine(endTimeRequest);
+            //Console.WriteLine(request.ServiceStartDate);
+            foreach (ServiceRequest booked in list)
+            {
+                mins = ((double)(booked.ServiceHours + booked.ExtraHours)) * 60;
+                DateTime endTimeBooked = booked.ServiceStartDate.AddMinutes(mins);
+
+                if (request.ServiceStartDate < booked.ServiceStartDate)
+                {
+                    if (endTimeRequest <= booked.ServiceStartDate)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return booked.ServiceId;
+                    }
+                }
+                else
+                {
+                    if (request.ServiceStartDate < endTimeBooked)
+                    {
+                        return booked.ServiceId;
+                    }
+                }
+
+            }
+            return -1;
         }
 
         [HttpPost]

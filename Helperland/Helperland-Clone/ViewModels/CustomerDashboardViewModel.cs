@@ -8,6 +8,9 @@
         public string EndTime { get; set; }
         public string ServiceProvider { get; set; }
         public decimal SPRatings { get; set; }
+        public decimal OnTimeArrival { get; set; }
+        public decimal Friendly { get; set; }
+        public decimal QualityOfService { get; set; }
         public string SPAvatar { get; set; }
         public decimal Duration { get; set; }
         public int Status { get; set; }

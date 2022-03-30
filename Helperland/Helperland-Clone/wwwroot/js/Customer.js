@@ -448,6 +448,33 @@ $(document).ready(function () {
 });
 
 /* rating */
+$(document).ready(function () {
+    $("#rateSPBtn").click(function () {
+        console.log("rateSP Clicked");
+        var currentRow = $(this).parent().parent();
+        //console.log(currentRow);
+
+        var data1 = currentRow.find(".onTimeArrival");
+        //console.log(data1);
+        var rating1 = $(data1).text();
+        //console.log(rating1);
+        $("#onTimeStar-" + parseInt(rating1)).click();
+
+        var data2 = currentRow.find(".friendly");
+        var rating2 = $(data2).text();
+        $("#friendlyStar-" + parseInt(rating2)).click();
+
+        var data3 = currentRow.find(".qualityOfService");
+        var rating3 = $(data3).text();
+        $("#qualityStar-" + parseInt(rating3)).click();
+
+        var data5 = currentRow.find(".SPName");
+        var spName = $(data5).text();
+        console.log(spName);
+        $("#spName").text(spName);
+    });
+});
+
 /*rate submit btn */
 $(document).ready(function () {
     document.getElementById("confirm_rating").addEventListener("click", function () {

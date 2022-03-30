@@ -7,6 +7,7 @@ using Helperland_Clone.ViewModels;
 using System;
 using System.Linq;
 using Helperland_Clone.Enums;
+using System.Threading.Tasks;
 
 namespace Helperland_Clone.Controllers
 {
@@ -68,9 +69,12 @@ namespace Helperland_Clone.Controllers
 
                             if (_db.Rating.Where(x => x.ServiceRequestId == service.ServiceRequestId).Count() > 0)
                             {
-                                decimal rating = _db.Rating.Where(x => x.ServiceRequestId == service.ServiceRequestId).Average(x => x.Ratings);
+                                Rating rating = _db.Rating.Where(x => x.ServiceRequestId == service.ServiceRequestId).FirstOrDefault();
 
-                                dash.SPRatings = rating;
+                                dash.SPRatings = rating.Ratings;
+                                dash.OnTimeArrival = rating.OnTimeArrival;
+                                dash.Friendly = rating.Friendly;
+                                dash.QualityOfService = rating.QualityOfService;
                             }
 
                         }
@@ -158,6 +162,10 @@ namespace Helperland_Clone.Controllers
 
             if (result != null)
             {
+                if (rescheduleService.ServiceProviderId != null)
+                {
+                    sendMail(rescheduleService, "reschedule");
+                }
                 //return Ok(Json("true"));
                 return new JsonResult(updatedDetails);
             }
@@ -180,6 +188,10 @@ namespace Helperland_Clone.Controllers
             _db.SaveChanges();
             if (result != null)
             {
+                if (cancelService.ServiceProviderId != null)
+                {
+                    sendMail(cancelService, "cancel");
+                }
                 return Ok(Json("true"));
             }
 
@@ -278,6 +290,7 @@ namespace Helperland_Clone.Controllers
             }
             return Ok(Json("false"));
         }
+
 
         public IActionResult RateServiceProvider(Rating rating)
         {
@@ -417,7 +430,38 @@ namespace Helperland_Clone.Controllers
 
         }
 
+        public async Task sendMail(ServiceRequest req, string purpose)
+        {
+            User user = _db.User.Where(x => x.UserId == req.ServiceProviderId).FirstOrDefault();
 
+            await Task.Run(() =>
+            {
+              
+                    if (purpose == "reschedule")
+                    {
+                        var email = new ResetPswViewModel()
+                        {
+                            To = user.Email,
+                            Subject = "Rescheduled Service",
+                            IsHTML = true,
+                            Body = $"<h1>A service with ID number " + req.ServiceRequestId + " has been updated by customer</h1><br>" + "<h2>With time : " + req.ServiceStartDate + "</h2>",
+                        };
+                        EmailService.SendMail(email);
+                    }
+                    else if (purpose == "cancel")
+                    {
+                        var email = new ResetPswViewModel()
+                        {
+                            To = user.Email,
+                            Subject = "Service Canceled",
+                            IsHTML = true,
+                            Body = $"<h1>Service request with Id=" + req.ServiceRequestId + ", has been canceled by customer</ h1 > ",
+                        };
+                        EmailService.SendMail(email);
+                    }
+            });
+
+        }
 
 
     }

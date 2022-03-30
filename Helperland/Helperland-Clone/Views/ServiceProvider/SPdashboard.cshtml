@@ -370,7 +370,7 @@
                   </table>
             </div>
             
-            <div id="Upcoming Services" class="tabcontent table-responsive">
+            <div id="Upcoming Services" class="tabcontent table-responsive" style="width: 100%">
                 <div id="divStatusFailedBootstrapAlert">
                 </div>
                 <table class="table" id="upcomingServicesTable">
@@ -394,6 +394,13 @@
                         <th scope="col">
                             <p>Actions <img src="~/images/sort.png"></p>
                         </th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
+                        <th class="d-none"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -455,6 +462,7 @@
                     <div><button type="button" class="btn btn-outline-light">Export</button></div>
                 </div>
                 <table class="table" id="serviceHistoryTable">
+
                     <thead>
                       <tr>
                         <th scope="col">
@@ -476,9 +484,9 @@
                             @if (item.Status == (int)ServiceRequestStatusEnum.Completed && item.SpId == userId)
                             {
                                 <tr data-value=@item.ServiceId id=@item.ServiceId>
-                                    <th scope="row" class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
+                                    <td scope="row" class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
                                         <p><span class="serviceId">@item.ServiceId</span></p>
-                                    </th>
+                                    </td>
                                     <td class="align-middle" data-bs-toggle="modal" data-bs-target="#spServiceDetails">
                                         <p><img src="~/images/calendar2.png" style="margin-bottom: 7px"> 
                                             <b><span class="serviceDate">@item.Date</span></b><br>
@@ -500,10 +508,18 @@
 
 
             <div id="MyRating" class="tabcontent">
-                <div id="RatingList">
-       
+                <table id="RatingList">
+                    <thead>
+                        <th></th>
+                    </thead>
+                   <tbody id="ratingListTBody">
+                        <tr>
+                            <td>hello</td>
+                            
+                        </tr>
+                    </tbody>
 
-                </div>
+                </table>
             </div>
 
             <div id="BlockCustomer" class="tabcontent">
@@ -655,3 +671,4 @@
     </div>
 </div>
 <!-- End IsComplete Service Modal -->
+

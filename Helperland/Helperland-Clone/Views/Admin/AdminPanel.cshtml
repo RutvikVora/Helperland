@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     Layout = null;
 }   
 
@@ -33,7 +34,7 @@
 
     <!--jquey link-->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js/jquery.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.js/jquery.min.js"></script>*@
     <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/popper.js/umd/popper.js/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -61,12 +62,12 @@
                         <a class="nav-link" aria-current="page" href="#">
                             <div class="admin-icon d-flex justify-content-center align-items-center">
                                 <img src="~/images/admin-user.png" alt="admin-user">
-                                <p>James Smith</p>
+                                <p>@User.FindFirst(ClaimTypes.Name).Value</p>
                             </div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" asp-action="Logout" asp-controller="Account">
                             <div class="bell-icon d-flex justify-content-center">
                                 <img src="~/images/logout.png" alt="notifications">
                             </div>
@@ -187,7 +188,7 @@
             </div>
 
             <div class="user-details">
-              <form action="#">
+              <form action="#" id="userFilterForm">
                 <div class="row d-flex justify-content-center justify-content-md-center">
                   <div class="col-lg-2 col-md-12 ps-2 pe-2 mt-2 form-input">
                     <input id="UserFilterName" type="text" class="form-control  " placeholder="User Name">
@@ -275,7 +276,7 @@
             </div>
 
             <div class="user-details">
-              <form action="#">
+              <form action="#" id="reqFilterForm">
                 <div class="d-flex flex-wrap justify-content-center">
                     <div class="ps-2 pe-2 mt-2 form-input" id="input-1">
                         <input type="text" class="form-control" id="filterServiceReqId" placeholder="Service ID" />

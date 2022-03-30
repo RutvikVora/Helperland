@@ -40,6 +40,7 @@ $(document).ready(function () {
         ordering: true,
         searching: false,
         info: true,
+        bAutoWidth: false,
         "columnDefs": [
             { "orderable": false, "targets": 4 }
         ],
@@ -52,7 +53,49 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('#newServiceRequestTable').DataTable({
+        paging: true,
+        "pagingType": "full_numbers",
+        // bFilter: false,
+        ordering: true,
+        searching: false,
+        info: true,
+        bAutoWidth: false,
+        "columnDefs": [
+            { "orderable": false, "targets": 4 }
+        ],
+        "oLanguage": {
+            "sInfo": "Total Records: _TOTAL_"
+        },
+        "dom": '<"top">rt<"bottom"lip><"clear">',
+        responsive: true,
+        "order": []
+    });
+});
 
+$(document).ready(function () {
+    $('#serviceHistoryTable').DataTable({
+        paging: true,
+        "pagingType": "full_numbers",
+        // bFilter: false,
+        ordering: true,
+        searching: false,
+        info: true,
+        bAutoWidth: false,
+        "columnDefs": [
+            { "orderable": false, "targets": 4 }
+        ],
+        "oLanguage": {
+            "sInfo": "Total Records: _TOTAL_"
+        },
+        "dom": '<"top">rt<"bottom"lip><"clear">',
+        responsive: true,
+        "order": []
+    });
+});
+
+//tableau datatable table - fixed table - bordered table - hover
 /* ------------------------------------------------------------------------------ */
 
 
@@ -744,6 +787,14 @@ $(document).ready(function () {
 
 /* rating */
 $(document).on('click', '#MyRatingTab', function () {
+    if ($.fn.DataTable.isDataTable("#RatingList")) {
+        $('#RatingList').DataTable().clear().destroy();
+    }
+    getRatingsData();
+});
+
+function getRatingsData() {   
+
     $.ajax({
         type: 'GET',
         url: '/ServiceProvider/getRatingData',
@@ -761,7 +812,7 @@ $(document).on('click', '#MyRatingTab', function () {
                     }                                       
                 }
                 star += '<span> &nbsp;' + result[i].remarks + '</span>'
-                $('#RatingList').append('<div class="row  rating-row"><div class="row">' +
+                /*$('#RatingList').append('<div class="row  rating-row"><div class="row">' +
                      '<div class= "col-3" > ' +
                      '<p>' + result[i].serviceRequestId + '</p>' +
                      '<p>' + result[i].customerName + '</p></div><div class="col-5">' +
@@ -770,18 +821,67 @@ $(document).on('click', '#MyRatingTab', function () {
                      '<div class="col-4"><p>Rating</p>' +
                      '<div class="star-ratingmodel text-start">' + star + '</div></div></div><hr />' +
                      '<div class="row"><p><b>Customer Comments</b></p><p>' + result[i].comments + '</p></div></div>'
-                );
+                );*/
 
+                var row = '<tr>' +
+                    '<td><div class="row  rating-row"><div class="row">' +
+                    '<div class= "col-3" > ' +
+                    '<p>' + result[i].serviceRequestId + '</p>' +
+                    '<p>' + result[i].customerName + '</p></div><div class="col-5">' +
+                    '<p> <span><img src="/images/calendar2.png" alt=""></span> <span class="upcoming-date"><b>' + result[i].serviceDate + '</b></span></p>' +
+                    ' <p><span><img src="/images/layer-14.png" alt=""></span><span>' + result[i].startTime + ' - ' + result[i].endTime + '</span></p></div>' +
+                    '<div class="col-4"><p>Rating</p>' +
+                    '<div class="star-ratingmodel text-start">' + star + '</div></div></div><hr />' +
+                    '<div class="row"><p><b>Customer Comments</b></p><p>' + result[i].comments + '</p></div></div></td>' +
+                    '</tr>';
+                //console.log(row);
+                $('#RatingList').append(row);
+                //console.log($('#ratingListTBody'));
 
                                         
             }
+            //myRatingsDatatable();
         },
         error: function () {
             alert("Error");
         }
     });
-});
+}
 
+/*function myRatingsDatatable() {
+
+    console.log("in fun");
+   
+    $("#RatingList").DataTable({
+
+        dom: '<"top">rt<"bottom"lip><"clear">',
+        responsive: true,
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: "<img src='/images/first-page.png' alt='first'/>",
+                previous: "<img src='/images/keyboard-right-arrow-button-copy.png' alt='previous' />",
+                next: "<img src='/images/keyboard-right-arrow-button-copy.png' alt='next' style='transform: rotate(180deg)' />",
+                last: "<img src='/images/first-page.png' alt='first' style='transform: rotate(180deg) ' />",
+            },
+
+            info: "Total Records : _MAX_",
+
+            lengthMenu: "Show  _MENU_  Entries",
+
+
+        },
+        iDisplayLength: 10,
+        aLengthMenu: [[5, 10, 15, -1], [5, 10, 15, "All"]],
+
+        columnDefs: [{ orderable: false, targets: 1 }],
+
+
+
+
+    });
+
+}*/
 
 /* Block customer */
 $(document).on('click', '#BlockCustomerTab', function () {

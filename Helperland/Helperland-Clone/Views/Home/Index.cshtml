@@ -261,6 +261,11 @@
                     $('#SuccessModal').modal('show');
                     $('#success-msg').text("Either username or password is not correct");
                 } 
+                else if(invalidCredsStatus === "Inactive") {
+                    //$('#ForgotPassword-modal').modal('show');
+                    $('#SuccessModal').modal('show');
+                    $('#success-msg').text("You are either inactive or not aprroved by Admin");
+                } 
                 invalidCredsStaus = null;
             }
             var loginRequired = '@ViewBag.LoginRequired';

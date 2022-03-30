@@ -45,7 +45,7 @@ function SelectTime() {
 
 
 function SelectHours() {
-  console.log(prevBasic);
+  //console.log(prevBasic);
   var x = parseFloat(document.getElementById("hourSelect").value);
   document.getElementById("BasicHours").innerHTML =  x;
   var totalTime = parseFloat(document.getElementById("totalTime").innerHTML);
@@ -58,9 +58,9 @@ function SelectHours() {
 
 function addExtra(ele, row) {
   var x = ele.children[1];
-  console.log(row);
+  //console.log(row);
   var y = document.getElementById(row);
-  console.log(y);
+  //console.log(y);
     var checkbox = $(ele).children('input[type="checkbox"]');
     checkbox.prop('checked', !checkbox.prop('checked'));
 
@@ -137,7 +137,7 @@ function postalSubmit() {
             if (result.value == "true") {
                 Clickable("tab2btn");
                 ClickFunction("tab2btn");
-                alert("zipcode is recieved");
+                //alert("zipcode is recieved");
 
             }
             else if (result.value == "false") {
@@ -157,9 +157,9 @@ function postalSubmit() {
 
 function scheduleSubmit() {
     var data = $("#form-2").serialize();
-    console.log(data);
+    //console.log(data);
 
-    alert(data.toString());
+    //alert(data.toString());
 
     $.ajax({
         type: 'POST',
@@ -190,14 +190,14 @@ function scheduleSubmit() {
 
 function loadAddress() {
     var data = $("#form-1").serialize();
-    alert("Inside load address")
+    //alert("Inside load address")
     $.ajax({
         type: 'get',
         url: '/BookService/CustomerDetails',
         contenttype: 'application/x-www-form-urlencoded; charset=utf-8',
         data: data,
         success: function (result) {
-            alert("Inside load address success")
+            //alert("Inside load address success")
             var address = $("#address");
             address.empty();
             address.append('<p>Please select your address:</p>');
@@ -218,7 +218,7 @@ function loadAddress() {
 
                 checked = "";
             }
-            console.log(result);
+            //console.log(result);
         },
         error: function () {
             alert('failed to receive the data');
@@ -228,14 +228,14 @@ function loadAddress() {
 }
 
 function saveAddressForm() {
-    alert("in save address 1")
+    //alert("in save address 1");
     var data = {};
     data.AddressLine1 = document.getElementById("inputstreet").value;
     data.AddressLine2 = document.getElementById("inputhouse").value;
     data.PostalCode = document.getElementById("inputpostal").value;
     data.City = document.getElementById("inputcity").value;
     data.Mobile = document.getElementById("inputphone").value;
-    alert("in save address 2")
+    //alert("in save address 2");
 
 
     $.ajax({
@@ -245,7 +245,7 @@ function saveAddressForm() {
         data: data,
         success: function (result) {
             if (result.value == "true") {
-                alert("result is true");
+                //alert("result is true");
                 ClickFunction("cancel");
                 loadAddress();
 
@@ -312,11 +312,11 @@ function completeBookService() {
     data.comments = document.getElementById("comments").value;
 
     data.HasPets = document.getElementById("flexCheckDefault").checked;
-    alert(document.getElementById("flexCheckDefault").checked);
+    //(document.getElementById("flexCheckDefault").checked);
 
 
     data.addressId = document.querySelector('input[name="address"]:checked').value;
-    alert(data.addressId);
+    //alert(data.addressId);
 
     $.ajax({
         type: 'post',
@@ -329,7 +329,14 @@ function completeBookService() {
                 alert("schedule is not valid");
             }
             else {
-                alert("done")
+                //alert("done");
+                document.getElementById("completeBooking").click();
+                $('#bookingStatus').text("Booking has been successfully submitted").css("color", "Green");
+                window.setTimeout(function () {
+                    $("#successPopup").modal("hide");
+                    window.location.reload();
+                },
+                    3000);
             }
         },
         error: function () {
